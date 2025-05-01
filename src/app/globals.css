@@ -12,15 +12,73 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.bg-smart-banner-bg-gradient {
+  background-image: url(https://assets.snapedit.app/images/landing/smart_banner_bg.webp);
+}
+
+.text-whitewhite-064 {
+  color: #ffffffa3;
+}
+
+.ai-gradient {
+  background: linear-gradient(
+    138.69deg,
+    #0dffff -2.74%,
+    #0051ef 39.11%,
+    #a400bf 98.64%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.ai-gradient-2 {
+  background: linear-gradient(
+    139deg,
+    #0dffff -2.74%,
+    #7fabff 39.11%,
+    #ed7cff 98.64%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-neutralink-500 {
+  color: #5c5d6b;
+}
+
+.text-neutral-ink-500 {
+  color: #5c5d6b;
+}
+
+.infinite-scroll .animation {
+  transform: translateX(-14.9465%);
+}
+
+@keyframes infinite-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-infinite-scroll {
+  animation: infinite-scroll 25s linear infinite;
 }
