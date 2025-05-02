@@ -108,3 +108,60 @@ body {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
     var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 } */
+
+.bg-neutral-ink-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(216 216 219 / var(--tw-bg-opacity));
+}
+
+.bg-neutral-ink-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(234 234 237 / var(--tw-bg-opacity));
+}
+
+.bRLGlB svg {
+  height: 20px;
+  width: 20px;
+  color: inherit;
+}
+
+.border-neutral-ink-100 {
+  --tw-border-opacity: 1;
+  border-color: rgb(234 234 237 / var(--tw-border-opacity));
+}
+
+.border-t-\[1px\] {
+  border-top-width: 1px;
+}
+
+.bg-neutral-ink-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 243 244 / var(--tw-bg-opacity));
+}
+
+.border-neutral-ink-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(216 216 219 / var(--tw-border-opacity));
+}
+
+.bg-neutral-ink-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(37 38 56 / var(--tw-bg-opacity));
+}
+
+.dyQRtj svg {
+  height: 24px;
+  width: 24px;
+  color: white;
+}
+
+.dyQRtj svg path,
+.dyQRtj svg circle {
+  stroke: currentcolor;
+}
+
+/* .shadow-shadow-slide-hover,
+.shadow-xl {
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+} */
