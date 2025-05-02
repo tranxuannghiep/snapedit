@@ -82,3 +82,29 @@ body {
 .animate-infinite-scroll {
   animation: infinite-scroll 25s linear infinite;
 }
+
+/* .from-sapphire-50 {
+  --tw-gradient-from: #f6f7fb var(--tw-gradient-from-position);
+  --tw-gradient-to: rgba(246, 247, 251, 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: #f6f7fb, #f6f7fb00;
+}
+
+.bg-gradient-to-r {
+  background-image: linear-gradient(to right, #f6f7fb, #f6f7fb00);
+}
+
+.shadow-shadow-slide {
+  --tw-shadow: 0px 4px 32px 0px rgba(0, 0, 0, 0.04);
+  --tw-shadow-colored: 0px 4px 32px 0px var(--tw-shadow-color);
+}
+
+.shadow-shadow-slide {
+  --tw-shadow: 0px 4px 32px 0px rgba(0, 0, 0, 0.04);
+  --tw-shadow-colored: 0px 4px 32px 0px var(--tw-shadow-color);
+}
+
+.shadow-shadow-card,
+.shadow-shadow-slide {
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+} */
