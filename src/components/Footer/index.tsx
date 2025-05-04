@@ -495,13 +495,11 @@ export function Footer() {
               </a>
               <div className="justify-start items-center gap-1">
                 <div>
-                  <div className="relative !static" data-headlessui-state="">
+                  <div className="relative">
                     <button
                       className="outline-none flex items-center"
                       type="button"
                       aria-expanded="false"
-                      data-headlessui-state=""
-                      id="headlessui-popover-button-:R2ulea76:"
                     >
                       <div className="group inline-flex items-center space-x-2 lg:transition lg:hover:bg-neutral-ink-500 lg:rounded">
                         <img
@@ -512,7 +510,7 @@ export function Footer() {
                         <span className="font-semibold text-[14px] leading-[18px] text-zinc-300 inline-block">
                           Tiếng Việt
                         </span>
-                        <div className="inline-block text-neutral-ink-500 group-hover:text-zinc-300 inline-block w-[10px]">
+                        <div className="inline-block text-neutral-ink-500 group-hover:text-zinc-300 w-[10px]">
                           <svg
                             className="w-full h-full"
                             width={10}
