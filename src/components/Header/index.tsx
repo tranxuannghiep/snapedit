@@ -58,7 +58,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -97,7 +97,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -141,7 +141,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -209,7 +209,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -260,7 +260,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -325,7 +325,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -376,7 +376,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -434,7 +434,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -473,7 +473,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -538,7 +538,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -602,7 +602,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -667,7 +667,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -718,7 +718,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -770,7 +770,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -863,7 +863,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -942,7 +942,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -982,7 +982,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -1054,7 +1054,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -1091,7 +1091,7 @@ export function Header() {
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
-                              // mode="outline"
+                              // // mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center group-hover:text-blue-700 transition-all"
                             >
                               <svg
@@ -1309,75 +1309,999 @@ export function Header() {
             </span>
           </a>
         </div>
-        <div className="relative" data-headlessui-state="">
-          <button
-            className="outline-none"
-            type="button"
-            aria-expanded="false"
-            data-headlessui-state=""
-            id="headlessui-popover-button-:Rbcma76:"
-          >
-            <div className="inline-flex items-center space-x-2 lg:transition lg:hover:bg-neutral-ink-100 lg:rounded lg:p-2">
-              <div
-                color="inherit"
-                className="sc-eac7f02c-0 bnjTLd text-center cursor-pointer mr-1 pointer-events-auto"
-              >
-                <svg
-                  className="align-middle cursor-pointer mr-1 pointer-events-auto"
-                  width={24}
-                  height={24}
-                  viewBox="0 0 24 24"
-                  fill="none"
+        <div className="relative">
+          <Popover className="relative">
+            <Popover.Button className="focus:outline-none focus:ring-0">
+              <div className="inline-flex items-center space-x-2 lg:transition lg:hover:bg-neutral-ink-100 lg:rounded lg:p-2">
+                <div
+                  color="inherit"
+                  className="sc-eac7f02c-0 bnjTLd text-center cursor-pointer mr-1 pointer-events-auto"
                 >
-                  <g clipPath="url(#clip0_9879_95922)">
-                    <path
-                      d="M3 5H21"
-                      stroke="#252638"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M21 12H3"
-                      stroke="#252638"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M3 19H21"
-                      stroke="#252638"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_9879_95922">
-                      <rect width={24} height={24} fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
+                  <svg
+                    className="align-middle cursor-pointer mr-1 pointer-events-auto"
+                    width={24}
+                    height={24}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <g clipPath="url(#clip0_9879_95922)">
+                      <path
+                        d="M3 5H21"
+                        stroke="#252638"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M21 12H3"
+                        stroke="#252638"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M3 19H21"
+                        stroke="#252638"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_9879_95922">
+                        <rect width={24} height={24} fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </div>
               </div>
-            </div>
-          </button>
+            </Popover.Button>
+            <Popover.Panel>
+              <div className="absolute z-10 right-0 bg-white" tabIndex={-1}>
+                <div
+                  className="py-1 pb-3 pl-4 pr-4 translate-x-1 translate-y-5 bg-white w-screen border-t border-[#ccc] overflow-y-auto lg:w-[360px] lg:border lg:rounded-md shadow-md lg:translate-x-0 lg:absolute lg:right-0 lg:top-full lg:translate-y-2"
+                  style={{ maxHeight: "80vh" }}
+                >
+                  <button
+                    className="px-3 py-2 transition space-x-[10px] text-neutral-ink-600 w-full inline-flex items-center"
+                    type="button"
+                    aria-expanded="true"
+                  >
+                    <div className="flex justify-between w-full">
+                      <span className="font-normal text-[16px] leading-[24px]">
+                        Sản Phẩm
+                      </span>
+                    </div>
+                  </button>
+                  <div>
+                    <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                      <div
+                        color="inherit"
+                        // mode="outline"
+                        className="sc-eac7f02c-0 bRLGlB text-center"
+                      >
+                        <svg
+                          className="align-middle"
+                          fill="none"
+                          viewBox="0 0 18 18"
+                        >
+                          <path
+                            d="m6.2775 14.552h1.1725c0.44199-1e-4 0.86585-0.1757 1.1783-0.4883l7.27-7.27c0.3124-0.31254 0.488-0.73639 0.488-1.1783s-0.1756-0.86579-0.488-1.1783l-2.7492-2.7492c-0.3125-0.31245-0.7364-0.48798-1.1783-0.48798-0.442 0-0.8658 0.17553-1.1784 0.48798l-7.8558 7.8558c-0.31245 0.31255-0.48798 0.73643-0.48798 1.1783s0.17553 0.8658 0.48798 1.1783l2.1633 2.1634c0.31167 0.3125 0.735 0.4883 1.1775 0.4883z"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m5.4863 6.9895 5.1084 5.1083"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m16.672 16.927h-15.058"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                        </svg>
+                      </div>
+                      <span className="font-normal text-[14px] leading-[20px]">
+                        Xóa Vật Thể
+                      </span>
+                    </button>
+                    <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                      <div
+                        color="inherit"
+                        // mode="outline"
+                        className="sc-eac7f02c-0 bRLGlB text-center"
+                      >
+                        <svg
+                          className="align-middle"
+                          fill="none"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="m8.3333 17.5h-4.1667c-0.44203 0-0.86595-0.1756-1.1785-0.4882-0.31257-0.3125-0.48816-0.7364-0.48816-1.1785v-4.1666c0-0.4421 0.17559-0.866 0.48816-1.1785 0.31256-0.3126 0.73648-0.4882 1.1785-0.4882h4.1667c0.44203 0 0.86595 0.1756 1.1785 0.4882 0.31256 0.3125 0.48816 0.7364 0.48816 1.1785v4.1666c0 0.4421-0.1756 0.866-0.48816 1.1785-0.31256 0.3126-0.73648 0.4882-1.1785 0.4882z"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m10.833 5.8332h3.3333v3.3333"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m9.5083 10.492 4.6583-4.6584"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m13.333 17.5h2.5c0.4421 0 0.866-0.1756 1.1785-0.4882 0.3126-0.3125 0.4882-0.7364 0.4882-1.1785v-11.667c0-0.44203-0.1756-0.86595-0.4882-1.1785-0.3125-0.31257-0.7364-0.48816-1.1785-0.48816h-11.667c-0.44203 0-0.86595 0.17559-1.1785 0.48816-0.31257 0.31256-0.48816 0.73648-0.48816 1.1785v2.5"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                        </svg>
+                      </div>
+                      <span className="font-normal text-[14px] leading-[20px]">
+                        Làm Nét Ảnh
+                      </span>
+                    </button>
+                    <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                      <div
+                        color="inherit"
+                        // mode="outline"
+                        className="sc-eac7f02c-0 bRLGlB text-center"
+                      >
+                        <svg
+                          className="align-middle"
+                          fill="none"
+                          viewBox="0 0 18 16"
+                        >
+                          <path
+                            d="m6.9168 1.75h-3.8333c-1.1046 0-2 0.89543-2 2v8.5c0 1.1046 0.89543 2 2 2h3.8333"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m1.0835 4.3908c0-1.4585 1.1823-2.6408 2.6408-2.6408h0.27608v2.6408h-2.9169z"
+                            fill="currentColor"
+                          />
+                          <rect
+                            x={4}
+                            y="4.3904"
+                            width="2.9169"
+                            height="2.4069"
+                            fill="currentColor"
+                          />
+                          <rect
+                            x="1.0835"
+                            y="6.7986"
+                            width="2.9169"
+                            height="2.4069"
+                            fill="currentColor"
+                          />
+                          <rect
+                            x={4}
+                            y="9.2032"
+                            width="2.9169"
+                            height="2.4069"
+                            fill="currentColor"
+                          />
+                          <path
+                            d="m1.0835 11.609h2.9169v2.6409h-0.27608c-1.4585 0-2.6408-1.1824-2.6408-2.6409z"
+                            fill="currentColor"
+                          />
+                          <rect
+                            x="6.917"
+                            y=".91663"
+                            width={10}
+                            height="14.167"
+                            rx={2}
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                        </svg>
+                      </div>
+                      <span className="font-normal text-[14px] leading-[20px]">
+                        Xóa Nền Ảnh
+                      </span>
+                    </button>
+                    <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                      <div
+                        color="inherit"
+                        // mode="outline"
+                        className="sc-eac7f02c-0 bRLGlB text-center"
+                      >
+                        <svg
+                          className="align-middle"
+                          fill="none"
+                          viewBox="0 0 20 20"
+                        >
+                          <g clipPath="url(#a)">
+                            <path
+                              d="m13.758 3.7413c0.6578 0.65774 1.1795 1.4386 1.5355 2.298 0.356 0.85938 0.5392 1.7805 0.5392 2.7107s-0.1832 1.8512-0.5392 2.7106-0.8777 1.6403-1.5355 2.298c-0.6577 0.6578-1.4386 1.1795-2.298 1.5355s-1.7804 0.5392-2.7106 0.5392-1.8513-0.1832-2.7107-0.5392c-0.85939-0.356-1.6403-0.8777-2.298-1.5355-1.3284-1.3284-2.0747-3.13-2.0747-5.0086 0-1.8786 0.74627-3.6803 2.0747-5.0087 1.3284-1.3284 3.13-2.0747 5.0087-2.0747 1.8786 0 3.6802 0.74627 5.0086 2.0747z"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="1.5"
+                            />
+                            <path
+                              d="m14.849 5.1498c0.1683 0.28512 0.3167 0.58232 0.444 0.88955 0.356 0.85939 0.5392 1.7805 0.5392 2.7107s-0.1832 1.8513-0.5392 2.7107-0.8777 1.6402-1.5355 2.298c-0.6577 0.6577-1.4386 1.1795-2.298 1.5354-0.8594 0.356-1.7804 0.5392-2.7106 0.5392s-1.8513-0.1832-2.7107-0.5392c-0.30724-0.1272-0.60443-0.2757-0.88955-0.4439 0.30058 0.5093 0.66622 0.9832 1.0916 1.4085 0.65774 0.6577 1.4386 1.1795 2.298 1.5354 0.85938 0.356 1.7805 0.5392 2.7107 0.5392s1.8512-0.1832 2.7106-0.5392c0.8594-0.3559 1.6403-0.8777 2.298-1.5354 0.6578-0.6578 1.1795-1.4386 1.5355-2.298s0.5392-1.7805 0.5392-2.7107-0.1832-1.8513-0.5392-2.7107-0.8777-1.6402-1.5355-2.298c-0.4253-0.42532-0.8991-0.79097-1.4085-1.0916z"
+                              clipRule="evenodd"
+                              fill="currentColor"
+                              fillRule="evenodd"
+                            />
+                            <path
+                              d="m14.849 5.1498 0.3812-0.64591c-0.2946-0.17388-0.6696-0.12633-0.9115 0.11559s-0.2895 0.61689-0.1156 0.91152l0.6459-0.3812zm0.444 0.88955-0.6929 0.28701 0.6929-0.28701zm0 5.4214-0.6929-0.287 0.6929 0.287zm-1.5355 2.298-0.5303-0.5304 0.5303 0.5304zm-2.298 1.5354 0.287 0.693-0.287-0.693zm-5.4213 0-0.28702 0.693 0.28702-0.693zm-0.88955-0.4439 0.3812-0.6459c-0.29464-0.1739-0.6696-0.1264-0.91152 0.1155s-0.28947 0.6169-0.1156 0.9115l0.64592-0.3811zm1.0916 1.4085-0.53033 0.5303 0.53033-0.5303zm2.298 1.5354-0.28702 0.693 0.28702-0.693zm5.4213 0 0.287 0.693-0.287-0.693zm2.298-1.5354 0.5304 0.5303-0.5304-0.5303zm1.5355-2.298-0.6929-0.287 0.6929 0.287zm0-5.4214-0.6929 0.28701 0.6929-0.28701zm-1.5355-2.298-0.5303 0.53033 0.5303-0.53033zm-2.0544-0.71035c0.1505 0.25493 0.2832 0.52066 0.397 0.79536l1.3858-0.57403c-0.1407-0.33976-0.3049-0.66842-0.491-0.98373l-1.2918 0.7624zm0.397 0.79536c0.3183 0.76839 0.4821 1.592 0.4821 2.4237h1.5c0-1.0287-0.2026-2.0473-0.5963-2.9977l-1.3858 0.57403zm0.4821 2.4237c0 0.83171-0.1638 1.6553-0.4821 2.4237l1.3858 0.574c0.3937-0.9504 0.5963-1.969 0.5963-2.9977h-1.5zm-0.4821 2.4237c-0.3183 0.7684-0.7848 1.4665-1.3729 2.0546l1.0607 1.0607c0.7274-0.7274 1.3044-1.5909 1.698-2.5413l-1.3858-0.574zm-1.3729 2.0546c-0.5881 0.5881-1.2863 1.0547-2.0547 1.3729l0.574 1.3859c0.9504-0.3937 1.814-0.9707 2.5414-1.6981l-1.0607-1.0607zm-2.0547 1.3729c-0.7684 0.3183-1.5919 0.4821-2.4236 0.4821v1.5c1.0287 0 2.0473-0.2026 2.9976-0.5962l-0.574-1.3859zm-2.4236 0.4821c-0.83171 0-1.6553-0.1638-2.4237-0.4821l-0.57403 1.3859c0.95039 0.3936 1.969 0.5962 2.9977 0.5962v-1.5zm-2.4237-0.4821c-0.2747-0.1137-0.54043-0.2465-0.79536-0.3969l-0.7624 1.2918c0.31531 0.1861 0.64397 0.3502 0.98373 0.491l0.57403-1.3859zm0.44532 1.1271c-0.38032-0.3803-0.70723-0.8039-0.97597-1.2593l-1.2918 0.7623c0.33243 0.5633 0.73681 1.0874 1.2071 1.5577l1.0607-1.0607zm2.0547 1.3729c-0.7684-0.3182-1.4666-0.7848-2.0547-1.3729l-1.0607 1.0607c0.72739 0.7274 1.5909 1.3044 2.5413 1.6981l0.57403-1.3859zm2.4237 0.4821c-0.8317 0-1.6553-0.1638-2.4237-0.4821l-0.57403 1.3859c0.95039 0.3936 1.969 0.5962 2.9977 0.5962v-1.5zm2.4236-0.4821c-0.7684 0.3183-1.5919 0.4821-2.4236 0.4821v1.5c1.0286 0 2.0473-0.2026 2.9976-0.5962l-0.574-1.3859zm2.0547-1.3729c-0.5881 0.5881-1.2863 1.0547-2.0547 1.3729l0.574 1.3859c0.9504-0.3937 1.814-0.9707 2.5414-1.6981l-1.0607-1.0607zm1.3729-2.0546c-0.3183 0.7684-0.7848 1.4665-1.3729 2.0546l1.0607 1.0607c0.7274-0.7274 1.3044-1.5909 1.698-2.5413l-1.3858-0.574zm0.4821-2.4237c0 0.8317-0.1638 1.6553-0.4821 2.4237l1.3858 0.574c0.3937-0.9504 0.5963-1.969 0.5963-2.9977h-1.5zm-0.4821-2.4237c0.3183 0.7684 0.4821 1.592 0.4821 2.4237h1.5c0-1.0287-0.2026-2.0473-0.5963-2.9977l-1.3858 0.57403zm-1.3729-2.0547c0.5881 0.5881 1.0546 1.2863 1.3729 2.0547l1.3858-0.57403c-0.3936-0.95038-0.9706-1.8139-1.698-2.5413l-1.0607 1.0607zm-1.2593-0.97596c0.4553 0.26874 0.879 0.59564 1.2593 0.97596l1.0607-1.0607c-0.4704-0.47033-0.9944-0.87471-1.5577-1.2071l-0.7623 1.2918z"
+                              fill="currentColor"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="a">
+                              <rect width={20} height={20} fill="#fff" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      </div>
+                      <span className="font-normal text-[14px] leading-[20px]">
+                        Đổ Bóng AI
+                      </span>
+                    </button>
+                    <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                      <div
+                        color="inherit"
+                        // mode="outline"
+                        className="sc-eac7f02c-0 bRLGlB text-center"
+                      >
+                        <svg
+                          className="align-middle"
+                          fill="none"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="m17.5 15.834h-15"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m5.5 10h-3"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m17.5 10h-3"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m17.5 4.167h-15"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m11.666 8.333-3.3333 3.3333"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m8.333 8.333 3.3333 3.3333"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                        </svg>
+                      </div>
+                      <span className="font-normal text-[14px] leading-[20px]">
+                        Xóa Dây Điện
+                      </span>
+                    </button>
+                    <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                      <div
+                        color="inherit"
+                        // mode="outline"
+                        className="sc-eac7f02c-0 bRLGlB text-center"
+                      >
+                        <svg
+                          className="align-middle"
+                          width={18}
+                          height={18}
+                          viewBox="0 0 18 18"
+                          fill="none"
+                        >
+                          <g id="Group">
+                            <path
+                              id="Vector"
+                              d="M16.4995 13.15L8.99121 16.5"
+                              stroke="#252638"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              id="Vector_2"
+                              d="M8.99167 16.5L1.5 13.15"
+                              stroke="#252638"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              id="Vector_3"
+                              d="M16.4995 9L8.99121 12.35"
+                              stroke="#252638"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              id="Vector_4"
+                              d="M8.99167 12.35L1.5 9"
+                              stroke="#252638"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              id="Vector_5"
+                              d="M1.5 4.85333L8.98917 8.2075L16.5 4.85333L9.01083 1.5L1.5 4.85333Z"
+                              stroke="#252638"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </g>
+                        </svg>
+                      </div>
+                      <span className="font-normal text-[14px] leading-[20px]">
+                        Xử lý hàng loạt
+                      </span>
+                    </button>
+                    <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                      <div
+                        color="inherit"
+                        // mode="outline"
+                        className="sc-eac7f02c-0 bRLGlB text-center"
+                      >
+                        <svg
+                          className="align-middle"
+                          fill="none"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="m16 19h-12c-0.79565 0-1.5587-0.3161-2.1213-0.8787s-0.87868-1.3257-0.87868-2.1213v-12c0-0.79565 0.31607-1.5587 0.87868-2.1213s1.3257-0.87868 2.1213-0.87868h12c0.7956 0 1.5587 0.31607 2.1213 0.87868s0.8787 1.3257 0.8787 2.1213v12c0 0.7956-0.3161 1.5587-0.8787 2.1213s-1.3257 0.8787-2.1213 0.8787z"
+                            stroke="#5C5D6B"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m8.25 13.5h3.5"
+                            stroke="#5C5D6B"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m10 6.5v7"
+                            stroke="#5C5D6B"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="M13.5 8.084V6.889C13.5 6.78583 13.459 6.68689 13.3861 6.61394C13.3131 6.54098 13.2142 6.5 13.111 6.5H6.889C6.78583 6.5 6.68689 6.54098 6.61394 6.61394C6.54098 6.68689 6.5 6.78583 6.5 6.889V8.085"
+                            stroke="#5C5D6B"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                        </svg>
+                      </div>
+                      <span className="font-normal text-[14px] leading-[20px]">
+                        Xóa Chữ Trên Ảnh
+                      </span>
+                    </button>
+                    <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                      <div
+                        color="inherit"
+                        // mode="outline"
+                        className="sc-eac7f02c-0 bRLGlB text-center"
+                      >
+                        <svg
+                          className="align-middle"
+                          fill="none"
+                          viewBox="0 0 20 20"
+                        >
+                          <g
+                            clipPath="url(#a)"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          >
+                            <path d="m12.542 14.243h-5.0845" />
+                            <path d="m7.0673 13.994c-0.77897-0.5481-1.388-1.3042-1.7576-2.182-0.36954-0.8779-0.48464-1.842-0.33215-2.7821 0.34405-2.2092 2.1855-3.9727 4.4065-4.2328 0.71438-0.08682 1.439-0.02105 2.126 0.19297s1.3208 0.57141 1.8595 1.0486c0.5386 0.47714 0.9699 1.0632 1.2652 1.7193 0.2954 0.65618 0.4481 1.3676 0.4482 2.0872 1e-4 0.81402-0.1956 1.616-0.5707 2.3384-0.375 0.7225-0.9184 1.344-1.5843 1.8122-0.1167 0.0781-0.2129 0.1832-0.2803 0.3064s-0.1041 0.2608-0.107 0.4012v1.5114c0 0.5619-0.2232 1.1008-0.6205 1.4981s-0.9361 0.6205-1.498 0.6205h-0.84741c-0.56187 0-1.1007-0.2232-1.498-0.6205-0.39731-0.3973-0.62051-0.9362-0.62051-1.4981v-1.508c0-0.289-0.15422-0.5466-0.38896-0.7127z" />
+                            <path d="m16.034 4.7607 1.0084-1.0084" />
+                            <path d="m9.9992 2.2596v-1.4261" />
+                            <path d="m4.067 4.7607-1.0084-1.0084" />
+                            <path d="m17.627 9.8455h1.4321" />
+                            <path d="m0.94043 9.8453h1.4321" />
+                          </g>
+                          <defs>
+                            <clipPath id="a">
+                              <rect width={20} height={20} fill="#fff" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      </div>
+                      <span className="font-normal text-[14px] leading-[20px]">
+                        Làm Sáng Ảnh
+                      </span>
+                    </button>
+                    <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                      <div
+                        color="inherit"
+                        // mode="outline"
+                        className="sc-eac7f02c-0 bRLGlB text-center"
+                      >
+                        <svg
+                          className="align-middle"
+                          width={24}
+                          height={24}
+                          viewBox="0 0 24 24"
+                          fill="none"
+                        >
+                          <g
+                            id="icon-blur-on"
+                            clipPath="url(#clip0_14090_52785)"
+                          >
+                            <path
+                              id="Vector"
+                              d="M5.5 14C5.5 13.7261 5.72614 13.5 6 13.5C6.27386 13.5 6.5 13.7261 6.5 14C6.5 14.2739 6.27386 14.5 6 14.5C5.72614 14.5 5.5 14.2739 5.5 14ZM5.5 18C5.5 17.7261 5.72614 17.5 6 17.5C6.27386 17.5 6.5 17.7261 6.5 18C6.5 18.2739 6.27386 18.5 6 18.5C5.72614 18.5 5.5 18.2739 5.5 18ZM5.5 10C5.5 9.72614 5.72614 9.5 6 9.5C6.27386 9.5 6.5 9.72614 6.5 10C6.5 10.2739 6.27386 10.5 6 10.5C5.72614 10.5 5.5 10.2739 5.5 10ZM5.5 6C5.5 5.72614 5.72614 5.5 6 5.5C6.27386 5.5 6.5 5.72614 6.5 6C6.5 6.27386 6.27386 6.5 6 6.5C5.72614 6.5 5.5 6.27386 5.5 6ZM14.5 6C14.5 6.27386 14.2739 6.5 14 6.5C13.7261 6.5 13.5 6.27386 13.5 6C13.5 5.72614 13.7261 5.5 14 5.5C14.2739 5.5 14.5 5.72614 14.5 6ZM10.5 6C10.5 6.27386 10.2739 6.5 10 6.5C9.72614 6.5 9.5 6.27386 9.5 6C9.5 5.72614 9.72614 5.5 10 5.5C10.2739 5.5 10.5 5.72614 10.5 6ZM9 14C9 13.4461 9.44614 13 10 13C10.5539 13 11 13.4461 11 14C11 14.5539 10.5539 15 10 15C9.44614 15 9 14.5539 9 14ZM17.5 14C17.5 13.7261 17.7261 13.5 18 13.5C18.2739 13.5 18.5 13.7261 18.5 14C18.5 14.2739 18.2739 14.5 18 14.5C17.7261 14.5 17.5 14.2739 17.5 14ZM17.5 18C17.5 17.7261 17.7261 17.5 18 17.5C18.2739 17.5 18.5 17.7261 18.5 18C18.5 18.2739 18.2739 18.5 18 18.5C17.7261 18.5 17.5 18.2739 17.5 18ZM17.5 10C17.5 9.72614 17.7261 9.5 18 9.5C18.2739 9.5 18.5 9.72614 18.5 10C18.5 10.2739 18.2739 10.5 18 10.5C17.7261 10.5 17.5 10.2739 17.5 10ZM17.5 6C17.5 5.72614 17.7261 5.5 18 5.5C18.2739 5.5 18.5 5.72614 18.5 6C18.5 6.27386 18.2739 6.5 18 6.5C17.7261 6.5 17.5 6.27386 17.5 6ZM13.5 18C13.5 17.7261 13.7261 17.5 14 17.5C14.2739 17.5 14.5 17.7261 14.5 18C14.5 18.2739 14.2739 18.5 14 18.5C13.7261 18.5 13.5 18.2739 13.5 18ZM9 10C9 9.44614 9.44614 9 10 9C10.5539 9 11 9.44614 11 10C11 10.5539 10.5539 11 10 11C9.44614 11 9 10.5539 9 10ZM9.5 18C9.5 17.7261 9.72614 17.5 10 17.5C10.2739 17.5 10.5 17.7261 10.5 18C10.5 18.2739 10.2739 18.5 10 18.5C9.72614 18.5 9.5 18.2739 9.5 18ZM13 14C13 13.4461 13.4461 13 14 13C14.5539 13 15 13.4461 15 14C15 14.5539 14.5539 15 14 15C13.4461 15 13 14.5539 13 14ZM13 10C13 9.44614 13.4461 9 14 9C14.5539 9 15 9.44614 15 10C15 10.5539 14.5539 11 14 11C13.4461 11 13 10.5539 13 10Z"
+                              fill="#0051EE"
+                              stroke="#0051EE"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_14090_52785">
+                              <rect width={24} height={24} fill="white" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      </div>
+                      <span className="font-normal text-[14px] leading-[20px]">
+                        Làm Mờ Nền
+                      </span>
+                    </button>
+                    <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                      <div
+                        color="inherit"
+                        // mode="outline"
+                        className="sc-eac7f02c-0 bRLGlB text-center"
+                      >
+                        <svg
+                          className="align-middle"
+                          fill="none"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M14.375 6.875H17.5V3.75"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m13.777 16.604c-0.75 0.4342-1.5808 0.7417-2.4658 0.8967"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m17.099 12.644c-0.3001 0.8288-0.7429 1.5988-1.3083 2.275"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m8.6885 17.5c-0.86824-0.1517-1.7029-0.4553-2.4658-0.8967"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m4.21 14.92c-0.56541-0.6762-1.0082-1.4462-1.3083-2.275"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m2.4999 10c0-1.9891 0.79017-3.8968 2.1967-5.3033 1.4065-1.4065 3.3142-2.1967 5.3033-2.1967 3.025 0 5.6258 1.795 6.8116 4.375"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m13.334 13.334c-0.0969-0.2438-0.2473-0.4628-0.44-0.6408-0.3248-0.3019-0.7517-0.4698-1.195-0.47h-3.3959c-0.44334 0-0.87084 0.1683-1.1958 0.47-0.19166 0.1783-0.3425 0.3975-0.44 0.6408"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m10 10.417c1.0355 0 1.875-0.83947 1.875-1.875 0-1.0355-0.8395-1.875-1.875-1.875-1.0355 0-1.875 0.83947-1.875 1.875 0 1.0355 0.83947 1.875 1.875 1.875z"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                        </svg>
+                      </div>
+                      <span className="font-normal text-[14px] leading-[20px]">
+                        Phục Hồi Ảnh Cũ
+                      </span>
+                    </button>
+                    <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                      <div
+                        color="inherit"
+                        // mode="outline"
+                        className="sc-eac7f02c-0 bRLGlB text-center"
+                      >
+                        <svg
+                          className="align-middle"
+                          fill="none"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="m6.9873 11.99c0.42916 0 0.83333 0.0883 1.1867 0.2658 0.13296-0.8593 0.56866-1.6428 1.2285-2.2091 0.65978-0.56627 1.5003-0.87811 2.3699-0.87921 1.9825 0 3.5983 1.595 3.6491 3.5692 0.5858 0.0766 1.1234 0.3646 1.5116 0.8098 0.3883 0.4452 0.6005 1.0169 0.5968 1.6077 6e-4 0.6436-0.2544 1.2612-0.709 1.7169s-1.0715 0.7122-1.7152 0.7131h-8.1183c-0.74071-0.0014-1.4506-0.2967-1.9737-0.821-0.52314-0.5244-0.81673-1.235-0.81628-1.9757 0-1.545 1.25-2.7975 2.79-2.7975z"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m5.9894 9.3392c-0.10205-0.32243-0.15537-0.66138-0.15537-1.0058 0-0.88405 0.35119-1.7319 0.97632-2.357 0.62512-0.62512 1.473-0.97631 2.357-0.97631 0.88408 0 1.7319 0.35119 2.357 0.97631 0.1538 0.15378 0.291 0.32105 0.4105 0.49901"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m9.1338 2.3337v-0.66667"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m13.384 4.0922 0.4667-0.475"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m2.4668 8.334h0.66666"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m4.4248 3.6172 0.46667 0.475"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                        </svg>
+                      </div>
+                      <span className="font-normal text-[14px] leading-[20px]">
+                        Thay Đổi Bầu Trời
+                      </span>
+                    </button>
+                    <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                      <div
+                        color="inherit"
+                        // mode="outline"
+                        className="sc-eac7f02c-0 bRLGlB text-center"
+                      >
+                        <svg
+                          className="align-middle"
+                          fill="none"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="m11.486 3.4893h2.4484v2.5108"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m10.667 6.8167 3.2667-3.325"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m8.1667 10.194v2.445c0 0.4758-0.385 0.8608-0.86084 0.8608h-2.445c-0.47583 0-0.86083-0.385-0.86083-0.8608v-2.445c0-0.47585 0.385-0.86085 0.86083-0.86085h2.445c0.47584 0 0.86084 0.385 0.86084 0.86085z"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="M16.5 2.66667V14.3333C16.5 15.2542 15.7542 16 14.8333 16H3.16667C2.24583 16 1.5 15.2542 1.5 14.3333V2.66667C1.5 1.74583 2.24583 1 3.16667 1H14.8333C15.7542 1 16.5 1.74583 16.5 2.66667Z"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                        </svg>
+                      </div>
+                      <span className="font-normal text-[14px] leading-[20px]">
+                        Làm Nét Ảnh Nghệ Thuật
+                      </span>
+                    </button>
+                    <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                      <div
+                        color="inherit"
+                        // mode="outline"
+                        className="sc-eac7f02c-0 bRLGlB text-center"
+                      >
+                        <svg
+                          className="align-middle"
+                          fill="none"
+                          viewBox="0 0 20 21"
+                        >
+                          <path
+                            d="m5.2119 5.6726c2.662-2.6485 6.967-2.6376 9.6154 0.02437 1.7536 1.7625 2.4054 4.3416 1.6996 6.7256"
+                            stroke="#252638"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m14.733 15.389c-2.6955 2.6164-7.0016 2.5523-9.618-0.1432-1.7115-1.7632-2.3389-4.3124-1.6412-6.6685"
+                            stroke="#252638"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m4.7212 9.8235-1.5267-1.5267-1.5275 1.5275"
+                            stroke="#252638"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m15.279 11.177 1.5267 1.5266 1.5275-1.5275"
+                            stroke="#252638"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="m10 12.202c0.9398 0 1.7017-0.7619 1.7017-1.7017s-0.7619-1.7017-1.7017-1.7017c-0.93981 0-1.7017 0.76186-1.7017 1.7017s0.76186 1.7017 1.7017 1.7017z"
+                            stroke="#252638"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                        </svg>
+                      </div>
+                      <span className="font-normal text-[14px] leading-[20px]">
+                        Chuyển Đổi Ảnh
+                      </span>
+                    </button>
+                    <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                      <div
+                        color="inherit"
+                        // mode="outline"
+                        className="sc-eac7f02c-0 bRLGlB text-center"
+                      >
+                        <svg
+                          className="align-middle"
+                          width={20}
+                          height={20}
+                          viewBox="0 0 20 20"
+                          fill="none"
+                        >
+                          <g clipPath="url(#clip0_12691_2490)">
+                            <path
+                              d="M16.7107 13.3333C15.4832 15.8008 12.9432 17.4999 9.9999 17.4999C7.05656 17.4999 4.51656 15.8008 3.28906 13.3333"
+                              stroke="#252638"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M16.7107 6.66667C15.4832 4.19917 12.9432 2.5 9.9999 2.5C7.05656 2.5 4.51656 4.19917 3.28906 6.66667"
+                              stroke="#252638"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M8.33333 10H2.5"
+                              stroke="#252638"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M6.66602 8.33325L8.33268 9.99992L6.66602 11.6666"
+                              stroke="#252638"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M11.666 10H17.4993"
+                              stroke="#252638"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M13.3327 11.6666L11.666 9.99992L13.3327 8.33325"
+                              stroke="#252638"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_12691_2490">
+                              <rect width={20} height={20} fill="white" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      </div>
+                      <span className="font-normal text-[14px] leading-[20px]">
+                        Nén Ảnh
+                      </span>
+                    </button>
+                    <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                      <div
+                        color="inherit"
+                        // mode="outline"
+                        className="sc-eac7f02c-0 bRLGlB text-center"
+                      >
+                        <svg
+                          className="align-middle"
+                          width={18}
+                          height={18}
+                          viewBox="0 0 18 18"
+                          fill="none"
+                        >
+                          <path
+                            d="M12.3346 11.2975V10.6567C12.3346 10.3384 12.1305 10.0542 11.828 9.9542L10.1121 9.38253V7.9017L10.628 7.57087C11.008 7.3267 11.1855 6.86337 11.063 6.42837C10.9388 5.9842 10.5355 5.6792 10.0746 5.6792H7.92797C7.46797 5.6792 7.0638 5.98503 6.9388 6.42837C6.81714 6.86337 6.9938 7.3267 7.3738 7.57087L7.88964 7.9017V9.38337L6.1738 9.95503C5.87214 10.0542 5.66797 10.3375 5.66797 10.6567V11.2975C5.66797 11.4934 5.74547 11.6825 5.88547 11.8217L6.19214 12.1284C6.3313 12.2675 6.51964 12.3459 6.7163 12.3459H11.288C11.4838 12.3459 11.673 12.2684 11.8121 12.1284L12.1188 11.8217C12.2571 11.6825 12.3346 11.4942 12.3346 11.2975Z"
+                            stroke="#0051EE"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M14.3033 3.70842C17.2322 6.63735 17.2322 11.3861 14.3033 14.315C11.3744 17.2439 6.62562 17.2439 3.6967 14.315C0.767767 11.3861 0.767767 6.63734 3.6967 3.70842C6.62563 0.779485 11.3744 0.779485 14.3033 3.70842Z"
+                            stroke="#0051EE"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                      <span className="font-normal text-[14px] leading-[20px]">
+                        Thêm watermark
+                      </span>
+                    </button>
+                    <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                      <div
+                        color="inherit"
+                        // mode="outline"
+                        className="sc-eac7f02c-0 bRLGlB text-center"
+                      >
+                        <svg
+                          className="align-middle"
+                          width={18}
+                          height={18}
+                          viewBox="0 0 18 18"
+                          fill="none"
+                        >
+                          <g id="Group">
+                            <path
+                              id="Vector"
+                              d="M5.04927 12.1816L1.93094 9.06329C1.24177 8.37412 1.24177 7.25746 1.93094 6.56829L6.62594 1.87329L12.2393 7.48663L7.54427 12.1816C6.8551 12.87 5.7376 12.87 5.04927 12.1816Z"
+                              stroke="#252638"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              id="Vector_2"
+                              d="M14.7368 9.97827C14.7368 9.97827 12.9727 11.8924 12.9727 13.0658C12.9727 14.0358 13.7668 14.8299 14.7368 14.8299C15.7068 14.8299 16.501 14.0358 16.501 13.0649C16.501 11.8924 14.7368 9.97827 14.7368 9.97827Z"
+                              stroke="#252638"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              id="Vector_3"
+                              d="M6.62513 1.87495L5.7168 0.949951"
+                              stroke="#252638"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              id="Vector_4"
+                              d="M12.2434 7.48328H1.44336"
+                              stroke="#252638"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              id="Vector_5"
+                              d="M1.85156 16.3666H9.00156"
+                              stroke="#252638"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </g>
+                        </svg>
+                      </div>
+                      <span className="font-normal text-[14px] leading-[20px]">
+                        Tô màu ảnh
+                      </span>
+                    </button>
+                    <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                      <div
+                        color="inherit"
+                        // mode="outline"
+                        className="sc-eac7f02c-0 bRLGlB text-center"
+                      >
+                        <svg
+                          className="align-middle"
+                          width={20}
+                          height={16}
+                          viewBox="0 0 20 16"
+                          fill="none"
+                        >
+                          <path
+                            d="M3.29189 6.57129C4.03723 2.64284 7.0186 0.857003 9.99996 0.857178M2.76019 13.1808C2.76019 13.963 2.83758 14.4769 2.14282 15.1427C2.85711 15.2618 5.35711 15.1427 7.14282 13.7143"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M9.99995 0.857178C11.0757 0.857115 12.1514 1.08957 13.1221 1.57129M17.0307 9.07129C17.0307 13.4694 17.1428 14.4286 18.2142 15.1427C16.0714 15.1427 14.2142 14.8572 12.4999 13.7143"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M14.6429 8.42075C14.6429 11.1617 12.5642 14.4286 10 14.4286C7.43586 14.4286 5.35718 11.1617 5.35718 8.42075C5.35718 6.14288 7.50003 7.17586 10 5.85718C12.8572 7.17586 14.6429 6.14288 14.6429 8.42075Z"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M16.4999 2.7638C16.6287 2.41556 17.1213 2.41556 17.2501 2.7638L17.4864 3.40228C17.5269 3.51176 17.6132 3.59809 17.7227 3.6386L18.3612 3.87486C18.7094 4.00372 18.7094 4.49628 18.3612 4.62514L17.7227 4.8614C17.6132 4.90191 17.5269 4.98824 17.4864 5.09772L17.2501 5.7362C17.1213 6.08444 16.6287 6.08444 16.4999 5.7362L16.2636 5.09772C16.2231 4.98824 16.1368 4.90191 16.0273 4.8614L15.3888 4.62514C15.0406 4.49628 15.0406 4.00372 15.3888 3.87486L16.0273 3.6386C16.1368 3.59809 16.2231 3.51176 16.2636 3.40228L16.4999 2.7638Z"
+                            fill="currentColor"
+                          />
+                          <path
+                            d="M1.59364 8.76035C1.69029 8.49917 2.05971 8.49917 2.15636 8.76035L2.33355 9.23921C2.36393 9.32132 2.42868 9.38607 2.51079 9.41645L2.98965 9.59364C3.25083 9.69029 3.25083 10.0597 2.98965 10.1564L2.51079 10.3335C2.42868 10.3639 2.36393 10.4287 2.33355 10.5108L2.15636 10.9896C2.05971 11.2508 1.69029 11.2508 1.59364 10.9896L1.41645 10.5108C1.38607 10.4287 1.32132 10.3639 1.23921 10.3335L0.760352 10.1564C0.499167 10.0597 0.499166 9.69029 0.760352 9.59364L1.23921 9.41645C1.32132 9.38607 1.38607 9.32132 1.41645 9.23921L1.59364 8.76035Z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </div>
+                      <span className="font-normal text-[14px] leading-[20px]">
+                        AI Xóa Mụn
+                      </span>
+                    </button>
+                    <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                      <div
+                        color="inherit"
+                        // mode="outline"
+                        className="sc-eac7f02c-0 bRLGlB text-center"
+                      >
+                        <svg
+                          className="align-middle"
+                          width={20}
+                          height={21}
+                          viewBox="0 0 20 21"
+                          fill="none"
+                        >
+                          <path
+                            d="M9.99948 13.8341H7.90948C7.27948 13.8341 6.67281 14.0724 6.21031 14.4999L6.15698 14.5499C5.86365 14.8216 5.63531 15.1549 5.48698 15.5266L5.19531 16.2591"
+                            fill="currentColor"
+                          />
+                          <path
+                            d="M9.99948 13.8341H7.90948C7.27948 13.8341 6.67281 14.0724 6.21031 14.4999L6.15698 14.5499C5.86365 14.8216 5.63531 15.1549 5.48698 15.5266L5.19531 16.2591"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M10.9893 11.4883C12.1101 11.0841 12.9176 10.0291 12.9176 8.76748C12.9176 7.15664 11.6118 5.84998 10.0001 5.84998C8.73846 5.84998 7.68346 6.65748 7.2793 7.77914"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M3.29979 7.13416C1.88729 9.94582 2.34896 13.4583 4.69563 15.805C7.04313 18.1525 10.5565 18.6133 13.3681 17.2"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M4.69531 5.19579C7.62531 2.26579 12.3753 2.26579 15.3045 5.19579C18.2336 8.12496 18.2336 12.8741 15.3053 15.8041"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M16.6673 17.1667L3.33398 3.83337"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                      <span className="font-normal text-[14px] leading-[20px]">
+                        Làm mờ khuôn mặt
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Popover.Panel>
+          </Popover>
         </div>
-        <div
-          style={{
-            position: "fixed",
-            top: 1,
-            left: 1,
-            width: 1,
-            height: 0,
-            padding: 0,
-            margin: "-1px",
-            overflow: "hidden",
-            clip: "rect(0, 0, 0, 0)",
-            whiteSpace: "nowrap",
-            borderWidth: 0,
-            display: "none",
-          }}
-        />
       </div>
     </>
   );
