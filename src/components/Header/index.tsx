@@ -1,5 +1,7 @@
+"use client";
 import { Image } from "@/components/common/Image/Index";
 import { Popover } from "@headlessui/react";
+import Link from "next/link";
 import * as React from "react";
 
 export function Header() {
@@ -7,7 +9,7 @@ export function Header() {
     <>
       <div className="w-full h-[72px] sm:!h-[56px] items-center gap-10 py-[14px] pl-8 pr-4 fixed top-0 z-[9999] transition-all lg:flex hidden pointer-events-auto bg-white backdrop-filter backdrop-blur-lg bg-opacity-50 shadow-md">
         <div>
-          <a className="w-24">
+          <Link href="/" className="w-24">
             <span className="w-24">
               <Image
                 src="https://assets.snapedit.app/images/landing/snapedit-logo.svg"
@@ -15,7 +17,7 @@ export function Header() {
                 className="w-22 h-8"
               />
             </span>
-          </a>
+          </Link>
         </div>
         <div className="flex items-center gap-4 relative flex-1 grow">
           <div className="relative" data-headlessui-state="">
@@ -53,7 +55,7 @@ export function Header() {
                 <div className="absolute" tabIndex={-1}>
                   <div className="h-auto bg-white rounded-2xl shadow flex w-[480px]">
                     <div className="p-2">
-                      <a href="/vi/tools">
+                      <a href="/tools">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
@@ -92,7 +94,7 @@ export function Header() {
                           </div>
                         </button>
                       </a>
-                      <a href="/vi/remove-object">
+                      <a href="/remove-object">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
@@ -136,7 +138,7 @@ export function Header() {
                           </div>
                         </button>
                       </a>
-                      <a href="/vi/background-remover">
+                      <a href="/background-remover">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
@@ -204,7 +206,7 @@ export function Header() {
                           </div>
                         </button>
                       </a>
-                      <a href="/vi/enhance">
+                      <a href="/enhance">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
@@ -255,7 +257,7 @@ export function Header() {
                           </div>
                         </button>
                       </a>
-                      <a href="/vi/change-sky">
+                      <a href="/change-sky">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
@@ -320,7 +322,7 @@ export function Header() {
                           </div>
                         </button>
                       </a>
-                      <a href="/vi/art-enhance">
+                      <a href="/art-enhance">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
@@ -371,7 +373,7 @@ export function Header() {
                           </div>
                         </button>
                       </a>
-                      <a href="/vi/convert-image">
+                      <a href="/convert-image">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
@@ -429,7 +431,7 @@ export function Header() {
                           </div>
                         </button>
                       </a>
-                      <a href="/vi/blur-bg">
+                      <a href="/blur-bg">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
@@ -468,7 +470,7 @@ export function Header() {
                           </div>
                         </button>
                       </a>
-                      <a href="/vi/colorize">
+                      <a href="/colorize">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
@@ -533,7 +535,7 @@ export function Header() {
                           </div>
                         </button>
                       </a>
-                      <a href="/vi/blur-face">
+                      <a href="/blur-face">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
@@ -597,7 +599,7 @@ export function Header() {
                       </a>
                     </div>
                     <div className="p-2">
-                      <a href="/vi/batch-processing">
+                      <a href="/batch-processing">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
@@ -662,7 +664,7 @@ export function Header() {
                           </div>
                         </button>
                       </a>
-                      <a href="/vi/remove-text">
+                      <a href="/remove-text">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
@@ -713,7 +715,7 @@ export function Header() {
                           </div>
                         </button>
                       </a>
-                      <a href="/vi/remove-wire-line">
+                      <a href="/remove-wire-line">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
@@ -765,7 +767,7 @@ export function Header() {
                           </div>
                         </button>
                       </a>
-                      <a href="/vi/auto-light">
+                      <a href="/auto-light">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
@@ -858,7 +860,7 @@ export function Header() {
                           </div>
                         </button>
                       </a>
-                      <a href="/vi/restore">
+                      <a href="/restore">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
@@ -937,7 +939,7 @@ export function Header() {
                           </div>
                         </button>
                       </a>
-                      <a href="/vi/easy-shadow">
+                      <a href="/easy-shadow">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
@@ -977,7 +979,7 @@ export function Header() {
                           </div>
                         </button>
                       </a>
-                      <a href="/vi/compress-image">
+                      <a href="/compress-image">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
@@ -1049,7 +1051,7 @@ export function Header() {
                           </div>
                         </button>
                       </a>
-                      <a href="/vi/add-watermark">
+                      <a href="/add-watermark">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
@@ -1086,7 +1088,7 @@ export function Header() {
                           </div>
                         </button>
                       </a>
-                      <a href="/vi/ai-skin">
+                      <a href="/ai-skin">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div

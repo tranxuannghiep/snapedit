@@ -1,7 +1,7 @@
 export function Banner() {
   return (
     <>
-      <div className="max-w-[1200px] lg:pt-[192px] pt-[120px] pb-[64px] sm:pb-0 m-auto lg:px-0 sm+:px-5 relative">
+      <div className="max-w-[1200px] lg:pt-[192px] pt-[120px] pb-[64px] sm:pb-0 m-auto lg:px-0 sm:px-5 relative">
         <div className="w-full flex flex-col items-start justify-start lg:pb-24 lg:w-1/2">
           <div className="w-full flex flex-col items-center justify-center gap-12 lg:items-start lg:pr-[96px]">
             <div className="flex flex-col items-center justify-center gap-6 relative self-stretch w-full flex-[0_0_auto] lg:items-start">
@@ -19,7 +19,7 @@ export function Banner() {
                 ảnh của bạn trong một vài nhấp chuột!
               </p>
             </div>
-            <a href="/vi/create">
+            <a href="/create">
               <button className="justify-center items-start gap-4 inline-flex cursor-pointer px-12 py-[18px] text-[20px] leading-[28px] shadow bg-blue-500 active:bg-blue-800 hover:bg-blue-700 rounded-full shadow text-white font-semibold">
                 Bắt đầu miễn phí
               </button>

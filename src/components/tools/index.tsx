@@ -21,7 +21,7 @@ export function Tool() {
       </div>
       <div className="flex flex-col items-center justify-center gap-8 relative self-stretch w-full flex-[0_0_auto]">
         <div className="grid grid-cols-1 gap-6 relative self-stretch w-full flex-[0_0_auto] lg:grid-cols-3 ">
-          <a href="/vi/remove-object">
+          <a href="/remove-object">
             <div className="cursor-pointer flex flex-col w-full items-start relative rounded-3xl overflow-hidden shadow-shadow-card hover:shadow-shadow-slide-hover group">
               <div className="flex flex-col items-start gap-2 p-3 relative self-stretch w-full flex-[0_0_auto] bg-transparent">
                 <div className="relative self-stretch w-full rounded-4 overflow-hidden rounded-2xl">
@@ -96,7 +96,7 @@ export function Tool() {
               </div>
             </div>
           </a>
-          <a href="/vi/enhance">
+          <a href="/enhance">
             <div className="cursor-pointer flex flex-col w-full items-start relative rounded-3xl overflow-hidden shadow-shadow-card hover:shadow-shadow-slide-hover group">
               <div className="flex flex-col items-start gap-2 p-3 relative self-stretch w-full flex-[0_0_auto] bg-transparent">
                 <div className="relative self-stretch w-full rounded-4 overflow-hidden rounded-2xl">
@@ -178,7 +178,7 @@ export function Tool() {
               </div>
             </div>
           </a>
-          <a href="/vi/background-remover">
+          <a href="/background-remover">
             <div className="cursor-pointer flex flex-col w-full items-start relative rounded-3xl overflow-hidden shadow-shadow-card hover:shadow-shadow-slide-hover group">
               <div className="flex flex-col items-start gap-2 p-3 relative self-stretch w-full flex-[0_0_auto] bg-transparent">
                 <div className="relative self-stretch w-full rounded-4 overflow-hidden rounded-2xl">
@@ -277,7 +277,7 @@ export function Tool() {
               </div>
             </div>
           </a>
-          <a href="/vi/ai-skin/upload">
+          <a href="/ai-skin/upload">
             <div className="cursor-pointer flex flex-col w-full items-start relative rounded-3xl overflow-hidden shadow-shadow-card hover:shadow-shadow-slide-hover group">
               <div className="flex flex-col items-start gap-2 p-3 relative self-stretch w-full flex-[0_0_auto] bg-transparent">
                 <div className="relative self-stretch w-full rounded-4 overflow-hidden rounded-2xl">
@@ -361,7 +361,7 @@ export function Tool() {
               </div>
             </div>
           </a>
-          <a href="/vi/remove-text">
+          <a href="/remove-text">
             <div className="cursor-pointer flex flex-col w-full items-start relative rounded-3xl overflow-hidden shadow-shadow-card hover:shadow-shadow-slide-hover group">
               <div className="flex flex-col items-start gap-2 p-3 relative self-stretch w-full flex-[0_0_auto] bg-transparent">
                 <div className="relative self-stretch w-full rounded-4 overflow-hidden rounded-2xl">
@@ -447,7 +447,7 @@ export function Tool() {
               </div>
             </div>
           </a>
-          <a href="/vi/remove-wire-line">
+          <a href="/remove-wire-line">
             <div className="cursor-pointer flex flex-col w-full items-start relative rounded-3xl overflow-hidden shadow-shadow-card hover:shadow-shadow-slide-hover group">
               <div className="flex flex-col items-start gap-2 p-3 relative self-stretch w-full flex-[0_0_auto] bg-transparent">
                 <div className="relative self-stretch w-full rounded-4 overflow-hidden rounded-2xl">
@@ -533,7 +533,7 @@ export function Tool() {
           </a>
         </div>
       </div>
-      <a href="/vi/tools">
+      <a href="/tools">
         <button className="justify-center items-start gap-4 inline-flex cursor-pointer px-12 py-[18px] text-[20px] leading-[28px] shadow bg-blue-500 active:bg-blue-800 hover:bg-blue-700 rounded-full shadow text-white font-semibold">
           Khám phá tất cả các công cụ
           <div color="inherit" className="sc-eac7f02c-0 bnjTLd text-center">

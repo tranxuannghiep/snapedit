@@ -267,7 +267,7 @@ export function NavBar() {
                   </div>
                 </div>
               </div>
-              <a href="/vi/remove-object">
+              <a href="/remove-object">
                 <button className="justify-center items-start gap-4 inline-flex cursor-pointer px-12 py-[18px] text-[20px] leading-[28px] shadow bg-blue-500 active:bg-blue-800 hover:bg-blue-700 rounded-full shadow text-white font-semibold w-fit">
                   Thử xóa vật thể
                 </button>
@@ -444,7 +444,7 @@ export function NavBar() {
                   </div>
                 </div>
               </div>
-              <a href="/vi/remove-bg">
+              <a href="/remove-bg">
                 <button className="justify-center items-start gap-4 inline-flex cursor-pointer px-12 py-[18px] text-[20px] leading-[28px] shadow bg-blue-500 active:bg-blue-800 hover:bg-blue-700 rounded-full shadow text-white font-semibold w-fit">
                   Thử xóa nền ảnh
                 </button>
@@ -621,7 +621,7 @@ export function NavBar() {
                   </div>
                 </div>
               </div>
-              <a href="/vi/enhance">
+              <a href="/enhance">
                 <button className="justify-center items-start gap-4 inline-flex cursor-pointer px-12 py-[18px] text-[20px] leading-[28px] shadow bg-blue-500 active:bg-blue-800 hover:bg-blue-700 rounded-full shadow text-white font-semibold w-fit">
                   Làm nét ảnh ngay bây giờ
                 </button>

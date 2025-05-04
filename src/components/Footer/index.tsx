@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <div>
+    <div className="relative">
       <div className="lg:flex hidden w-full flex-col items-center bg-slate-800 tracking-[0px]">
         <div className="w-full flex py-16 px-[120px] border-b border-b-whitewhite-02 gap-[120px]">
           <div className="flex-1 flex flex-col gap-4 text-base font-normal leading-6 text-whitewhite-064">
@@ -76,22 +76,22 @@ export function Footer() {
             <a className="text-left font-semibold leading-[18px] text-white">
               Tính năng mới
             </a>
-            <a href="/vi/add-watermark">
+            <a href="/add-watermark">
               <span className="text-left font-normal leading-5 text-whitewhite-064 hover:text-white">
                 Thêm watermark
               </span>
             </a>
-            <a href="/vi/convert-image">
+            <a href="/convert-image">
               <span className="text-left font-normal leading-5 text-whitewhite-064 hover:text-white">
                 Chuyển Đổi Ảnh
               </span>
             </a>
-            <a href="/vi/compress-image">
+            <a href="/compress-image">
               <span className="text-left font-normal leading-5 text-whitewhite-064 hover:text-white">
                 Nén Ảnh
               </span>
             </a>
-            <a href="/vi/blur-bg">
+            <a href="/blur-bg">
               <span className="text-left font-normal leading-5 text-whitewhite-064 hover:text-white">
                 Làm Mờ Nền
               </span>
@@ -101,22 +101,22 @@ export function Footer() {
             <a className="text-left font-semibold leading-[18px] text-white">
               Công cụ
             </a>
-            <a href="/vi/remove-object">
+            <a href="/remove-object">
               <span className="text-left font-normal leading-5 text-whitewhite-064 hover:text-white">
                 Xóa Vật Thể
               </span>
             </a>
-            <a href="/vi/background-remover">
+            <a href="/background-remover">
               <span className="text-left font-normal leading-5 text-whitewhite-064 hover:text-white">
                 Xóa Nền Ảnh
               </span>
             </a>
-            <a href="/vi/enhance">
+            <a href="/enhance">
               <span className="text-left font-normal leading-5 text-whitewhite-064 hover:text-white">
                 Làm Nét Ảnh
               </span>
             </a>
-            <a href="/vi/remove-text">
+            <a href="/remove-text">
               <span className="text-left font-normal leading-5 text-whitewhite-064 hover:text-white">
                 Xóa Chữ Trên Ảnh
               </span>
@@ -131,27 +131,27 @@ export function Footer() {
                 Blog &amp; Hướng dẫn
               </span>
             </a>
-            <a href="/vi/policy">
+            <a href="/policy">
               <span className="text-left font-normal leading-5 text-whitewhite-064 hover:text-white">
                 Chính sách
               </span>
             </a>
-            <a href="/vi/term-of-service">
+            <a href="/term-of-service">
               <span className="text-left font-normal leading-5 text-whitewhite-064 hover:text-white">
                 Điều khoản dịch vụ
               </span>
             </a>
-            <a href="/vi/about-us">
+            <a href="/about-us">
               <span className="text-left font-normal leading-5 text-whitewhite-064 hover:text-white">
                 Về chúng tôi
               </span>
             </a>
-            <a href="/vi/contact-us">
+            <a href="/contact-us">
               <span className="text-left font-normal leading-5 text-whitewhite-064 hover:text-white">
                 Liên hệ chúng tôi
               </span>
             </a>
-            <a href="/vi/nam-le">
+            <a href="/nam-le">
               <span className="text-left font-normal leading-5 text-whitewhite-064 hover:text-white">
                 Tác giả
               </span>
@@ -420,22 +420,22 @@ export function Footer() {
               <span className="text-white text-base font-semibold leading-tight lg:p-2.5 hover:text-zinc-400">
                 Công cụ
               </span>
-              <a href="/vi/remove-object">
+              <a href="/remove-object">
                 <span className="text-zinc-300 text-base font-normal leading-tight lg:p-2.5 hover:text-zinc-400">
                   Xóa Vật Thể
                 </span>
               </a>
-              <a href="/vi/background-remover">
+              <a href="/background-remover">
                 <span className="text-zinc-300 text-base font-normal leading-tight lg:p-2.5 hover:text-zinc-400">
                   Xóa Nền Ảnh
                 </span>
               </a>
-              <a href="/vi/enhance">
+              <a href="/enhance">
                 <span className="text-zinc-300 text-base font-normal leading-tight lg:p-2.5 hover:text-zinc-400">
                   Làm Nét Ảnh
                 </span>
               </a>
-              <a href="/vi/remove-text">
+              <a href="/remove-text">
                 <span className="text-zinc-300 text-base font-normal leading-tight lg:p-2.5 hover:text-zinc-400">
                   Xóa Chữ Trên Ảnh
                 </span>
@@ -443,22 +443,22 @@ export function Footer() {
               <span className="text-white text-base font-semibold leading-tight lg:p-2.5 hover:text-zinc-400 mt-2">
                 Tính năng mới
               </span>
-              <a href="/vi/add-watermark">
+              <a href="/add-watermark">
                 <span className="text-zinc-300 text-base font-normal leading-tight lg:p-2.5 hover:text-zinc-400">
                   Thêm watermark
                 </span>
               </a>
-              <a href="/vi/convert-image">
+              <a href="/convert-image">
                 <span className="text-zinc-300 text-base font-normal leading-tight lg:p-2.5 hover:text-zinc-400">
                   Chuyển Đổi Ảnh
                 </span>
               </a>
-              <a href="/vi/compress-image">
+              <a href="/compress-image">
                 <span className="text-zinc-300 text-base font-normal leading-tight lg:p-2.5 hover:text-zinc-400">
                   Nén Ảnh
                 </span>
               </a>
-              <a href="/vi/blur-bg">
+              <a href="/blur-bg">
                 <span className="text-zinc-300 text-base font-normal leading-tight lg:p-2.5 hover:text-zinc-400">
                   Làm Mờ Nền
                 </span>
@@ -468,27 +468,27 @@ export function Footer() {
               <span className="text-white text-base font-semibold leading-tight lg:p-2.5 hover:text-zinc-400">
                 Trợ giúp
               </span>
-              <a href="/vi/policy">
+              <a href="/policy">
                 <span className="text-zinc-300 text-base font-normal leading-tight lg:p-2.5 hover:text-zinc-400">
                   Chính sách
                 </span>
               </a>
-              <a href="/vi/term-of-service">
+              <a href="/term-of-service">
                 <span className="text-zinc-300 text-base font-normal leading-tight lg:p-2.5 hover:text-zinc-400">
                   Điều khoản dịch vụ
                 </span>
               </a>
-              <a href="/vi/about-us">
+              <a href="/about-us">
                 <span className="text-zinc-300 text-base font-normal leading-tight lg:p-2.5 hover:text-zinc-400">
                   Về chúng tôi
                 </span>
               </a>
-              <a href="/vi/contact-us">
+              <a href="/contact-us">
                 <span className="text-zinc-300 text-base font-normal leading-tight lg:p-2.5 hover:text-zinc-400">
                   Liên hệ chúng tôi
                 </span>
               </a>
-              <a href="/vi/nam-le">
+              <a href="/nam-le">
                 <span className="text-zinc-300 text-base font-normal leading-tight lg:p-2.5 hover:text-zinc-400">
                   Tác giả
                 </span>

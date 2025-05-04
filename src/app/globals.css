@@ -165,3 +165,51 @@ body {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
     var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 } */
+
+.H30B,
+.H56B {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.H56B {
+  font-size: 56px;
+  font-weight: 700;
+}
+
+@media (min-width: 851px) {
+  .snap-block-heading {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 850px) {
+  .snap-block-heading {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+}
+
+.snap-block-heading {
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+@media (min-width: 1024px) {
+  .snap-block {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}
+
+.bg-black-1 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(26 27 47 / var(--tw-bg-opacity));
+}
+
+.snap-block {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}

@@ -1887,7 +1887,7 @@ export function Review() {
           <div className="absolute inset-y-0 right-0 bg-gradient-to-l from-sapphire-50 w-72 hidden lg:block" />
         </div>
         <div className="flex flex-col justify-center items-center mt-24">
-          <a href="/vi/tools">
+          <a href="/tools">
             <button className="justify-center items-start gap-4 inline-flex cursor-pointer px-12 py-[18px] text-[20px] leading-[28px] shadow bg-blue-500 active:bg-blue-800 hover:bg-blue-700 rounded-full shadow text-white font-semibold">
               {" "}
               {/* */}Thử SnapEdit Miễn phí
