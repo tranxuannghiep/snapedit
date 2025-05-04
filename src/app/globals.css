@@ -213,3 +213,16 @@ body {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
+
+.text-neutral-ink-200 {
+  --tw-text-opacity: 1;
+  color: rgb(216 216 219 / var(--tw-text-opacity));
+}
+
+.container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
