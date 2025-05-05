@@ -226,3 +226,22 @@ body {
   padding-right: 1rem;
   padding-left: 1rem;
 }
+
+.angular-gradient,
+.color-picker-conic-gradient {
+  background: conic-gradient(
+    from 180deg at 50% 50%,
+    #ff7a00 0deg,
+    #fff500 61.87deg,
+    #0eed82 123.75deg,
+    #06f 179.22deg,
+    #bd00ff 243.75deg,
+    red 309.38deg,
+    #ff7a00 1turn
+  );
+}
+
+.color-picker-transparent {
+  background-image: url(https://assets.snapedit.app/images/transparent.png);
+  background-repeat: repeat;
+}
