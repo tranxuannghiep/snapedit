@@ -245,3 +245,65 @@ body {
   background-image: url(https://assets.snapedit.app/images/transparent.png);
   background-repeat: repeat;
 }
+
+.first .first-overlay {
+  overflow: hidden;
+  height: 100%;
+}
+.first {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  line-height: normal;
+  font-size: 100%;
+  max-height: 100%;
+  height: 100%;
+  width: 100%;
+  --exposure: 50%;
+  --keyboard-transition-time: 0ms;
+  --default-transition-time: 0ms;
+  --transition-time: var(--default-transition-time);
+}
+.second {
+  position: relative;
+}
+
+.handle-container {
+  transform: translateX(50%);
+  position: absolute;
+  top: 0;
+  right: var(--exposure);
+  height: 100%;
+  transition: right var(--transition-time), bottom var(--transition-time);
+}
+.hide-scrollbars {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+img-comparison-slider {
+  --divider-width: 2px;
+  --divider-color: #fff;
+  --default-handle-color: #fff;
+  outline: none;
+}
+
+.first .first-overlay-container {
+  position: relative;
+  clip-path: inset(0 var(--exposure) 0 0);
+  transition: clip-path var(--transition-time);
+  height: 100%;
+}
+
+/* .second .second-overlay {
+  overflow: hidden;
+  height: 100%;
+}
+
+.second .second-overlay-container {
+  position: relative;
+  clip-path: inset(0 var(--exposure) 0 0);
+  transition: clip-path var(--transition-time);
+  height: 100%;
+} */
