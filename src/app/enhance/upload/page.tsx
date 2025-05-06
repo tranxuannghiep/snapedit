@@ -12,6 +12,7 @@ export default function Upload() {
   const [files, setFiles] = useState<{ file: File; id: string }[]>([]);
   const [preview, setPreview] = useState<string | null>(null);
   const [idActive, setIdActive] = useState<string>("");
+  const [tab, setTab] = useState(0);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data = useDataStore((state: any) => state.data);
 
@@ -25,7 +26,13 @@ export default function Upload() {
 
   const handleCallData = async () => {
     if (!fileActive) return;
-    await handleEnhance(fileActive.file);
+    if (tab === 0) {
+      await handleEnhance(fileActive.file);
+    }
+
+    if (tab === 1) {
+      await handleColorize(fileActive.file);
+    }
   };
 
   const handleEnhance = async (file: File) => {
@@ -33,6 +40,23 @@ export default function Upload() {
     formData.append("input_image", file);
     formData.append("zoom_factor", "4");
     const response = await fetch("/api/enhance", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+        user_agent: data.user_agent,
+      },
+      body: formData,
+    });
+
+    const base64 = await response.json();
+    setPreview(base64);
+  };
+
+  const handleColorize = async (file: File) => {
+    const formData = new FormData();
+    formData.append("input_image", file);
+    formData.append("zoom_factor", "2");
+    const response = await fetch("/api/colorize", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${data.token}`,
@@ -480,27 +504,42 @@ export default function Upload() {
                       Chọn AI Cải thiện
                     </p>
                     <div className="py-2 flex flex-col gap-1">
-                      <div className="bg-blue-100 py-2 flex gap-2 items-center cursor-pointer hover:bg-blue-100 px-2 rounded-lg">
+                      <div
+                        className="bg-blue-100 py-2 flex gap-2 items-center cursor-pointer hover:bg-blue-100 px-2 rounded-lg"
+                        onClick={() => setTab(0)}
+                      >
                         <div
                           color="inherit"
                           //mode="outline"
                           className="sc-eac7f02c-0 bRLGlB text-center text-neutral-ink-200"
                         >
-                          <svg
-                            className="align-middle text-neutral-ink-200"
-                            width={16}
-                            height={16}
-                            viewBox="0 0 16 16"
-                            fill="none"
-                          >
-                            <circle cx={8} cy={8} r={7} fill="#0051EE" />
-                            <path
-                              d="M5 8.28272L6.81978 10.0341C7.02638 10.2329 7.3575 10.2176 7.54491 10.0006L11 6"
-                              stroke="white"
-                              strokeWidth="1.2"
-                              strokeLinecap="round"
-                            />
-                          </svg>
+                          {tab === 0 ? (
+                            <svg
+                              className="align-middle text-neutral-ink-200"
+                              width={16}
+                              height={16}
+                              viewBox="0 0 16 16"
+                              fill="none"
+                            >
+                              <circle cx={8} cy={8} r={7} fill="#0051EE" />
+                              <path
+                                d="M5 8.28272L6.81978 10.0341C7.02638 10.2329 7.3575 10.2176 7.54491 10.0006L11 6"
+                                stroke="white"
+                                strokeWidth="1.2"
+                                strokeLinecap="round"
+                              />
+                            </svg>
+                          ) : (
+                            <svg
+                              className="align-middle text-neutral-ink-200"
+                              width={18}
+                              height={18}
+                              viewBox="0 0 18 18"
+                              fill="none"
+                            >
+                              <circle cx={9} cy={9} r="8.5" stroke="#D9D9D9" />
+                            </svg>
+                          )}
                         </div>
                         <div>
                           <p className="font-semibold text-[14px] leading-[18px] text-neutral-ink-600 inline">
@@ -511,7 +550,7 @@ export default function Upload() {
                           </p>
                         </div>
                       </div>
-                      <div className="py-2 flex gap-2 items-center cursor-pointer hover:bg-blue-100 px-2 rounded-lg">
+                      {/* <div className="py-2 flex gap-2 items-center cursor-pointer hover:bg-blue-100 px-2 rounded-lg">
                         <div
                           color="inherit"
                           //mode="outline"
@@ -560,22 +599,43 @@ export default function Upload() {
                             Phù hợp cho ảnh cũ &amp; bị hỏng
                           </p>
                         </div>
-                      </div>
-                      <div className="py-2 flex gap-2 items-center cursor-pointer hover:bg-blue-100 px-2 rounded-lg">
+                      </div> */}
+                      <div
+                        className="py-2 flex gap-2 items-center cursor-pointer hover:bg-blue-100 px-2 rounded-lg"
+                        onClick={() => setTab(1)}
+                      >
                         <div
                           color="inherit"
                           //mode="outline"
                           className="sc-eac7f02c-0 bRLGlB text-center text-neutral-ink-200"
                         >
-                          <svg
-                            className="align-middle text-neutral-ink-200"
-                            width={18}
-                            height={18}
-                            viewBox="0 0 18 18"
-                            fill="none"
-                          >
-                            <circle cx={9} cy={9} r="8.5" stroke="#D9D9D9" />
-                          </svg>
+                          {tab === 1 ? (
+                            <svg
+                              className="align-middle text-neutral-ink-200"
+                              width={16}
+                              height={16}
+                              viewBox="0 0 16 16"
+                              fill="none"
+                            >
+                              <circle cx={8} cy={8} r={7} fill="#0051EE" />
+                              <path
+                                d="M5 8.28272L6.81978 10.0341C7.02638 10.2329 7.3575 10.2176 7.54491 10.0006L11 6"
+                                stroke="white"
+                                strokeWidth="1.2"
+                                strokeLinecap="round"
+                              />
+                            </svg>
+                          ) : (
+                            <svg
+                              className="align-middle text-neutral-ink-200"
+                              width={18}
+                              height={18}
+                              viewBox="0 0 18 18"
+                              fill="none"
+                            >
+                              <circle cx={9} cy={9} r="8.5" stroke="#D9D9D9" />
+                            </svg>
+                          )}
                         </div>
                         <div>
                           <p className="font-semibold text-[14px] leading-[18px] text-neutral-ink-600 inline">
