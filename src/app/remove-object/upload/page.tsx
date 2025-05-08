@@ -1,0 +1,1171 @@
+"use client";
+
+import { useDataStore } from "@/stores/useDataStore";
+import classNames from "classnames";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ReactSketchCanvas } from "react-sketch-canvas";
+import { v4 as uuidv4 } from "uuid";
+
+export default function Upload() {
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [files, setFiles] = useState<{ file: File; id: string }[]>([]);
+  const [preview, setPreview] = useState<string | null>(null);
+  const [idActive, setIdActive] = useState<string>("");
+  const [tab, setTab] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const data = useDataStore((state: any) => state.data);
+
+  const fileActive = useMemo(() => {
+    return files.find((file) => file.id === idActive);
+  }, [files, idActive]);
+
+  const handleClick = () => {
+    fileInputRef.current?.click(); // gọi click vào input
+  };
+
+  const handleCallData = async () => {
+    if (!fileActive) return;
+    if (tab === 0) {
+      await handleEnhance(fileActive.file);
+    }
+
+    if (tab === 1) {
+      await handleColorize(fileActive.file);
+    }
+  };
+
+  const handleEnhance = async (file: File) => {
+    const formData = new FormData();
+    formData.append("input_image", file);
+    formData.append("zoom_factor", "4");
+    const response = await fetch("/api/enhance", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+        user_agent: data.user_agent,
+      },
+      body: formData,
+    });
+
+    const base64 = await response.json();
+    setPreview(base64);
+  };
+
+  const handleColorize = async (file: File) => {
+    const formData = new FormData();
+    formData.append("input_image", file);
+    formData.append("zoom_factor", "2");
+    const response = await fetch("/api/colorize", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+        user_agent: data.user_agent,
+      },
+      body: formData,
+    });
+
+    const base64 = await response.json();
+    setPreview(base64);
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+
+    if (selectedFile) {
+      const id = uuidv4();
+      setIdActive(id);
+      setFiles([...files, { file: selectedFile, id }]);
+      setPreview("");
+    }
+  };
+
+  useEffect(() => {
+    // Lấy phần tử #cursor
+    const cursor = document.getElementById("cursor");
+    const canvasContainer = document.getElementById("canvas-container");
+
+    if (!cursor || !canvasContainer) return;
+
+    // Hiển thị con trỏ khi di chuột vào #canvas-container
+    canvasContainer.addEventListener("mouseenter", () => {
+      cursor.style.display = "block";
+    });
+
+    // Ẩn con trỏ khi chuột rời khỏi #canvas-container
+    canvasContainer.addEventListener("mouseleave", () => {
+      cursor.style.display = "none";
+    });
+
+    // Cập nhật vị trí con trỏ theo tọa độ chuột
+    canvasContainer.addEventListener("mousemove", (e) => {
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+
+      cursor.style.left = `${mouseX - cursor.offsetWidth / 2}px`;
+      cursor.style.top = `${mouseY - cursor.offsetHeight / 2}px`;
+    });
+  }, []);
+
+  return (
+    <div role="button" tabIndex={0}>
+      <div className="fixed inset-0 z-50 bg-black bg-opacity-40 transition flex flex-col justify-center items-center invisible opacity-0">
+        <div
+          color="white"
+          //mode="outline"
+          className="sc-eac7f02c-0 dRpMgD text-center mx-auto"
+        >
+          <svg
+            className="align-middle mx-auto"
+            width={120}
+            height={120}
+            viewBox="0 0 120 120"
+            fill="none"
+          >
+            <path
+              d="M40.4052 85.0013C40.2594 87.306 40.9158 89.5901 42.2629 91.4658C43.61 93.3415 45.5647 94.6932 47.7952 95.2913L82.7452 104.656C85.3065 105.342 88.0353 104.982 90.3316 103.657C92.6278 102.331 94.3035 100.147 94.9902 97.5863L107.155 52.1863C107.495 50.9178 107.583 49.5946 107.411 48.2924C107.24 46.9901 106.814 45.7344 106.158 44.5968C105.501 43.4593 104.627 42.4622 103.585 41.6625C102.543 40.8629 101.354 40.2763 100.085 39.9363L73.6852 32.8613"
+              fill="white"
+              fillOpacity="0.4"
+            />
+            <path
+              d="M40.4052 85.0013C40.2594 87.306 40.9158 89.5901 42.2629 91.4658C43.61 93.3415 45.5647 94.6932 47.7952 95.2913L82.7452 104.656C85.3065 105.342 88.0353 104.982 90.3316 103.657C92.6278 102.331 94.3035 100.147 94.9902 97.5863L107.155 52.1863C107.495 50.9178 107.583 49.5946 107.411 48.2924C107.24 46.9901 106.814 45.7344 106.158 44.5968C105.501 43.4593 104.627 42.4622 103.585 41.6625C102.543 40.8629 101.354 40.2763 100.085 39.9363L73.6852 32.8613"
+              stroke="white"
+              strokeWidth={3}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M17.5 25V75C17.5 77.6522 18.5536 80.1957 20.4289 82.0711C22.3043 83.9464 24.8478 85 27.5 85H63.685C66.3372 85 68.8807 83.9464 70.7561 82.0711C72.6314 80.1957 73.685 77.6522 73.685 75V25C73.685 22.3478 72.6314 19.8043 70.7561 17.9289C68.8807 16.0536 66.3372 15 63.685 15H27.5C24.8478 15 22.3043 16.0536 20.4289 17.9289C18.5536 19.8043 17.5 22.3478 17.5 25Z"
+              fill="white"
+              stroke="white"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+        <p className="text-3xl text-white font-medium">
+          Kéo và thả tệp vào đây
+        </p>
+      </div>
+      <input
+        accept="image/png, image/jpeg, image/webp"
+        type="file"
+        tabIndex={-1}
+        style={{ display: "none" }}
+      />
+      <div className="opacity-100 transition-all ease-in-out duration-500">
+        <div className="pt-14 flex bg-gray-200 flex-col items-start justify-start visible sm:flex-row sm:items-stretch sm:justify-stretch h-screen">
+          <div className="bg-white shadow-xl p-3 overflow-y-auto overflow-x-hidden hide-scrollbars sm:w-[104px] sm:h-full hidden sm:block flex-col border-neutral-ink-100 border-t items-center">
+            <div className="w-20 h-20 border border-dashed border-neutral-ink-200 hover:border-blue-400 text-neutral-ink-400 hover:text-blue-400 rounded-lg cursor-pointer flex justify-center items-center">
+              <div
+                color="inherit"
+                //mode="outline"
+                className="sc-eac7f02c-0 gNfqSN text-center"
+              >
+                <svg
+                  className="align-middle"
+                  width={32}
+                  height={32}
+                  viewBox="0 0 32 32"
+                  fill="none"
+                >
+                  <g id="Group 10947">
+                    <path
+                      id="Vector 932"
+                      d="M16 1.85791V30.1422"
+                      stroke="#8C8D9C"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                    />
+                    <path
+                      id="Vector 933"
+                      d="M30.1421 16L1.85782 16"
+                      stroke="#8C8D9C"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                    />
+                  </g>
+                </svg>
+              </div>
+            </div>
+            <div className="w-20 h-20 mt-2 group relative border-[2px] border-blue-500 rounded-xl p-[2px]">
+              <img
+                alt="uploadedImage"
+                src="https://cdn.pixabay.com/photo/2024/05/26/10/15/bird-8788491_1280.jpg"
+                className="w-full h-full object-cover transition duration-200 ease-in-out transform group-hover:filter group-hover:brightness-75 rounded-lg"
+              />
+              <div
+                color="inherit"
+                //mode="outline"
+                className="sc-eac7f02c-0 bRLGlB text-center text-white absolute right-1 bottom-1 duration-200 transition-all cursor-pointer  hidden"
+              >
+                <svg
+                  className="align-middle text-white absolute right-1 bottom-1 duration-200 transition-all cursor-pointer  hidden"
+                  width={14}
+                  height={18}
+                  viewBox="0 0 14 18"
+                  fill="none"
+                >
+                  <g id="Group">
+                    <path
+                      id="Vector"
+                      d="M2 6.5V14.8333C2 15.2754 2.17559 15.6993 2.48816 16.0118C2.80072 16.3244 3.22464 16.5 3.66667 16.5H10.3333C10.7754 16.5 11.1993 16.3244 11.5118 16.0118C11.8244 15.6993 12 15.2754 12 14.8333V6.5M8.66667 7.33333V13.1667M5.33333 7.33333V13.1667M0.75 4H13.25M3.66667 4L4.12 2.64C4.23058 2.30799 4.44286 2.01921 4.72675 1.8146C5.01064 1.60998 5.35173 1.49992 5.70167 1.5H8.29833C8.64856 1.49957 8.99002 1.60947 9.27424 1.81411C9.55846 2.01875 9.771 2.30772 9.88167 2.64L10.3333 4"
+                      stroke="#5C5D6B"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div className="sm:overflow-hidden h-full sm:flex-1 flex flex-col relative w-full items-center justify-center">
+            <div className="relative">
+              <div className="py-3 touch-none flex-1">
+                <div
+                  className="relative z-10 w-fit h-fit mx-auto select-none cursor"
+                  id="canvas-container"
+                  style={{ transform: "none" }}
+                >
+                  <img
+                    src="https://cdn.pixabay.com/photo/2024/05/26/10/15/bird-8788491_1280.jpg"
+                    alt="upload image"
+                    className="sc-568e005d-0 broiXv items-center"
+                  />
+                  <ReactSketchCanvas
+                    className="absolute top-0 left-0 w-full h-full opacity-50"
+                    style={{ background: "transparent" }}
+                    strokeWidth={50}
+                    strokeColor="red"
+                    backgroundImage="https://cdn.pixabay.com/photo/2024/05/26/10/15/bird-8788491_1280.jpg"
+                  />
+                  <div id="cursor" className=""></div>
+                </div>
+              </div>
+            </div>
+            <div className="px-4 py-4 p-0 flex justify-between relative hidden flex-auto items-end">
+              <div className="hidden">
+                <div className="bg-white rounded-md h-10 flex items-center space-x-5">
+                  <button
+                    className="w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center text-base-content-primary p-x before:!w-8 before:!h-8 before:left-1 before:top-1 text-disabled text-opacity-50 group"
+                    disabled
+                  >
+                    <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 bottom-full mb-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:top-full after:left-1/2 after:-ml-1 after:border-t-base-content-primary after:border-b-transparent">
+                      Thu nhỏ
+                    </span>
+                    <div className="inline-block leading-[20px] relative z-10">
+                      <svg
+                        width={14}
+                        height={2}
+                        viewBox="0 0 14 2"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12.7004 1.9001H1.30039C1.0617 1.9001 0.832777 1.80528 0.663994 1.63649C0.495212 1.46771 0.400391 1.23879 0.400391 1.0001C0.400391 0.761403 0.495212 0.532485 0.663994 0.363702C0.832777 0.194919 1.0617 0.100098 1.30039 0.100098H12.7004C12.9391 0.100098 13.168 0.194919 13.3368 0.363702C13.5056 0.532485 13.6004 0.761403 13.6004 1.0001C13.6004 1.23879 13.5056 1.46771 13.3368 1.63649C13.168 1.80528 12.9391 1.9001 12.7004 1.9001Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+                  </button>
+                  <div className="w-28">
+                    <div className="rc-slider rc-slider-horizontal">
+                      <div
+                        className="rc-slider-rail"
+                        style={{
+                          backgroundColor: "rgb(174, 174, 182)",
+                          height: 2,
+                        }}
+                      />
+                      <div
+                        className="rc-slider-track"
+                        style={{
+                          left: "0%",
+                          width: "0%",
+                          backgroundColor: "rgb(37, 38, 56)",
+                          height: 2,
+                        }}
+                      />
+                      <div className="rc-slider-step" />
+                      <div
+                        className="rc-slider-handle"
+                        tabIndex={0}
+                        role="slider"
+                        aria-valuemin={100}
+                        aria-valuemax={500}
+                        aria-valuenow={100}
+                        aria-disabled="false"
+                        aria-orientation="horizontal"
+                        style={{ left: "0%", transform: "translateX(-50%)" }}
+                      />
+                    </div>
+                  </div>
+                  <div className="w-14 flex items-center px-2 py-1 border rounded-md text-xs">
+                    <input
+                      className="border-none w-full text-right focus:outline-none"
+                      defaultValue={100}
+                    />
+                    <span className="block flex-1 ml-1">%</span>
+                  </div>
+                  <button className="w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center text-base-content-primary p-x before:!w-8 before:!h-8 before:left-1 before:top-1 sm:hover:text-primary hover:before:opacity-100 group">
+                    <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 bottom-full mb-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:top-full after:left-1/2 after:-ml-1 after:border-t-base-content-primary after:border-b-transparent">
+                      Phóng to
+                    </span>
+                    <div className="inline-block leading-[20px] relative z-10">
+                      <svg
+                        width={16}
+                        height={18}
+                        viewBox="0 0 16 18"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.0002 17.1831C7.7615 17.1831 7.53258 17.0883 7.3638 16.9195C7.19502 16.7507 7.10019 16.5218 7.10019 16.2831V1.71787C7.10019 1.47918 7.19502 1.25026 7.3638 1.08148C7.53258 0.912693 7.7615 0.817871 8.0002 0.817871C8.23889 0.817871 8.46781 0.912693 8.63659 1.08148C8.80537 1.25026 8.9002 1.47918 8.9002 1.71787V16.2831C8.9002 16.5218 8.80537 16.7507 8.63659 16.9195C8.46781 17.0883 8.23889 17.1831 8.0002 17.1831Z"
+                          fill="currentColor"
+                        />
+                        <path
+                          d="M14.9002 9.90019H1.1002C0.8615 9.90019 0.632582 9.80537 0.463799 9.63659C0.295016 9.4678 0.200195 9.23889 0.200195 9.00019C0.200195 8.7615 0.295016 8.53258 0.463799 8.3638C0.632582 8.19501 0.8615 8.10019 1.1002 8.10019H14.9002C15.1389 8.10019 15.3678 8.19501 15.5366 8.3638C15.7054 8.53258 15.8002 8.7615 15.8002 9.00019C15.8002 9.23889 15.7054 9.4678 15.5366 9.63659C15.3678 9.80537 15.1389 9.90019 14.9002 9.90019Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
+              <div className="flex w-full justify-between cursor-auto">
+                <div className="mr-3 select-none">
+                  <button
+                    className="w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center text-base-content-primary p-x before:!w-8 before:!h-8 before:left-1 before:top-1 text-disabled text-opacity-50 group"
+                    disabled
+                  >
+                    <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 bottom-full mb-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:top-full after:left-1/2 after:-ml-1 after:border-t-base-content-primary after:border-b-transparent">
+                      Xem bản gốc
+                    </span>
+                    <div className="inline-block leading-[20px] relative z-10">
+                      <svg
+                        width={24}
+                        height={24}
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12 3V21"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M6 8H7"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M6 12H7"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M6 16H7"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M9 4.5H4.22222C3.63285 4.5 3.06762 4.6873 2.65087 5.0207C2.23413 5.3541 2 5.80628 2 6.27778V17.7222C2 18.1937 2.23413 18.6459 2.65087 18.9793C3.06762 19.3127 3.63285 19.5 4.22222 19.5H9M15 4.5H19.7778C20.3671 4.5 20.9324 4.6873 21.3491 5.0207C21.7659 5.3541 22 5.80628 22 6.27778V17.7222C22 18.1937 21.7659 18.6459 21.3491 18.9793C20.9324 19.3127 20.3671 19.5 19.7778 19.5H15"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+                <div className="divide-x flex">
+                  <button
+                    className="w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center text-base-content-primary p-x before:!w-8 before:!h-8 before:left-1 before:top-1 text-disabled text-opacity-50 group rounded-tr-none rounded-br-none"
+                    disabled
+                  >
+                    <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 bottom-full mb-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:top-full after:left-1/2 after:-ml-1 after:border-t-base-content-primary after:border-b-transparent">
+                      Hoàn tác
+                    </span>
+                    <div className="inline-block leading-[20px] relative z-10">
+                      <svg
+                        width={18}
+                        height={17}
+                        viewBox="0 0 18 17"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M4.50015 8.50822C4.38197 8.50831 4.26494 8.48503 4.1558 8.43972C4.04665 8.39441 3.94753 8.32798 3.86415 8.24422L0.864154 5.24422C0.695393 5.07544 0.600586 4.84654 0.600586 4.60786C0.600586 4.36919 0.695393 4.14028 0.864154 3.9715L3.86415 0.971503C4.03409 0.808334 4.26124 0.718307 4.49682 0.720752C4.7324 0.723196 4.95763 0.817917 5.12415 0.984577C5.29067 1.15124 5.3852 1.37655 5.38744 1.61213C5.38969 1.84771 5.29947 2.07478 5.13615 2.24458L2.77215 4.60858L5.13615 6.97258C5.26186 7.09845 5.34745 7.25874 5.38211 7.43322C5.41677 7.6077 5.39895 7.78854 5.3309 7.95289C5.26284 8.11725 5.14761 8.25775 4.99975 8.35665C4.85189 8.45556 4.67804 8.50807 4.50015 8.50822Z"
+                          fill="currentColor"
+                        />
+                        <path
+                          d="M10.5002 16.5086H2.50035C2.26166 16.5086 2.03274 16.4138 1.86396 16.245C1.69517 16.0762 1.60035 15.8473 1.60035 15.6086C1.60035 15.3699 1.69517 15.141 1.86396 14.9722C2.03274 14.8034 2.26166 14.7086 2.50035 14.7086H10.5002C11.7852 14.77 13.0424 14.321 13.9977 13.4593C14.9531 12.5977 15.5291 11.3933 15.6002 10.1088C15.5293 8.82408 14.9534 7.6195 13.998 6.75766C13.0427 5.89582 11.7853 5.44661 10.5002 5.50798H1.50015C1.26146 5.50798 1.03294 5.41301 0.864154 5.24422C0.695393 5.07544 0.600586 4.84654 0.600586 4.60786C0.600586 4.36919 0.695393 4.14028 0.864154 3.9715C1.03294 3.80272 1.26146 3.70798 1.50015 3.70798H10.5002C12.2627 3.6463 13.9781 4.28501 15.2711 5.48446C16.5641 6.68391 17.3295 8.34653 17.4002 10.1088C17.3293 11.8709 16.5637 13.5332 15.2707 14.7325C13.9778 15.9317 12.2626 16.5703 10.5002 16.5086Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+                  </button>
+                  <button
+                    className="w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center text-base-content-primary p-x before:!w-8 before:!h-8 before:left-1 before:top-1 text-disabled text-opacity-50 group rounded-tl-none rounded-bl-none mr-3"
+                    disabled
+                  >
+                    <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 bottom-full mb-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:top-full after:left-1/2 after:-ml-1 after:border-t-base-content-primary after:border-b-transparent">
+                      Làm lại
+                    </span>
+                    <div className="inline-block leading-[20px] relative z-10">
+                      <svg
+                        width={18}
+                        height={17}
+                        viewBox="0 0 18 17"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M13.5006 8.50822C13.6188 8.50831 13.7358 8.48503 13.8449 8.43972C13.9541 8.39441 14.0532 8.32798 14.1366 8.24422L17.1366 5.24422C17.3053 5.07544 17.4002 4.84654 17.4002 4.60786C17.4002 4.36919 17.3053 4.14028 17.1366 3.9715L14.1366 0.971503C13.9666 0.808334 13.7395 0.718307 13.5039 0.720752C13.2683 0.723196 13.0431 0.817917 12.8766 0.984577C12.7101 1.15124 12.6155 1.37655 12.6133 1.61213C12.6111 1.84771 12.7013 2.07478 12.8646 2.24458L15.2286 4.60858L12.8646 6.97258C12.7389 7.09845 12.6533 7.25874 12.6186 7.43322C12.584 7.6077 12.6018 7.78854 12.6698 7.95289C12.7379 8.11725 12.8531 8.25775 13.001 8.35665C13.1488 8.45556 13.3227 8.50807 13.5006 8.50822Z"
+                          fill="currentColor"
+                        />
+                        <path
+                          d="M7.50059 16.5086H15.5004C15.7391 16.5086 15.968 16.4138 16.1368 16.245C16.3056 16.0762 16.4004 15.8473 16.4004 15.6086C16.4004 15.3699 16.3056 15.141 16.1368 14.9722C15.968 14.8034 15.7391 14.7086 15.5004 14.7086L7.50059 14.7086C6.21555 14.77 4.95833 14.321 4.003 13.4593C3.04766 12.5977 2.47167 11.3933 2.40059 10.1088C2.47146 8.82408 3.04735 7.6195 4.00271 6.75766C4.95806 5.89582 6.2154 5.44661 7.50059 5.50798L16.5006 5.50798C16.7393 5.50798 16.9678 5.41301 17.1366 5.24422C17.3053 5.07544 17.4002 4.84654 17.4002 4.60786C17.4002 4.36919 17.3053 4.14028 17.1366 3.9715C16.9678 3.80272 16.7393 3.70798 16.5006 3.70798L7.50059 3.70798C5.73799 3.6463 4.02268 4.28501 2.72968 5.48446C1.43668 6.68391 0.671196 8.34653 0.600586 10.1088C0.671443 11.8709 1.43704 13.5332 2.73001 14.7325C4.02298 15.9317 5.73815 16.5703 7.50059 16.5086Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
+              <div className="hidden">
+                <div className="lg:flex w-auto hidden gap-2">
+                  <div>
+                    <button className="btn block w-full py-3 px-4 bg-secondary text-base-content rounded-lg group rounded-lg relative h-10 pl-2 pr-3 py-2 hover:!bg-neutral-ink-500 text-white justify-center items-center gap-1 inline-flex !bg-neutral-ink-600 text-sm font-semibold transition-all duration-100">
+                      <div className="inline-block mr-2 align-middle !mr-1">
+                        <svg
+                          width={16}
+                          height={18}
+                          viewBox="0 0 16 18"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M8.0002 17.1831C7.7615 17.1831 7.53258 17.0883 7.3638 16.9195C7.19502 16.7507 7.10019 16.5218 7.10019 16.2831V1.71787C7.10019 1.47918 7.19502 1.25026 7.3638 1.08148C7.53258 0.912693 7.7615 0.817871 8.0002 0.817871C8.23889 0.817871 8.46781 0.912693 8.63659 1.08148C8.80537 1.25026 8.9002 1.47918 8.9002 1.71787V16.2831C8.9002 16.5218 8.80537 16.7507 8.63659 16.9195C8.46781 17.0883 8.23889 17.1831 8.0002 17.1831Z"
+                            fill="currentColor"
+                          />
+                          <path
+                            d="M14.9002 9.90019H1.1002C0.8615 9.90019 0.632582 9.80537 0.463799 9.63659C0.295016 9.4678 0.200195 9.23889 0.200195 9.00019C0.200195 8.7615 0.295016 8.53258 0.463799 8.3638C0.632582 8.19501 0.8615 8.10019 1.1002 8.10019H14.9002C15.1389 8.10019 15.3678 8.19501 15.5366 8.3638C15.7054 8.53258 15.8002 8.7615 15.8002 9.00019C15.8002 9.23889 15.7054 9.4678 15.5366 9.63659C15.3678 9.80537 15.1389 9.90019 14.9002 9.90019Z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </div>
+                      <span className="inline-block align-middle">
+                        <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 bottom-full mb-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:top-full after:left-1/2 after:-ml-1 after:border-t-base-content-primary after:border-b-transparent normal-case">
+                          Ảnh mới
+                        </span>
+                        Ảnh mới
+                      </span>
+                    </button>
+                  </div>
+                  <div className="w-44 h-10">
+                    <div className="w-full h-full relative hidden flex justify-center">
+                      <div className="bottom-0 w-auto flex justify-center absolute z-20 pointer-events-auto">
+                        <div className="relative" data-headlessui-state="">
+                          <button
+                            type="button"
+                            aria-expanded="false"
+                            data-headlessui-state=""
+                            id="headlessui-popover-button-:r2:"
+                          >
+                            <div className="px-2 min-w-36 h-10 bg-white flex justify-center font-bold items-center rounded-lg cursor-pointer shadow-lg hover:text-blue-500">
+                              <p className="font-semibold text-[14px] leading-[18px]">
+                                Tiếp tục chỉnh sửa
+                              </p>
+                              <div
+                                color="inherit"
+                                //mode="outline"
+                                className="sc-eac7f02c-0 kpGNll text-center mb-[1px] ml-1"
+                              >
+                                <svg
+                                  className="align-middle mb-[1px] ml-1"
+                                  width={20}
+                                  height={20}
+                                  fill="none"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path
+                                    stroke="#5C5D6B"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="1.5"
+                                    d="M8.334 13.333 11.667 10 8.334 6.667"
+                                  />
+                                </svg>
+                              </div>
+                            </div>
+                          </button>
+                        </div>
+                        <div
+                          style={{
+                            position: "fixed",
+                            top: 1,
+                            left: 1,
+                            width: 1,
+                            height: 0,
+                            padding: 0,
+                            margin: "-1px",
+                            overflow: "hidden",
+                            clip: "rect(0px, 0px, 0px, 0px)",
+                            whiteSpace: "nowrap",
+                            borderWidth: 0,
+                            display: "none",
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white shadow-xl sm:w-[300px] sm:h-full">
+            <div className="flex h-full flex-col border-t border-neutral-ink-100">
+              <div className="grid grid-cols-2 text-neutral text-center">
+                <div
+                  className={classNames(
+                    "py-3 border-b-2 text-sm font-semibold cursor-pointer text-center",
+                    {
+                      "border-blue-500 text-blue-500": tab === 0,
+                    }
+                  )}
+                  onClick={() => setTab(0)}
+                >
+                  <div className="inline-block align-middle mr-2">
+                    <svg
+                      width={29}
+                      height={28}
+                      viewBox="0 0 24 22"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M21.5908 2.00694C21.1508 1.56703 20.5601 1.31074 19.9382 1.28995C19.3163 1.26915 18.7098 1.48541 18.2413 1.89494L8.86483 10.0989C8.62447 10.3093 8.42987 10.5669 8.29309 10.8555C8.15631 11.1442 8.08026 11.4579 8.06965 11.7771C8.05904 12.0964 8.1141 12.4145 8.23141 12.7116C8.34873 13.0087 8.5258 13.2786 8.75166 13.5044L10.0922 14.8449C10.3181 15.0708 10.5879 15.2479 10.885 15.3652C11.1822 15.4825 11.5002 15.5376 11.8195 15.527C12.1387 15.5163 12.4524 15.4403 12.7411 15.3035C13.0297 15.1667 13.2873 14.9721 13.4977 14.7318L21.7017 5.35528C22.1113 4.88717 22.3277 4.28091 22.3071 3.65924C22.2865 3.03756 22.0305 2.44694 21.5908 2.00694V2.00694Z"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M10.6816 8.51465L15.0916 12.9246"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M2.19834 20.7098H6.51851C10.001 20.7098 11.7452 16.4993 9.28234 14.0365C7.47168 12.2258 4.39634 12.892 3.49801 15.2895L1.72234 20.0238C1.69375 20.1007 1.68417 20.1833 1.69441 20.2647C1.70466 20.346 1.73443 20.4237 1.78118 20.4911C1.82794 20.5585 1.89029 20.6136 1.96293 20.6516C2.03556 20.6897 2.11633 20.7097 2.19834 20.7098V20.7098Z"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  Thủ công
+                </div>
+                <div
+                  className={classNames(
+                    "py-3 border-b-2 text-sm font-semibold cursor-pointer text-center border-gray-200 text-neutral",
+                    {
+                      "border-blue-500 text-blue-500": tab === 1,
+                    }
+                  )}
+                  onClick={() => setTab(1)}
+                >
+                  <div className="inline-block align-middle mr-2">
+                    <svg
+                      width={29}
+                      height={28}
+                      viewBox="0 0 29 28"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M9.25 3.5H6.625C5.92881 3.5 5.26113 3.77656 4.76884 4.26884C4.27656 4.76113 4 5.42881 4 6.125V8.75"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M4 19.25V21.875C4 22.5712 4.27656 23.2389 4.76884 23.7312C5.26113 24.2234 5.92881 24.5 6.625 24.5H9.25"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M19.75 24.5H22.375C23.0712 24.5 23.7389 24.2234 24.2312 23.7312C24.7234 23.2389 25 22.5712 25 21.875V19.25"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M25 8.75V6.125C25 5.42881 24.7234 4.76113 24.2312 4.26884C23.7389 3.77656 23.0712 3.5 22.375 3.5H19.75"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M19.9529 19.8332L19.6215 19.0014C19.3959 18.4345 19.0053 17.9484 18.5002 17.606C17.9952 17.2637 17.399 17.0808 16.7889 17.0811H12.2109C11.6009 17.0817 11.0052 17.265 10.5003 17.6072C9.99548 17.9495 9.60466 18.4351 9.37821 19.0014L9.04688 19.8332"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M16.9741 8.02511C17.314 8.34658 17.586 8.73292 17.774 9.1613C17.962 9.58968 18.0622 10.0514 18.0687 10.5192C18.0752 10.987 17.9878 11.4513 17.8118 11.8847C17.6358 12.3182 17.3747 12.7119 17.0439 13.0427C16.7131 13.3735 16.3193 13.6346 15.8859 13.8107C15.4524 13.9867 14.9881 14.074 14.5203 14.0675C14.0526 14.061 13.5908 13.9608 13.1625 13.7728C12.7341 13.5848 12.3477 13.3128 12.0263 12.9729C11.408 12.3095 11.0715 11.4319 11.0875 10.5252C11.1035 9.61843 11.4708 8.7533 12.112 8.11204C12.7533 7.47078 13.6184 7.10346 14.5252 7.08746C15.4319 7.07146 16.3095 7.40804 16.9729 8.02628"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  Tự động
+                  <div className="align-middle inline-block ml-2">
+                    <img
+                      alt="ai icon"
+                      loading="lazy"
+                      width={15}
+                      height={14}
+                      decoding="async"
+                      data-nimg={1}
+                      srcSet="https://assets.snapedit.app/cdn-cgi/image/width=16,quality=85/images/AI-logo.svg 1x, https://assets.snapedit.app/cdn-cgi/image/width=32,quality=85/images/AI-logo.svg 2x"
+                      src="https://assets.snapedit.app/cdn-cgi/image/width=32,quality=85/images/AI-logo.svg"
+                      style={{ color: "transparent" }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex-1 overflow-hidden w-full shadow-inner py-4">
+                <div className="text-sm px-3">
+                  <div className="mb-4 flex justify-between">
+                    <div>
+                      <button className="w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center sm:hover:border-primary border text-base-content-secondary text-primary border-primary sm:hover:text-primary hover:before:opacity-100 group">
+                        <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 top-full mt-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:bottom-full after:left-1/2 after:-ml-1 after:border-t-transparent after:border-b-base-content-primary">
+                          Tô
+                        </span>
+                        <div className="inline-block leading-[20px] relative z-10">
+                          <svg
+                            width={18}
+                            height={17}
+                            viewBox="0 0 18 17"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M0.553711 11.3438C0.741211 11.5254 0.972656 11.6543 1.24805 11.7305C1.5293 11.8008 1.82227 11.8037 2.12695 11.7393C2.43164 11.6689 2.71875 11.5078 2.98828 11.2559C3.06445 11.1855 3.16113 11.0947 3.27832 10.9834C3.39551 10.8721 3.52441 10.7432 3.66504 10.5967C3.81152 10.4502 3.97266 10.2861 4.14844 10.1045C4.32422 9.92285 4.51758 9.72656 4.72852 9.51562C5.74805 8.47852 6.66211 7.55273 7.4707 6.73828C8.2793 5.91797 8.97363 5.22949 9.55371 4.67285C10.1396 4.11035 10.6025 3.7002 10.9424 3.44238C11.2881 3.17871 11.5049 3.09082 11.5928 3.17871C11.6689 3.24316 11.6484 3.4043 11.5312 3.66211C11.4199 3.91992 11.2412 4.24512 10.9951 4.6377C10.749 5.03027 10.459 5.46387 10.125 5.93848C9.79102 6.40723 9.44531 6.8877 9.08789 7.37988C8.57812 8.09473 8.0918 8.77148 7.62891 9.41016C7.16602 10.0488 6.75879 10.6523 6.40723 11.2207C6.06152 11.7891 5.79785 12.3223 5.61621 12.8203C5.43457 13.3125 5.36719 13.7666 5.41406 14.1826C5.46094 14.5928 5.6543 14.9678 5.99414 15.3076C6.42773 15.7412 6.94043 15.917 7.53223 15.835C8.12988 15.7529 8.83008 15.4424 9.63281 14.9033C10.4414 14.3584 11.3789 13.6143 12.4453 12.6709C13.0078 12.1846 13.5 11.7568 13.9219 11.3877C14.3438 11.0186 14.6865 10.7432 14.9502 10.5615C15.2197 10.3799 15.3926 10.3301 15.4688 10.4121C15.5156 10.459 15.5039 10.5674 15.4336 10.7373C15.3633 10.9014 15.2549 11.1094 15.1084 11.3613C14.9678 11.6074 14.8096 11.8857 14.6338 12.1963C14.4287 12.5361 14.2236 12.8906 14.0186 13.2598C13.8135 13.623 13.6465 13.9834 13.5176 14.3408C13.3887 14.6982 13.3359 15.0381 13.3594 15.3604C13.3887 15.6885 13.541 15.9873 13.8164 16.2568C14.2031 16.6377 14.7334 16.7373 15.4072 16.5557C16.0811 16.3799 16.8223 15.8906 17.6309 15.0879C17.8066 14.9062 17.9092 14.7158 17.9385 14.5166C17.9736 14.3174 17.9121 14.1416 17.7539 13.9893C17.6133 13.8486 17.4492 13.7842 17.2617 13.7959C17.0801 13.8076 16.9102 13.8838 16.752 14.0244C16.4297 14.335 16.1338 14.5928 15.8643 14.7979C15.6006 14.9971 15.3838 15.1406 15.2139 15.2285C15.0498 15.3164 14.9502 15.3457 14.915 15.3164C14.874 15.2812 14.8945 15.1699 14.9766 14.9824C15.0586 14.7891 15.1846 14.5342 15.3545 14.2178C15.5303 13.8955 15.7383 13.5205 15.9785 13.0928C16.2422 12.624 16.4736 12.1875 16.6729 11.7832C16.8779 11.3789 17.0244 11.0039 17.1123 10.6582C17.2061 10.3125 17.2236 9.99609 17.165 9.70898C17.1064 9.41602 16.9512 9.14648 16.6992 8.90039C16.3594 8.57227 15.999 8.40234 15.6182 8.39062C15.2432 8.37891 14.833 8.49316 14.3877 8.7334C13.9424 8.97363 13.4473 9.31641 12.9023 9.76172C12.3633 10.207 11.7627 10.7227 11.1006 11.3086C10.5791 11.7656 10.1221 12.1494 9.72949 12.46C9.33691 12.7705 9.00586 13.0166 8.73633 13.1982C8.47266 13.3799 8.26465 13.5029 8.1123 13.5674C7.95996 13.626 7.86328 13.6348 7.82227 13.5938C7.78125 13.541 7.78418 13.4443 7.83105 13.3037C7.88379 13.1631 7.9834 12.9697 8.12988 12.7236C8.27637 12.4775 8.47266 12.1729 8.71875 11.8096C8.96484 11.4404 9.26074 11.0127 9.60645 10.5264C9.95801 10.0342 10.3594 9.47168 10.8105 8.83887C11.4785 7.90723 12.0674 7.05176 12.5771 6.27246C13.0869 5.4873 13.4795 4.77832 13.7549 4.14551C14.0361 3.50684 14.168 2.93555 14.1504 2.43164C14.1387 1.92773 13.9395 1.48828 13.5527 1.11328C13.0605 0.632812 12.5039 0.369141 11.8828 0.322266C11.2676 0.269531 10.5381 0.459961 9.69434 0.893555C8.85059 1.32715 7.84863 2.03027 6.68848 3.00293C5.52832 3.96973 4.16016 5.23242 2.58398 6.79102C2.34375 7.03125 2.12109 7.25098 1.91602 7.4502C1.7168 7.64941 1.53223 7.83105 1.3623 7.99512C1.19824 8.15918 1.05469 8.30859 0.931641 8.44336C0.808594 8.57812 0.700195 8.69824 0.606445 8.80371C0.336914 9.12598 0.166992 9.44824 0.0966797 9.77051C0.0322266 10.0928 0.0439453 10.3916 0.131836 10.667C0.225586 10.9365 0.366211 11.1621 0.553711 11.3438Z"
+                              fill="currentColor"
+                            />
+                          </svg>
+                        </div>
+                      </button>
+                    </div>
+                    <div>
+                      <button className="w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center sm:hover:border-primary border text-base-content-secondary sm:hover:text-primary hover:before:opacity-100 group">
+                        <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 top-full mt-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:bottom-full after:left-1/2 after:-ml-1 after:border-t-transparent after:border-b-base-content-primary">
+                          Khoanh vùng
+                        </span>
+                        <div
+                          color="inherit"
+                          //mode="outline"
+                          className="sc-eac7f02c-0 bRLGlB text-center"
+                        >
+                          <svg
+                            className="align-middle"
+                            width={22}
+                            height={20}
+                            viewBox="0 0 22 20"
+                            fill="none"
+                          >
+                            <path
+                              d="M16.478 1.57615C20.839 3.09815 21.923 7.16115 18.898 10.6522C15.872 14.1432 9.88396 15.7402 5.52196 14.2182C1.15996 12.6972 0.0769558 8.63315 3.10196 5.14215C6.12796 1.65215 12.116 0.0551509 16.478 1.57615Z"
+                              stroke="#0051EE"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M12.711 14.3151C8.544 15.4261 3.302 14.4031 3.302 10.9561"
+                              stroke="#0051EE"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M9.048 12.105C9.048 14.323 7.899 17.851 3.302 19"
+                              stroke="#0051EE"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M3.302 10.9561C3.302 7.50909 9.048 7.50909 9.048 12.1051"
+                              stroke="#0051EE"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </div>
+                      </button>
+                    </div>
+                    <div className="relative">
+                      <button className="w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center sm:hover:border-primary border text-base-content-secondary sm:hover:text-primary hover:before:opacity-100 group">
+                        <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 top-full mt-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:bottom-full after:left-1/2 after:-ml-1 after:border-t-transparent after:border-b-base-content-primary">
+                          Xóa
+                        </span>
+                        <div className="inline-block leading-[20px] relative z-10">
+                          <svg
+                            width={21}
+                            height={20}
+                            viewBox="0 0 21 20"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M5.52719 16.9767H6.93419C7.46458 16.9766 7.9732 16.7658 8.34819 16.3907L17.0722 7.66667C17.4471 7.29162 17.6578 6.783 17.6578 6.25267C17.6578 5.72235 17.4471 5.21373 17.0722 4.83867L13.7732 1.53967C13.3981 1.16473 12.8895 0.954102 12.3592 0.954102C11.8289 0.954102 11.3202 1.16473 10.9452 1.53967L1.51819 10.9667C1.14325 11.3417 0.932617 11.8503 0.932617 12.3807C0.932617 12.911 1.14325 13.4196 1.51819 13.7947L4.11419 16.3907C4.48819 16.7657 4.99619 16.9767 5.52719 16.9767V16.9767Z"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M6.08984 6.38965L12.2198 12.5196"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M17.9997 16.98H6.92969"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </div>
+                      </button>
+                      <div className="absolute z-50 sm:left-full sm:top-1/2 sm:translate-x-8 sm:-translate-y-1/2 bottom-full -right-0 translate-x-14 -translate-y-4 pointer-events-none">
+                        <div className="bg-primary text-white text-sm px-4 transition py-3 pr-12 w-[330px] relative rounded-lg text-left after:absolute after:border-4 after:border-solid after:border-b-transparent after:border-l-transparent opacity-0 pointer-events-none sm:after:right-full sm:after:top-1/2 sm:after:-translate-y-1/2 sm:after:-mt-1 sm:after:border-t-transparent sm:after:border-r-primary after:top-full after:border-t-primary after:border-transparent after:right-16">
+                          Dùng Cọ để tô lên và lựa chọn các vật thể bạn muốn
+                          xóa, dùng Tẩy để chỉnh sửa khu vực tô.
+                          <button className="text-white absolute right-4 top-3">
+                            <div className="inline-block scale-75 w-7 h-7">
+                              <svg
+                                width={28}
+                                height={28}
+                                viewBox="0 0 28 28"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-full h-full"
+                              >
+                                <path
+                                  d="M5.83301 5.83301L22.1663 22.1663"
+                                  stroke="currentColor"
+                                  strokeWidth={2}
+                                  strokeLinecap="round"
+                                />
+                                <path
+                                  d="M22.167 5.83301L5.83366 22.1663"
+                                  stroke="currentColor"
+                                  strokeWidth={2}
+                                  strokeLinecap="round"
+                                />
+                              </svg>
+                            </div>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Kích cỡ</span>
+                    <span>50px</span>
+                  </div>
+                  <div className="mt-3 px-2">
+                    <div className="rc-slider rc-slider-horizontal">
+                      <div
+                        className="rc-slider-rail"
+                        style={{
+                          backgroundColor: "rgb(174, 174, 182)",
+                          height: 2,
+                        }}
+                      />
+                      <div
+                        className="rc-slider-track"
+                        style={{
+                          left: "0%",
+                          width: "44.4444%",
+                          backgroundColor: "rgb(37, 38, 56)",
+                          height: 2,
+                        }}
+                      />
+                      <div className="rc-slider-step" />
+                      <div
+                        className="rc-slider-handle"
+                        tabIndex={0}
+                        role="slider"
+                        aria-valuemin={10}
+                        aria-valuemax={100}
+                        aria-valuenow={50}
+                        aria-disabled="false"
+                        aria-orientation="horizontal"
+                        style={{
+                          left: "44.4444%",
+                          transform: "translateX(-50%)",
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="pt-3  px-3 border-t border-neutral-ink-100">
+                <div className="rounded-lg bg-neutral-ink-50 p-2 text-neutral-ink-600 relative">
+                  <p className="font-normal text-[12px] leading-[18px]">
+                    Nếu bạn muốn xóa văn bản hoặc đường kẻ khỏi hình ảnh này,{" "}
+                    <a
+                      className="text-blue-500 S12B cursor-pointer"
+                      href="/remove-text"
+                    >
+                      hãy thử xóa văn bản
+                    </a>{" "}
+                    hoặc{" "}
+                    <a
+                      className="text-blue-500 S12B cursor-pointer"
+                      href="/remove-wire-line"
+                    >
+                      xóa đường kẻ
+                    </a>{" "}
+                    để có kết quả tốt hơn.
+                  </p>
+                  <div className="absolute z-10 top-0 right-1 cursor-pointer">
+                    <div
+                      color="inherit"
+                      //mode="outline"
+                      className="sc-eac7f02c-0 kpGNll text-center text-neutral-ink-400"
+                    >
+                      <svg
+                        className="align-middle text-neutral-ink-400"
+                        fill="none"
+                        viewBox="0 0 28 28"
+                      >
+                        <path
+                          d="m5.833 5.833 16.333 16.333"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeWidth={2}
+                        />
+                        <path
+                          d="m22.167 5.833-16.333 16.333"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeWidth={2}
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="px-3 my-4 flex items-center">
+                <div className="flex items-center group relative">
+                  <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 bottom-full mb-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:top-full after:left-1/2 after:-ml-1 after:border-t-base-content-primary after:border-b-transparent normal-case">
+                    <div className="max-w-[300px]">
+                      Để có kết quả tốt nhất trên các đối tượng lớn hoặc phức
+                      tạp, hãy sử dụng Xóa Siêu Cấp. Đối với các mục nhỏ hơn,
+                      chỉ cần tắt nó và sử dụng Xóa Chuẩn thay thế.
+                    </div>
+                  </span>
+                  <p className="font-normal text-[12px] leading-[18px] text-neutral-ink-600">
+                    Xóa Siêu Cấp
+                  </p>
+                  <div
+                    color="inherit"
+                    //mode="outline"
+                    className="sc-eac7f02c-0 bnjTLd text-center ml-1"
+                  >
+                    <svg
+                      className="align-middle ml-1"
+                      width={23}
+                      height={10}
+                      viewBox="0 0 23 10"
+                      fill="none"
+                    >
+                      <rect
+                        strokeWidth="0.1"
+                        x="0.900391"
+                        width={22}
+                        height={10}
+                        rx={3}
+                        fill="url(#paint0_linear_10951_32243)"
+                      />
+                      <path
+                        strokeWidth="0.1"
+                        d="M3.90232 8V2.18182H6.19778C6.63907 2.18182 7.01501 2.2661 7.32562 2.43466C7.63622 2.60133 7.87297 2.83333 8.03585 3.13068C8.20062 3.42614 8.283 3.76705 8.283 4.15341C8.283 4.53977 8.19967 4.88068 8.033 5.17614C7.86634 5.47159 7.62486 5.7017 7.30857 5.86648C6.99418 6.03125 6.6135 6.11364 6.16653 6.11364H4.70346V5.12784H5.96766C6.20441 5.12784 6.39948 5.08712 6.55289 5.00568C6.70819 4.92235 6.82372 4.80777 6.89948 4.66193C6.97713 4.5142 7.01596 4.3447 7.01596 4.15341C7.01596 3.96023 6.97713 3.79167 6.89948 3.64773C6.82372 3.50189 6.70819 3.3892 6.55289 3.30966C6.39759 3.22822 6.20062 3.1875 5.96198 3.1875H5.13244V8H3.90232ZM9.24201 8V2.18182H11.5375C11.9769 2.18182 12.3519 2.26042 12.6625 2.41761C12.975 2.57292 13.2127 2.79356 13.3755 3.07955C13.5403 3.36364 13.6227 3.69792 13.6227 4.08239C13.6227 4.46875 13.5394 4.80114 13.3727 5.07955C13.206 5.35606 12.9645 5.56818 12.6483 5.71591C12.3339 5.86364 11.9532 5.9375 11.5062 5.9375H9.96928V4.94886H11.3074C11.5422 4.94886 11.7373 4.91667 11.8926 4.85227C12.0479 4.78788 12.1634 4.69129 12.2392 4.5625C12.3168 4.43371 12.3556 4.27367 12.3556 4.08239C12.3556 3.8892 12.3168 3.72633 12.2392 3.59375C12.1634 3.46117 12.0469 3.3608 11.8897 3.29261C11.7344 3.22254 11.5384 3.1875 11.3017 3.1875H10.4721V8H9.24201ZM12.3841 5.35227L13.8301 8H12.4721L11.0574 5.35227H12.3841ZM19.9986 5.09091C19.9986 5.72538 19.8783 6.26515 19.6378 6.71023C19.3992 7.1553 19.0734 7.49527 18.6605 7.73011C18.2495 7.96307 17.7874 8.07955 17.2742 8.07955C16.7571 8.07955 16.2931 7.96212 15.8821 7.72727C15.4711 7.49242 15.1463 7.15246 14.9077 6.70739C14.6691 6.26231 14.5497 5.72348 14.5497 5.09091C14.5497 4.45644 14.6691 3.91667 14.9077 3.47159C15.1463 3.02652 15.4711 2.6875 15.8821 2.45455C16.2931 2.2197 16.7571 2.10227 17.2742 2.10227C17.7874 2.10227 18.2495 2.2197 18.6605 2.45455C19.0734 2.6875 19.3992 3.02652 19.6378 3.47159C19.8783 3.91667 19.9986 4.45644 19.9986 5.09091ZM18.7514 5.09091C18.7514 4.67992 18.6899 4.33333 18.5668 4.05114C18.4456 3.76894 18.2742 3.55492 18.0526 3.40909C17.831 3.26326 17.5715 3.19034 17.2742 3.19034C16.9768 3.19034 16.7174 3.26326 16.4958 3.40909C16.2742 3.55492 16.1018 3.76894 15.9787 4.05114C15.8575 4.33333 15.7969 4.67992 15.7969 5.09091C15.7969 5.50189 15.8575 5.84848 15.9787 6.13068C16.1018 6.41288 16.2742 6.62689 16.4958 6.77273C16.7174 6.91856 16.9768 6.99148 17.2742 6.99148C17.5715 6.99148 17.831 6.91856 18.0526 6.77273C18.2742 6.62689 18.4456 6.41288 18.5668 6.13068C18.6899 5.84848 18.7514 5.50189 18.7514 5.09091Z"
+                        fill="white"
+                      />
+                      <defs>
+                        <linearGradient
+                          id="paint0_linear_10951_32243"
+                          x1="1.37278"
+                          y1="-0.703125"
+                          x2="7.93453"
+                          y2="15.7225"
+                          gradientUnits="userSpaceOnUse"
+                        >
+                          <stop stopColor="#0DFFFF" />
+                          <stop offset="0.412798" stopColor="#0051EF" />
+                          <stop offset={1} stopColor="#A400BF" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
+                  <div
+                    color="inherit"
+                    data-mode="fill"
+                    className="sc-eac7f02c-0 cFtFEe text-center text-neutral-ink-200 -mt-[1px] ml-1"
+                  >
+                    <svg
+                      className="align-middle text-neutral-ink-200 -mt-[1px] ml-1"
+                      fill="none"
+                      viewBox="0 0 14 14"
+                    >
+                      <path
+                        d="M7 .8a6.3 6.3 0 1 0 0 12.5A6.3 6.3 0 0 0 7 .7Zm0 2.5A.8.8 0 1 1 7 5a.8.8 0 0 1 0-1.6Zm1.5 7H5.7a.5.5 0 0 1 0-1h1V6.7H6a.5.5 0 1 1 0-1h1a.5.5 0 0 1 .5.5v3.3h.9a.5.5 0 1 1 0 1Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div className="flex ml-auto">
+                  <label>
+                    <button
+                      className="bg-gray-200 relative inline-flex h-[18px] w-8 items-center rounded-full"
+                      id="headlessui-switch-:r6:"
+                      role="switch"
+                      type="button"
+                      tabIndex={0}
+                      aria-checked="false"
+                      data-headlessui-state=""
+                    >
+                      <span className="translate-x-[2px] inline-block h-[14px] w-[14px] transform rounded-full bg-white transition" />
+                    </button>
+                    <div className="slider" />
+                  </label>
+                </div>
+              </div>
+              <div className="px-3 pb-4">
+                <button
+                  className="btn block w-full py-3 px-4 bg-primary text-white rounded-lg text-base transition hover:bg-opacity-80 !bg-gray-300 !text-gray-500  h-14"
+                  //   disabled
+                >
+                  <div className="inline-block align-middle mr-2">
+                    <svg
+                      width={21}
+                      height={20}
+                      viewBox="0 0 21 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M18 3V1"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M17 2H19"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M20 13H18"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M19 12V14"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M6 1V3"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M7 2H5"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M2.87039 18.7044L1.29539 17.1294C1.20175 17.0358 1.12746 16.9248 1.07677 16.8025C1.02609 16.6803 1 16.5492 1 16.4169C1 16.2845 1.02609 16.1535 1.07677 16.0312C1.12746 15.909 1.20175 15.7979 1.29539 15.7044L10.8704 6.12937C10.9639 6.03573 11.075 5.96144 11.1972 5.91076C11.3195 5.86007 11.4505 5.83398 11.5829 5.83398C11.7152 5.83398 11.8463 5.86007 11.9685 5.91076C12.0908 5.96144 12.2019 6.03573 12.2954 6.12937L13.8704 7.70437C13.964 7.7979 14.0383 7.90896 14.089 8.03122C14.1397 8.15348 14.1658 8.28452 14.1658 8.41687C14.1658 8.54922 14.1397 8.68027 14.089 8.80252C14.0383 8.92478 13.964 9.03585 13.8704 9.12937L4.29539 18.7044C4.10624 18.893 3.85002 18.9989 3.58289 18.9989C3.31576 18.9989 3.05953 18.893 2.87039 18.7044V18.7044Z"
+                        stroke="currentColor"
+                        strokeWidth="1.51"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M11.5097 11.3105L8.67969 8.48047"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  <span className="inline-block align-middle">
+                    <p className="font-normal text-[18px] leading-[30px]">
+                      Xóa
+                    </p>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="opacity-0 invisible transition-all ease-in-out duration-100 absolute top-0 left-0 w-full">
+        <div className="flex flex-col items-center pt-32">
+          <div className="bg-white rounded-3xl lg:p-6 p-4 text-center">
+            <div className="border-2 border-dashed border-neutral-ink-200 rounded-3xl p-8">
+              <div className="relative text-center lg:w-[370px] max-w-md mx-auto">
+                <div
+                  color="#8C8D9C"
+                  //mode="outline"
+                  className="sc-eac7f02c-0 jKpzAu text-center mx-auto"
+                >
+                  <svg
+                    className="align-middle mx-auto"
+                    width={81}
+                    height={80}
+                    viewBox="0 0 81 80"
+                    fill="none"
+                  >
+                    <path
+                      d="M40.5 63.3333V40"
+                      stroke="#8C8D9C"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M33.2764 46.6666L40.4997 39.4432L47.723 46.6666"
+                      stroke="#8C8D9C"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M53.8335 63.3333H62.3668C68.7935 63.3333 74.0335 58.0933 74.0335 51.6666C74.0335 45.24 68.7935 40 62.3668 40H60.9168V36.6666C60.9168 25.6333 51.9501 16.6666 40.9168 16.6666C30.9935 16.6666 22.7668 23.9266 21.2068 33.41C13.2835 33.8133 6.9668 40.31 6.9668 48.3333C6.9668 56.6166 13.6835 63.3333 21.9668 63.3333H27.1668"
+                      stroke="#8C8D9C"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+                <div className="inline-flex items-center justify-center w-full py-3 px-4 bg-blue-500 rounded-lg text-base transition text-white hover:bg-opacity-80 cursor-pointer py-5 !rounded-full text-xl shadow-[0px_4px_32px_rgba(43,61,227,0.24)]">
+                  <span className="font-semibold text-[20px] leading-[28px] tracking-[0.02em]">
+                    Tải lên hình ảnh
+                  </span>
+                </div>
+                <div className="mt-4 hidden lg:block">
+                  <span className="font-semibold text-[16px] leading-[20px]">
+                    Kéo và thả tệp vào đây
+                  </span>
+                  <span className="font-normal text-[16px] leading-[24px]">
+                    {" "}
+                    /
+                  </span>
+                  <span className="font-normal text-[16px] leading-[24px]">
+                    {" "}
+                    Ctrl + V để dán hình ảnh
+                  </span>
+                </div>
+              </div>
+              <div className="my-5 w-full border-t border-[#D8D8DB]" />
+              <div className="text-center">
+                <p className="font-normal text-[16px] leading-[24px] mb-3 text-neutral-ink-600">
+                  Không có hình ảnh? Thử một trong những cái này
+                </p>
+                <ul className="space-x-3">
+                  <li className="inline-block">
+                    <button className="w-12 h-12 overflow-hidden transition rounded hover:opacity-80">
+                      <img
+                        src="https://assets.snapedit.app/images/sample-1-xs.webp"
+                        alt="sample"
+                        className="object-cover w-full h-full"
+                      />
+                    </button>
+                  </li>
+                  <li className="inline-block">
+                    <button className="w-12 h-12 overflow-hidden transition rounded hover:opacity-80">
+                      <img
+                        src="https://assets.snapedit.app/images/sample-2-xs.webp"
+                        alt="sample"
+                        className="object-cover w-full h-full"
+                      />
+                    </button>
+                  </li>
+                  <li className="inline-block">
+                    <button className="w-12 h-12 overflow-hidden transition rounded hover:opacity-80">
+                      <img
+                        src="https://assets.snapedit.app/images/sample-3-xs.webp"
+                        alt="sample"
+                        className="object-cover w-full h-full"
+                      />
+                    </button>
+                  </li>
+                  <li className="inline-block">
+                    <button className="w-12 h-12 overflow-hidden transition rounded hover:opacity-80">
+                      <img
+                        src="https://assets.snapedit.app/images/sample-4-xs.webp"
+                        alt="sample"
+                        className="object-cover w-full h-full"
+                      />
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
