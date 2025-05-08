@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   const userAgent = req.headers.get("user-agent") as string;
 
   const response = await fetch(
-    "https://be-prod-1.snapedit.app/api/colorize/v1",
+    "https://be-prod-1.snapedit.app/api/object_removal/v7/auto_suggest",
     {
       method: "POST",
       headers: {
@@ -21,5 +21,5 @@ export async function POST(req: NextRequest) {
 
   const data = await response.json();
 
-  return NextResponse.json("data:image/png;base64," + data.output_image.image);
+  return NextResponse.json(data);
 }

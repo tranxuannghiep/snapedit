@@ -6,12 +6,96 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ReactSketchCanvas, ReactSketchCanvasRef } from "react-sketch-canvas";
 import { v4 as uuidv4 } from "uuid";
 
+interface IDetectedObject {
+  box: number[];
+  mask: string;
+  object_description: string;
+  deleted: boolean;
+  base64: string;
+  originFile: File;
+}
+
+function base64ToFile(base64: string): File {
+  const [header, data] = base64.split(",");
+  const mime = header.match(/:(.*?);/)?.[1] || "image/png";
+  const binary = atob(data);
+  const array = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+  return new File([array], "unnamed", { type: mime }); // tên mặc định
+}
+
+function getImageFromFile(file: File): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = reader.result as string;
+    };
+
+    reader.onerror = reject;
+    reader.readAsDataURL(file); // Đọc file dưới dạng base64
+  });
+}
+
+async function resizeImage(
+  file: File,
+  width: number,
+  height: number
+): Promise<File> {
+  const img = await getImageFromFile(file);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Không thể lấy context từ canvas");
+
+  ctx.drawImage(img, 0, 0, width, height);
+
+  return new Promise((resolve) => {
+    canvas.toBlob((resizedBlob) => {
+      const resizedFile = new File([resizedBlob!], "resized.png", {
+        type: file.type,
+      });
+      resolve(resizedFile);
+    }, file.type);
+  });
+}
+
+async function processImages(box: number[], originFile: File) {
+  const formData = new FormData();
+  formData.append("file", originFile);
+  const [x, y, width, height] = box;
+
+  const res = await fetch("/api/cropped", {
+    method: "POST",
+    headers: {
+      x: x.toString(),
+      y: y.toString(),
+      width: width.toString(),
+      height: height.toString(),
+    },
+    body: formData,
+  });
+
+  const base64 = await res.json();
+  return base64;
+}
+
 export default function Upload() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [files, setFiles] = useState<{ file: File; id: string }[]>([]);
+  const [files, setFiles] = useState<
+    { file: File; id: string; detected_objects?: IDetectedObject[] }[]
+  >([]);
   const [preview, setPreview] = useState<string | null>(null);
   const [idActive, setIdActive] = useState<string>("");
   const [tab, setTab] = useState(0);
+  const canvasRef = useRef<ReactSketchCanvasRef | null>(null);
+
+  const imgRef = useRef<HTMLImageElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data = useDataStore((state: any) => state.data);
 
@@ -26,19 +110,30 @@ export default function Upload() {
   const handleCallData = async () => {
     if (!fileActive) return;
     if (tab === 0) {
-      await handleEnhance(fileActive.file);
+      const base64MaskBrush = await handleExportImage();
+      if (!base64MaskBrush) return;
+
+      const mask_brush = base64ToFile(base64MaskBrush!);
+      await handleErase(mask_brush);
     }
 
     if (tab === 1) {
-      await handleColorize(fileActive.file);
+      await handleErase(fileActive.file);
     }
   };
 
-  const handleEnhance = async (file: File) => {
+  const handleErase = async (mask_brush: File) => {
+    if (!fileActive || !imgRef.current) return;
     const formData = new FormData();
-    formData.append("input_image", file);
-    formData.append("zoom_factor", "4");
-    const response = await fetch("/api/enhance", {
+    const originFile = await resizeImage(
+      fileActive.file,
+      imgRef.current.width,
+      imgRef.current.height
+    );
+    formData.append("original_preview_image", originFile);
+    formData.append("mask_brush", mask_brush);
+
+    const response = await fetch("/api/erase", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${data.token}`,
@@ -47,15 +142,42 @@ export default function Upload() {
       body: formData,
     });
 
-    const base64 = await response.json();
+    const result = await response.json();
+    const edited_image = result.edited_image;
+
+    const base64 = "data:image/png;base64," + edited_image.image;
+
+    const newFile = base64ToFile(base64);
+
+    const newListFile = files.map((file) => {
+      if (file.id === idActive) {
+        console.log(base64);
+
+        return {
+          ...file,
+          file: newFile,
+        };
+      }
+      return file;
+    });
+
+    setFiles(newListFile);
     setPreview(base64);
+    canvasRef.current?.resetCanvas();
   };
 
-  const handleColorize = async (file: File) => {
+  const handleAutoSuggest = async () => {
+    if (!fileActive || fileActive.detected_objects) return;
+
+    const originFile = await resizeImage(
+      fileActive.file,
+      imgRef.current!.width,
+      imgRef.current!.height
+    );
+
     const formData = new FormData();
-    formData.append("input_image", file);
-    formData.append("zoom_factor", "2");
-    const response = await fetch("/api/colorize", {
+    formData.append("original_preview_image", originFile);
+    const response = await fetch("/api/auto-suggest", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${data.token}`,
@@ -64,8 +186,36 @@ export default function Upload() {
       body: formData,
     });
 
-    const base64 = await response.json();
-    setPreview(base64);
+    const suggest = await response.json();
+
+    // const originFile = await resizeImage(
+    //   fileActive.file,
+    //   imgRef.current!.width,
+    //   imgRef.current!.height
+    // );
+
+    const newFiles = await Promise.all(
+      files.map(async (file) => {
+        if (file.id === idActive) {
+          return {
+            ...file,
+            detected_objects: (await Promise.all(
+              suggest.detected_objects.map(async (v: IDetectedObject) => ({
+                ...v,
+                base64: await processImages(v.box, originFile),
+                deleted: false,
+                originFile,
+              }))
+            )) as IDetectedObject[],
+          };
+        }
+        return file;
+      })
+    );
+
+    console.log(newFiles);
+
+    setFiles(newFiles);
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,14 +228,20 @@ export default function Upload() {
       setPreview("");
     }
   };
-  const canvasRef = useRef<ReactSketchCanvasRef | null>(null);
   const handleExportImage = async () => {
     try {
       const imageData = await canvasRef?.current?.exportImage("png"); // hoặc "jpeg"
-      console.log("Image Data URL:", imageData);
+      return imageData;
     } catch (error) {
       console.error("Export failed", error);
+      return null;
     }
+  };
+
+  const handleAuto = async () => {
+    if (tab === 1) return;
+    setTab(1);
+    await handleAutoSuggest();
   };
 
   useEffect(() => {
@@ -157,15 +313,20 @@ export default function Upload() {
         </p>
       </div>
       <input
+        ref={fileInputRef}
         accept="image/png, image/jpeg, image/webp"
         type="file"
         tabIndex={-1}
         style={{ display: "none" }}
+        onChange={handleFileChange}
       />
       <div className="opacity-100 transition-all ease-in-out duration-500">
         <div className="pt-14 flex bg-gray-200 flex-col items-start justify-start visible sm:flex-row sm:items-stretch sm:justify-stretch h-screen">
           <div className="bg-white shadow-xl p-3 overflow-y-auto overflow-x-hidden hide-scrollbars sm:w-[104px] sm:h-full hidden sm:block flex-col border-neutral-ink-100 border-t items-center">
-            <div className="w-20 h-20 border border-dashed border-neutral-ink-200 hover:border-blue-400 text-neutral-ink-400 hover:text-blue-400 rounded-lg cursor-pointer flex justify-center items-center">
+            <div
+              className="w-20 h-20 border border-dashed border-neutral-ink-200 hover:border-blue-400 text-neutral-ink-400 hover:text-blue-400 rounded-lg cursor-pointer flex justify-center items-center"
+              onClick={handleClick}
+            >
               <div
                 color="inherit"
                 //mode="outline"
@@ -197,39 +358,49 @@ export default function Upload() {
                 </svg>
               </div>
             </div>
-            <div className="w-20 h-20 mt-2 group relative border-[2px] border-blue-500 rounded-xl p-[2px]">
-              <img
-                alt="uploadedImage"
-                src="https://cdn.pixabay.com/photo/2024/05/26/10/15/bird-8788491_1280.jpg"
-                className="w-full h-full object-cover transition duration-200 ease-in-out transform group-hover:filter group-hover:brightness-75 rounded-lg"
-              />
+            {files.map((file, index) => (
               <div
-                color="inherit"
-                //mode="outline"
-                className="sc-eac7f02c-0 bRLGlB text-center text-white absolute right-1 bottom-1 duration-200 transition-all cursor-pointer  hidden"
+                key={index}
+                className={classNames(
+                  "w-20 h-20 mt-2 group relative border-[2px] rounded-xl p-[2px]",
+                  {
+                    "border-blue-500": file.id === idActive,
+                  }
+                )}
               >
-                <svg
-                  className="align-middle text-white absolute right-1 bottom-1 duration-200 transition-all cursor-pointer  hidden"
-                  width={14}
-                  height={18}
-                  viewBox="0 0 14 18"
-                  fill="none"
+                <img
+                  alt="uploadedImage"
+                  src={URL.createObjectURL(file.file)}
+                  className="w-full h-full object-cover transition duration-200 ease-in-out transform group-hover:filter group-hover:brightness-75 rounded-lg"
+                />
+                <div
+                  color="inherit"
+                  //mode="outline"
+                  className="sc-eac7f02c-0 bRLGlB text-center text-white absolute right-1 bottom-1 duration-200 transition-all cursor-pointer  hidden"
                 >
-                  <g id="Group">
-                    <path
-                      id="Vector"
-                      d="M2 6.5V14.8333C2 15.2754 2.17559 15.6993 2.48816 16.0118C2.80072 16.3244 3.22464 16.5 3.66667 16.5H10.3333C10.7754 16.5 11.1993 16.3244 11.5118 16.0118C11.8244 15.6993 12 15.2754 12 14.8333V6.5M8.66667 7.33333V13.1667M5.33333 7.33333V13.1667M0.75 4H13.25M3.66667 4L4.12 2.64C4.23058 2.30799 4.44286 2.01921 4.72675 1.8146C5.01064 1.60998 5.35173 1.49992 5.70167 1.5H8.29833C8.64856 1.49957 8.99002 1.60947 9.27424 1.81411C9.55846 2.01875 9.771 2.30772 9.88167 2.64L10.3333 4"
-                      stroke="#5C5D6B"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </g>
-                </svg>
+                  <svg
+                    className="align-middle text-white absolute right-1 bottom-1 duration-200 transition-all cursor-pointer  hidden"
+                    width={14}
+                    height={18}
+                    viewBox="0 0 14 18"
+                    fill="none"
+                  >
+                    <g id="Group">
+                      <path
+                        id="Vector"
+                        d="M2 6.5V14.8333C2 15.2754 2.17559 15.6993 2.48816 16.0118C2.80072 16.3244 3.22464 16.5 3.66667 16.5H10.3333C10.7754 16.5 11.1993 16.3244 11.5118 16.0118C11.8244 15.6993 12 15.2754 12 14.8333V6.5M8.66667 7.33333V13.1667M5.33333 7.33333V13.1667M0.75 4H13.25M3.66667 4L4.12 2.64C4.23058 2.30799 4.44286 2.01921 4.72675 1.8146C5.01064 1.60998 5.35173 1.49992 5.70167 1.5H8.29833C8.64856 1.49957 8.99002 1.60947 9.27424 1.81411C9.55846 2.01875 9.771 2.30772 9.88167 2.64L10.3333 4"
+                        stroke="#5C5D6B"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </g>
+                  </svg>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
-          <div className="sm:overflow-hidden h-full sm:flex-1 flex flex-col relative w-full items-center justify-center">
+          <div className="sm:overflow-hidden h-full sm:flex-1 flex flex-col relative w-full items-center justify-center p-4 md:p-10">
             <div className="relative">
               <div className="py-3 touch-none flex-1">
                 <div
@@ -237,19 +408,24 @@ export default function Upload() {
                   id="canvas-container"
                   style={{ transform: "none" }}
                 >
-                  <img
-                    src="https://cdn.pixabay.com/photo/2024/05/26/10/15/bird-8788491_1280.jpg"
-                    alt="upload image"
-                    className="sc-568e005d-0 broiXv items-center"
-                  />
-                  <ReactSketchCanvas
-                    ref={canvasRef}
-                    className="absolute top-0 left-0 w-full h-full opacity-50"
-                    style={{ background: "transparent" }}
-                    strokeWidth={50}
-                    strokeColor="red"
-                    backgroundImage="https://cdn.pixabay.com/photo/2024/05/26/10/15/bird-8788491_1280.jpg"
-                  />
+                  {fileActive && (
+                    <>
+                      <img
+                        src={URL.createObjectURL(fileActive?.file)}
+                        alt="upload image"
+                        className="sc-568e005d-0 broiXv items-center"
+                        ref={imgRef}
+                      />
+                      <ReactSketchCanvas
+                        ref={canvasRef}
+                        className="absolute top-0 left-0 w-full h-full opacity-50"
+                        style={{ background: "transparent" }}
+                        strokeWidth={50}
+                        strokeColor="red"
+                        backgroundImage={URL.createObjectURL(fileActive?.file)}
+                      />
+                    </>
+                  )}
                   <div id="cursor" className=""></div>
                 </div>
               </div>
@@ -597,7 +773,7 @@ export default function Upload() {
                       "border-blue-500 text-blue-500": tab === 1,
                     }
                   )}
-                  onClick={() => setTab(1)}
+                  onClick={handleAuto}
                 >
                   <div className="inline-block align-middle mr-2">
                     <svg
@@ -667,7 +843,14 @@ export default function Upload() {
                   </div>
                 </div>
               </div>
-              <div className="flex-1 overflow-hidden w-full shadow-inner py-4">
+              <div
+                className={classNames(
+                  "flex-1 overflow-hidden w-full shadow-inner py-4",
+                  {
+                    hidden: tab === 1,
+                  }
+                )}
+              >
                 <div className="text-sm px-3">
                   <div className="mb-4 flex justify-between">
                     <div>
@@ -741,7 +924,6 @@ export default function Upload() {
                       </button>
                     </div>
                     <div className="relative">
-                    
                       <button className="w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center sm:hover:border-primary border text-base-content-secondary sm:hover:text-primary hover:before:opacity-100 group">
                         <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 top-full mt-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:bottom-full after:left-1/2 after:-ml-1 after:border-t-transparent after:border-b-base-content-primary">
                           Xóa
@@ -852,147 +1034,108 @@ export default function Upload() {
                   </div>
                 </div>
               </div>
-              <div className="pt-3  px-3 border-t border-neutral-ink-100">
-                <div className="rounded-lg bg-neutral-ink-50 p-2 text-neutral-ink-600 relative">
-                  <p className="font-normal text-[12px] leading-[18px]">
-                    Nếu bạn muốn xóa văn bản hoặc đường kẻ khỏi hình ảnh này,{" "}
-                    <a
-                      className="text-blue-500 S12B cursor-pointer"
-                      href="/remove-text"
-                    >
-                      hãy thử xóa văn bản
-                    </a>{" "}
-                    hoặc{" "}
-                    <a
-                      className="text-blue-500 S12B cursor-pointer"
-                      href="/remove-wire-line"
-                    >
-                      xóa đường kẻ
-                    </a>{" "}
-                    để có kết quả tốt hơn.
-                  </p>
-                  <div className="absolute z-10 top-0 right-1 cursor-pointer">
-                    <div
-                      color="inherit"
-                      //mode="outline"
-                      className="sc-eac7f02c-0 kpGNll text-center text-neutral-ink-400"
-                    >
-                      <svg
-                        className="align-middle text-neutral-ink-400"
-                        fill="none"
-                        viewBox="0 0 28 28"
-                      >
-                        <path
-                          d="m5.833 5.833 16.333 16.333"
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeWidth={2}
-                        />
-                        <path
-                          d="m22.167 5.833-16.333 16.333"
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeWidth={2}
-                        />
-                      </svg>
+
+              <div
+                className={classNames(
+                  "flex-1 overflow-hidden w-full shadow-inner py-4",
+                  {
+                    hidden: tab === 0,
+                  }
+                )}
+              >
+                <div
+                  className={classNames("h-full flex flex-col", {
+                    // hidden: !!fileActive?.detected_objects,
+                  })}
+                >
+                  <div className="px-3 mb-2 text-sm font-semibold text-base-content relative">
+                    <div className="flex items-center">
+                      <div className="flex-auto">
+                        {fileActive?.detected_objects?.length} đối tượng được
+                        nhận dạng
+                      </div>
+                      <div className="text-neutral-ink-500 flex justify-end items-center cursor-pointer">
+                        <p className="font-semibold text-[12px] leading-[16px]">
+                          Bỏ chọn tất cả
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div className="px-3 my-4 flex items-center">
-                <div className="flex items-center group relative">
-                  <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 bottom-full mb-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:top-full after:left-1/2 after:-ml-1 after:border-t-base-content-primary after:border-b-transparent normal-case">
-                    <div className="max-w-[300px]">
-                      Để có kết quả tốt nhất trên các đối tượng lớn hoặc phức
-                      tạp, hãy sử dụng Xóa Siêu Cấp. Đối với các mục nhỏ hơn,
-                      chỉ cần tắt nó và sử dụng Xóa Chuẩn thay thế.
-                    </div>
-                  </span>
-                  <p className="font-normal text-[12px] leading-[18px] text-neutral-ink-600">
-                    Xóa Siêu Cấp
-                  </p>
-                  <div
-                    color="inherit"
-                    //mode="outline"
-                    className="sc-eac7f02c-0 bnjTLd text-center ml-1"
-                  >
-                    <svg
-                      className="align-middle ml-1"
-                      width={23}
-                      height={10}
-                      viewBox="0 0 23 10"
-                      fill="none"
-                    >
-                      <rect
-                        strokeWidth="0.1"
-                        x="0.900391"
-                        width={22}
-                        height={10}
-                        rx={3}
-                        fill="url(#paint0_linear_10951_32243)"
-                      />
-                      <path
-                        strokeWidth="0.1"
-                        d="M3.90232 8V2.18182H6.19778C6.63907 2.18182 7.01501 2.2661 7.32562 2.43466C7.63622 2.60133 7.87297 2.83333 8.03585 3.13068C8.20062 3.42614 8.283 3.76705 8.283 4.15341C8.283 4.53977 8.19967 4.88068 8.033 5.17614C7.86634 5.47159 7.62486 5.7017 7.30857 5.86648C6.99418 6.03125 6.6135 6.11364 6.16653 6.11364H4.70346V5.12784H5.96766C6.20441 5.12784 6.39948 5.08712 6.55289 5.00568C6.70819 4.92235 6.82372 4.80777 6.89948 4.66193C6.97713 4.5142 7.01596 4.3447 7.01596 4.15341C7.01596 3.96023 6.97713 3.79167 6.89948 3.64773C6.82372 3.50189 6.70819 3.3892 6.55289 3.30966C6.39759 3.22822 6.20062 3.1875 5.96198 3.1875H5.13244V8H3.90232ZM9.24201 8V2.18182H11.5375C11.9769 2.18182 12.3519 2.26042 12.6625 2.41761C12.975 2.57292 13.2127 2.79356 13.3755 3.07955C13.5403 3.36364 13.6227 3.69792 13.6227 4.08239C13.6227 4.46875 13.5394 4.80114 13.3727 5.07955C13.206 5.35606 12.9645 5.56818 12.6483 5.71591C12.3339 5.86364 11.9532 5.9375 11.5062 5.9375H9.96928V4.94886H11.3074C11.5422 4.94886 11.7373 4.91667 11.8926 4.85227C12.0479 4.78788 12.1634 4.69129 12.2392 4.5625C12.3168 4.43371 12.3556 4.27367 12.3556 4.08239C12.3556 3.8892 12.3168 3.72633 12.2392 3.59375C12.1634 3.46117 12.0469 3.3608 11.8897 3.29261C11.7344 3.22254 11.5384 3.1875 11.3017 3.1875H10.4721V8H9.24201ZM12.3841 5.35227L13.8301 8H12.4721L11.0574 5.35227H12.3841ZM19.9986 5.09091C19.9986 5.72538 19.8783 6.26515 19.6378 6.71023C19.3992 7.1553 19.0734 7.49527 18.6605 7.73011C18.2495 7.96307 17.7874 8.07955 17.2742 8.07955C16.7571 8.07955 16.2931 7.96212 15.8821 7.72727C15.4711 7.49242 15.1463 7.15246 14.9077 6.70739C14.6691 6.26231 14.5497 5.72348 14.5497 5.09091C14.5497 4.45644 14.6691 3.91667 14.9077 3.47159C15.1463 3.02652 15.4711 2.6875 15.8821 2.45455C16.2931 2.2197 16.7571 2.10227 17.2742 2.10227C17.7874 2.10227 18.2495 2.2197 18.6605 2.45455C19.0734 2.6875 19.3992 3.02652 19.6378 3.47159C19.8783 3.91667 19.9986 4.45644 19.9986 5.09091ZM18.7514 5.09091C18.7514 4.67992 18.6899 4.33333 18.5668 4.05114C18.4456 3.76894 18.2742 3.55492 18.0526 3.40909C17.831 3.26326 17.5715 3.19034 17.2742 3.19034C16.9768 3.19034 16.7174 3.26326 16.4958 3.40909C16.2742 3.55492 16.1018 3.76894 15.9787 4.05114C15.8575 4.33333 15.7969 4.67992 15.7969 5.09091C15.7969 5.50189 15.8575 5.84848 15.9787 6.13068C16.1018 6.41288 16.2742 6.62689 16.4958 6.77273C16.7174 6.91856 16.9768 6.99148 17.2742 6.99148C17.5715 6.99148 17.831 6.91856 18.0526 6.77273C18.2742 6.62689 18.4456 6.41288 18.5668 6.13068C18.6899 5.84848 18.7514 5.50189 18.7514 5.09091Z"
-                        fill="white"
-                      />
-                      <defs>
-                        <linearGradient
-                          id="paint0_linear_10951_32243"
-                          x1="1.37278"
-                          y1="-0.703125"
-                          x2="7.93453"
-                          y2="15.7225"
-                          gradientUnits="userSpaceOnUse"
+                  <div className="flex-1 overflow-auto">
+                    {fileActive?.detected_objects?.map((file, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="py-2 px-3 flex items-center justify-between transition bg-[#EDF1F9] hover:bg-[#EDF1F9] cursor-pointer"
                         >
-                          <stop stopColor="#0DFFFF" />
-                          <stop offset="0.412798" stopColor="#0051EF" />
-                          <stop offset={1} stopColor="#A400BF" />
-                        </linearGradient>
-                      </defs>
-                    </svg>
+                          <div>
+                            <div className="w-6 h-6 rounded-full border border-[#ccc] bg-blue-500 text-center">
+                              <div className="inline-block text-white">
+                                <svg
+                                  width={12}
+                                  height={10}
+                                  viewBox="0 0 12 10"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M11 1.3999L4.125 8.2749L1 5.1499"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex items-center flex-auto ml-2">
+                            <div className="border border-[#ccc] w-12 h-12 mr-3 rounded-md overflow-hidden relative">
+                              <div
+                                className="bg-no-repeat absolute top-0 origin-top-left overflow-hidden"
+                                style={{
+                                  backgroundPosition: `-${file.box[0]}px -${file.box[1]}px`,
+                                  width: `${file.box[2] - file.box[0]}px`,
+                                  height: `${file.box[3] - file.box[1]}px`,
+                                  backgroundImage: `url(${URL.createObjectURL(
+                                    file.originFile
+                                  )})`,
+                                  transform: `scale(${Math.min(
+                                    48 / (file.box[2] - file.box[0]),
+                                    48 / (file.box[3] - file.box[1])
+                                  )})`,
+                                }}
+                              ></div>
+                              {/* <img
+                                src={file.base64}
+                                className="w-full h-full object-cover"
+                              /> */}
+                            </div>
+                            <div>
+                              <p className="text-base-content text-sm font-semibold">
+                                {file.object_description}
+                              </p>
+                              <p className="text-xs text-base-content-secondary" />
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                  <div
-                    color="inherit"
-                    data-mode="fill"
-                    className="sc-eac7f02c-0 cFtFEe text-center text-neutral-ink-200 -mt-[1px] ml-1"
-                  >
-                    <svg
-                      className="align-middle text-neutral-ink-200 -mt-[1px] ml-1"
-                      fill="none"
-                      viewBox="0 0 14 14"
-                    >
-                      <path
-                        d="M7 .8a6.3 6.3 0 1 0 0 12.5A6.3 6.3 0 0 0 7 .7Zm0 2.5A.8.8 0 1 1 7 5a.8.8 0 0 1 0-1.6Zm1.5 7H5.7a.5.5 0 0 1 0-1h1V6.7H6a.5.5 0 1 1 0-1h1a.5.5 0 0 1 .5.5v3.3h.9a.5.5 0 1 1 0 1Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div className="flex ml-auto">
-                  <label>
-                    <button
-                      className="bg-gray-200 relative inline-flex h-[18px] w-8 items-center rounded-full"
-                      id="headlessui-switch-:r6:"
-                      role="switch"
-                      type="button"
-                      tabIndex={0}
-                      aria-checked="false"
-                      data-headlessui-state=""
-                    >
-                      <span className="translate-x-[2px] inline-block h-[14px] w-[14px] transform rounded-full bg-white transition" />
-                    </button>
-                    <div className="slider" />
-                  </label>
                 </div>
               </div>
+
               <div className="px-3 pb-4">
-                  <button onClick={handleExportImage} className="mt-4 px-4 py-2 bg-blue-500 text-white">
-        Lưu ảnh canvas
-      </button>
                 <button
-                  className="btn block w-full py-3 px-4 bg-primary text-white rounded-lg text-base transition hover:bg-opacity-80 !bg-gray-300 !text-gray-500  h-14"
-                  //   disabled
+                  className={classNames(
+                    "btn block w-full py-3 px-4  rounded-lg text-base transition hover:bg-opacity-80 !text-gray-500 bg-gray-300 h-14",
+                    {
+                      "!text-white !bg-blue-500 cursor-pointer hover:opacity-80":
+                        !!idActive,
+                    }
+                  )}
+                  disabled={!idActive}
+                  onClick={handleCallData}
                 >
                   <div className="inline-block align-middle mr-2">
                     <svg
