@@ -3,7 +3,7 @@
 import { useDataStore } from "@/stores/useDataStore";
 import classNames from "classnames";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ReactSketchCanvas } from "react-sketch-canvas";
+import { ReactSketchCanvas, ReactSketchCanvasRef } from "react-sketch-canvas";
 import { v4 as uuidv4 } from "uuid";
 
 export default function Upload() {
@@ -76,6 +76,15 @@ export default function Upload() {
       setIdActive(id);
       setFiles([...files, { file: selectedFile, id }]);
       setPreview("");
+    }
+  };
+  const canvasRef = useRef<ReactSketchCanvasRef | null>(null);
+  const handleExportImage = async () => {
+    try {
+      const imageData = await canvasRef?.current?.exportImage("png"); // hoặc "jpeg"
+      console.log("Image Data URL:", imageData);
+    } catch (error) {
+      console.error("Export failed", error);
     }
   };
 
@@ -234,6 +243,7 @@ export default function Upload() {
                     className="sc-568e005d-0 broiXv items-center"
                   />
                   <ReactSketchCanvas
+                    ref={canvasRef}
                     className="absolute top-0 left-0 w-full h-full opacity-50"
                     style={{ background: "transparent" }}
                     strokeWidth={50}
@@ -731,6 +741,7 @@ export default function Upload() {
                       </button>
                     </div>
                     <div className="relative">
+                    
                       <button className="w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center sm:hover:border-primary border text-base-content-secondary sm:hover:text-primary hover:before:opacity-100 group">
                         <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 top-full mt-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:bottom-full after:left-1/2 after:-ml-1 after:border-t-transparent after:border-b-base-content-primary">
                           Xóa
@@ -976,6 +987,9 @@ export default function Upload() {
                 </div>
               </div>
               <div className="px-3 pb-4">
+                  <button onClick={handleExportImage} className="mt-4 px-4 py-2 bg-blue-500 text-white">
+        Lưu ảnh canvas
+      </button>
                 <button
                   className="btn block w-full py-3 px-4 bg-primary text-white rounded-lg text-base transition hover:bg-opacity-80 !bg-gray-300 !text-gray-500  h-14"
                   //   disabled
