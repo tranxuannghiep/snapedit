@@ -3,8 +3,14 @@
 import { useDataStore } from "@/stores/useDataStore";
 import classNames from "classnames";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ReactSketchCanvas, ReactSketchCanvasRef } from "react-sketch-canvas";
+import {
+  CanvasPath,
+  ReactSketchCanvas,
+  ReactSketchCanvasRef,
+} from "react-sketch-canvas";
 import { v4 as uuidv4 } from "uuid";
+import "rc-slider/assets/index.css";
+import Slider from "rc-slider";
 
 interface IDetectedObject {
   box: number[];
@@ -94,13 +100,15 @@ export default function Upload() {
       originFile?: File;
       id: string;
       detected_objects?: IDetectedObject[];
+      paths: CanvasPath[];
     }[]
   >([]);
   const [preview, setPreview] = useState<string | null>(null);
   const [idActive, setIdActive] = useState<string>("");
   const [tab, setTab] = useState(0);
+  const [mode, setMode] = useState(1);
   const canvasRef = useRef<ReactSketchCanvasRef | null>(null);
-
+  const [sliderValue, setSliderValue] = useState(50);
   const imgRef = useRef<HTMLImageElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data = useDataStore((state: any) => state.data);
@@ -108,6 +116,15 @@ export default function Upload() {
   const fileActive = useMemo(() => {
     return files.find((file) => file.id === idActive);
   }, [files, idActive]);
+
+  useEffect(() => {
+    if (!canvasRef.current) return;
+    if (mode === 2) {
+      canvasRef.current?.eraseMode(true);
+    } else {
+      canvasRef.current?.eraseMode(false);
+    }
+  }, [mode]);
 
   const handleClick = () => {
     fileInputRef.current?.click(); // gọi click vào input
@@ -239,6 +256,12 @@ export default function Upload() {
         return {
           ...file,
           file: newFile,
+          detected_objects: file.detected_objects
+            ? file.detected_objects.map((v) => ({
+                ...v,
+                deleted: v.deleted ? v.deleted : v.isSelected,
+              }))
+            : undefined,
         };
       }
       return file;
@@ -310,7 +333,21 @@ export default function Upload() {
     if (selectedFile) {
       const id = uuidv4();
       setIdActive(id);
-      setFiles([...files, { file: selectedFile, id }]);
+      if (!fileActive) {
+        setFiles([...files, { file: selectedFile, id, paths: [] }]);
+      } else {
+        if (!canvasRef.current) return;
+        const paths = await canvasRef.current?.exportPaths();
+        canvasRef.current?.resetCanvas();
+
+        const idx = files.findIndex((v) => v.id === fileActive.id);
+        setFiles([
+          ...files.slice(0, idx),
+          { ...files[idx], paths },
+          ...files.slice(idx + 1),
+          { file: selectedFile, id, paths: [] },
+        ]);
+      }
       setPreview("");
     }
   };
@@ -356,6 +393,17 @@ export default function Upload() {
       cursor.style.top = `${mouseY - cursor.offsetHeight / 2}px`;
     });
   }, []);
+
+  useEffect(() => {
+    if (!fileActive || !canvasRef.current) return;
+
+    const paths = fileActive.paths;
+    if (paths) {
+      canvasRef.current.loadPaths(paths);
+    } else {
+      canvasRef.current.clearCanvas();
+    }
+  }, [fileActive]);
 
   return (
     <div role="button" tabIndex={0}>
@@ -453,6 +501,19 @@ export default function Upload() {
                     "border-blue-500": file.id === idActive,
                   }
                 )}
+                onClick={async () => {
+                  if (!canvasRef.current) return;
+                  const paths = await canvasRef.current?.exportPaths();
+                  canvasRef.current?.resetCanvas();
+
+                  const idx = files.findIndex((v) => v.id === idActive);
+                  setFiles([
+                    ...files.slice(0, idx),
+                    { ...files[idx], paths },
+                    ...files.slice(idx + 1),
+                  ]);
+                  setIdActive(file.id);
+                }}
               >
                 <img
                   alt="uploadedImage"
@@ -506,7 +567,7 @@ export default function Upload() {
                         ref={canvasRef}
                         className="absolute top-0 left-0 w-full h-full opacity-50"
                         style={{ background: "transparent" }}
-                        strokeWidth={50}
+                        strokeWidth={sliderValue}
                         strokeColor="red"
                         backgroundImage={URL.createObjectURL(fileActive?.file)}
                       />
@@ -566,36 +627,13 @@ export default function Upload() {
                     </div>
                   </button>
                   <div className="w-28">
-                    <div className="rc-slider rc-slider-horizontal">
-                      <div
-                        className="rc-slider-rail"
-                        style={{
-                          backgroundColor: "rgb(174, 174, 182)",
-                          height: 2,
-                        }}
-                      />
-                      <div
-                        className="rc-slider-track"
-                        style={{
-                          left: "0%",
-                          width: "0%",
-                          backgroundColor: "rgb(37, 38, 56)",
-                          height: 2,
-                        }}
-                      />
-                      <div className="rc-slider-step" />
-                      <div
-                        className="rc-slider-handle"
-                        tabIndex={0}
-                        role="slider"
-                        aria-valuemin={100}
-                        aria-valuemax={500}
-                        aria-valuenow={100}
-                        aria-disabled="false"
-                        aria-orientation="horizontal"
-                        style={{ left: "0%", transform: "translateX(-50%)" }}
-                      />
-                    </div>
+                    <Slider
+                      min={10}
+                      max={100}
+                      // defaultValue={90}
+                      // value={90}
+                      range
+                    />
                   </div>
                   <div className="w-14 flex items-center px-2 py-1 border rounded-md text-xs">
                     <input
@@ -962,10 +1000,17 @@ export default function Upload() {
                 )}
               >
                 <div className="text-sm px-3">
-                  <div className="mb-4 flex justify-between">
-                    <div>
-                      <button className="w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center sm:hover:border-primary border text-base-content-secondary text-primary border-primary sm:hover:text-primary hover:before:opacity-100 group">
-                        <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 top-full mt-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:bottom-full after:left-1/2 after:-ml-1 after:border-t-transparent after:border-b-base-content-primary">
+                  <div className="mb-4 flex gap-6 justify-center">
+                    <div onClick={() => setMode(1)}>
+                      <button
+                        className={classNames(
+                          "cursor-pointer w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center sm:hover:border-primary border text-base-content-secondary text-primary border-primary sm:hover:text-primary hover:before:opacity-100 group",
+                          {
+                            "border-blue-500": mode === 1,
+                          }
+                        )}
+                      >
+                        <span className="absolute left-1/2 -translate-x-1/2 text-white bg-black capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 top-full mt-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:bottom-full after:left-1/2 after:-ml-1 after:border-t-transparent after:border-b-base-content-primary">
                           Tô
                         </span>
                         <div className="inline-block leading-[20px] relative z-10">
@@ -978,15 +1023,22 @@ export default function Upload() {
                           >
                             <path
                               d="M0.553711 11.3438C0.741211 11.5254 0.972656 11.6543 1.24805 11.7305C1.5293 11.8008 1.82227 11.8037 2.12695 11.7393C2.43164 11.6689 2.71875 11.5078 2.98828 11.2559C3.06445 11.1855 3.16113 11.0947 3.27832 10.9834C3.39551 10.8721 3.52441 10.7432 3.66504 10.5967C3.81152 10.4502 3.97266 10.2861 4.14844 10.1045C4.32422 9.92285 4.51758 9.72656 4.72852 9.51562C5.74805 8.47852 6.66211 7.55273 7.4707 6.73828C8.2793 5.91797 8.97363 5.22949 9.55371 4.67285C10.1396 4.11035 10.6025 3.7002 10.9424 3.44238C11.2881 3.17871 11.5049 3.09082 11.5928 3.17871C11.6689 3.24316 11.6484 3.4043 11.5312 3.66211C11.4199 3.91992 11.2412 4.24512 10.9951 4.6377C10.749 5.03027 10.459 5.46387 10.125 5.93848C9.79102 6.40723 9.44531 6.8877 9.08789 7.37988C8.57812 8.09473 8.0918 8.77148 7.62891 9.41016C7.16602 10.0488 6.75879 10.6523 6.40723 11.2207C6.06152 11.7891 5.79785 12.3223 5.61621 12.8203C5.43457 13.3125 5.36719 13.7666 5.41406 14.1826C5.46094 14.5928 5.6543 14.9678 5.99414 15.3076C6.42773 15.7412 6.94043 15.917 7.53223 15.835C8.12988 15.7529 8.83008 15.4424 9.63281 14.9033C10.4414 14.3584 11.3789 13.6143 12.4453 12.6709C13.0078 12.1846 13.5 11.7568 13.9219 11.3877C14.3438 11.0186 14.6865 10.7432 14.9502 10.5615C15.2197 10.3799 15.3926 10.3301 15.4688 10.4121C15.5156 10.459 15.5039 10.5674 15.4336 10.7373C15.3633 10.9014 15.2549 11.1094 15.1084 11.3613C14.9678 11.6074 14.8096 11.8857 14.6338 12.1963C14.4287 12.5361 14.2236 12.8906 14.0186 13.2598C13.8135 13.623 13.6465 13.9834 13.5176 14.3408C13.3887 14.6982 13.3359 15.0381 13.3594 15.3604C13.3887 15.6885 13.541 15.9873 13.8164 16.2568C14.2031 16.6377 14.7334 16.7373 15.4072 16.5557C16.0811 16.3799 16.8223 15.8906 17.6309 15.0879C17.8066 14.9062 17.9092 14.7158 17.9385 14.5166C17.9736 14.3174 17.9121 14.1416 17.7539 13.9893C17.6133 13.8486 17.4492 13.7842 17.2617 13.7959C17.0801 13.8076 16.9102 13.8838 16.752 14.0244C16.4297 14.335 16.1338 14.5928 15.8643 14.7979C15.6006 14.9971 15.3838 15.1406 15.2139 15.2285C15.0498 15.3164 14.9502 15.3457 14.915 15.3164C14.874 15.2812 14.8945 15.1699 14.9766 14.9824C15.0586 14.7891 15.1846 14.5342 15.3545 14.2178C15.5303 13.8955 15.7383 13.5205 15.9785 13.0928C16.2422 12.624 16.4736 12.1875 16.6729 11.7832C16.8779 11.3789 17.0244 11.0039 17.1123 10.6582C17.2061 10.3125 17.2236 9.99609 17.165 9.70898C17.1064 9.41602 16.9512 9.14648 16.6992 8.90039C16.3594 8.57227 15.999 8.40234 15.6182 8.39062C15.2432 8.37891 14.833 8.49316 14.3877 8.7334C13.9424 8.97363 13.4473 9.31641 12.9023 9.76172C12.3633 10.207 11.7627 10.7227 11.1006 11.3086C10.5791 11.7656 10.1221 12.1494 9.72949 12.46C9.33691 12.7705 9.00586 13.0166 8.73633 13.1982C8.47266 13.3799 8.26465 13.5029 8.1123 13.5674C7.95996 13.626 7.86328 13.6348 7.82227 13.5938C7.78125 13.541 7.78418 13.4443 7.83105 13.3037C7.88379 13.1631 7.9834 12.9697 8.12988 12.7236C8.27637 12.4775 8.47266 12.1729 8.71875 11.8096C8.96484 11.4404 9.26074 11.0127 9.60645 10.5264C9.95801 10.0342 10.3594 9.47168 10.8105 8.83887C11.4785 7.90723 12.0674 7.05176 12.5771 6.27246C13.0869 5.4873 13.4795 4.77832 13.7549 4.14551C14.0361 3.50684 14.168 2.93555 14.1504 2.43164C14.1387 1.92773 13.9395 1.48828 13.5527 1.11328C13.0605 0.632812 12.5039 0.369141 11.8828 0.322266C11.2676 0.269531 10.5381 0.459961 9.69434 0.893555C8.85059 1.32715 7.84863 2.03027 6.68848 3.00293C5.52832 3.96973 4.16016 5.23242 2.58398 6.79102C2.34375 7.03125 2.12109 7.25098 1.91602 7.4502C1.7168 7.64941 1.53223 7.83105 1.3623 7.99512C1.19824 8.15918 1.05469 8.30859 0.931641 8.44336C0.808594 8.57812 0.700195 8.69824 0.606445 8.80371C0.336914 9.12598 0.166992 9.44824 0.0966797 9.77051C0.0322266 10.0928 0.0439453 10.3916 0.131836 10.667C0.225586 10.9365 0.366211 11.1621 0.553711 11.3438Z"
-                              fill="currentColor"
+                              fill={mode === 1 ? "#0051EE" : "currentColor"}
                             />
                           </svg>
                         </div>
                       </button>
                     </div>
-                    <div>
-                      <button className="w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center sm:hover:border-primary border text-base-content-secondary sm:hover:text-primary hover:before:opacity-100 group">
-                        <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 top-full mt-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:bottom-full after:left-1/2 after:-ml-1 after:border-t-transparent after:border-b-base-content-primary">
+                    {/* <div onClick={() => setMode(2)}>
+                      <button
+                        className={classNames(
+                          "w-10 h-10 rounded  bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center sm:hover:border-primary border text-base-content-secondary sm:hover:text-primary hover:before:opacity-100 group",
+                          {
+                            "border-blue-500": mode === 2,
+                          }
+                        )}
+                      >
+                        <span className="absolute left-1/2 -translate-x-1/2 text-white bg-black capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 top-full mt-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:bottom-full after:left-1/2 after:-ml-1 after:border-t-transparent after:border-b-base-content-primary">
                           Khoanh vùng
                         </span>
                         <div
@@ -1003,28 +1055,28 @@ export default function Upload() {
                           >
                             <path
                               d="M16.478 1.57615C20.839 3.09815 21.923 7.16115 18.898 10.6522C15.872 14.1432 9.88396 15.7402 5.52196 14.2182C1.15996 12.6972 0.0769558 8.63315 3.10196 5.14215C6.12796 1.65215 12.116 0.0551509 16.478 1.57615Z"
-                              stroke="#0051EE"
+                              stroke={mode === 2 ? "#0051EE" : "currentColor"}
                               strokeWidth="1.5"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                             />
                             <path
                               d="M12.711 14.3151C8.544 15.4261 3.302 14.4031 3.302 10.9561"
-                              stroke="#0051EE"
+                              stroke={mode === 2 ? "#0051EE" : "currentColor"}
                               strokeWidth="1.5"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                             />
                             <path
                               d="M9.048 12.105C9.048 14.323 7.899 17.851 3.302 19"
-                              stroke="#0051EE"
+                              stroke={mode === 2 ? "#0051EE" : "currentColor"}
                               strokeWidth="1.5"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                             />
                             <path
                               d="M3.302 10.9561C3.302 7.50909 9.048 7.50909 9.048 12.1051"
-                              stroke="#0051EE"
+                              stroke={mode === 2 ? "#0051EE" : "currentColor"}
                               strokeWidth="1.5"
                               strokeLinecap="round"
                               strokeLinejoin="round"
@@ -1032,10 +1084,17 @@ export default function Upload() {
                           </svg>
                         </div>
                       </button>
-                    </div>
-                    <div className="relative">
-                      <button className="w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center sm:hover:border-primary border text-base-content-secondary sm:hover:text-primary hover:before:opacity-100 group">
-                        <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 top-full mt-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:bottom-full after:left-1/2 after:-ml-1 after:border-t-transparent after:border-b-base-content-primary">
+                    </div> */}
+                    <div className="relative" onClick={() => setMode(2)}>
+                      <button
+                        className={classNames(
+                          "cursor-pointer w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center sm:hover:border-primary border text-base-content-secondary sm:hover:text-primary hover:before:opacity-100 group",
+                          {
+                            "border-blue-500": mode === 2,
+                          }
+                        )}
+                      >
+                        <span className="absolute left-1/2 -translate-x-1/2 text-white bg-black capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 top-full mt-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:bottom-full after:left-1/2 after:-ml-1 after:border-t-transparent after:border-b-base-content-primary">
                           Xóa
                         </span>
                         <div className="inline-block leading-[20px] relative z-10">
@@ -1048,21 +1107,21 @@ export default function Upload() {
                           >
                             <path
                               d="M5.52719 16.9767H6.93419C7.46458 16.9766 7.9732 16.7658 8.34819 16.3907L17.0722 7.66667C17.4471 7.29162 17.6578 6.783 17.6578 6.25267C17.6578 5.72235 17.4471 5.21373 17.0722 4.83867L13.7732 1.53967C13.3981 1.16473 12.8895 0.954102 12.3592 0.954102C11.8289 0.954102 11.3202 1.16473 10.9452 1.53967L1.51819 10.9667C1.14325 11.3417 0.932617 11.8503 0.932617 12.3807C0.932617 12.911 1.14325 13.4196 1.51819 13.7947L4.11419 16.3907C4.48819 16.7657 4.99619 16.9767 5.52719 16.9767V16.9767Z"
-                              stroke="currentColor"
+                              stroke={mode === 2 ? "#0051EE" : "currentColor"}
                               strokeWidth="1.5"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                             />
                             <path
                               d="M6.08984 6.38965L12.2198 12.5196"
-                              stroke="currentColor"
+                              stroke={mode === 2 ? "#0051EE" : "currentColor"}
                               strokeWidth="1.5"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                             />
                             <path
                               d="M17.9997 16.98H6.92969"
-                              stroke="currentColor"
+                              stroke={mode === 2 ? "#0051EE" : "currentColor"}
                               strokeWidth="1.5"
                               strokeLinecap="round"
                               strokeLinejoin="round"
@@ -1070,45 +1129,22 @@ export default function Upload() {
                           </svg>
                         </div>
                       </button>
-                      <div className="absolute z-50 sm:left-full sm:top-1/2 sm:translate-x-8 sm:-translate-y-1/2 bottom-full -right-0 translate-x-14 -translate-y-4 pointer-events-none">
-                        <div className="bg-primary text-white text-sm px-4 transition py-3 pr-12 w-[330px] relative rounded-lg text-left after:absolute after:border-4 after:border-solid after:border-b-transparent after:border-l-transparent opacity-0 pointer-events-none sm:after:right-full sm:after:top-1/2 sm:after:-translate-y-1/2 sm:after:-mt-1 sm:after:border-t-transparent sm:after:border-r-primary after:top-full after:border-t-primary after:border-transparent after:right-16">
-                          Dùng Cọ để tô lên và lựa chọn các vật thể bạn muốn
-                          xóa, dùng Tẩy để chỉnh sửa khu vực tô.
-                          <button className="text-white absolute right-4 top-3">
-                            <div className="inline-block scale-75 w-7 h-7">
-                              <svg
-                                width={28}
-                                height={28}
-                                viewBox="0 0 28 28"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-full h-full"
-                              >
-                                <path
-                                  d="M5.83301 5.83301L22.1663 22.1663"
-                                  stroke="currentColor"
-                                  strokeWidth={2}
-                                  strokeLinecap="round"
-                                />
-                                <path
-                                  d="M22.167 5.83301L5.83366 22.1663"
-                                  stroke="currentColor"
-                                  strokeWidth={2}
-                                  strokeLinecap="round"
-                                />
-                              </svg>
-                            </div>
-                          </button>
-                        </div>
-                      </div>
                     </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span>Kích cỡ</span>
-                    <span>50px</span>
-                  </div>
-                  <div className="mt-3 px-2">
-                    <div className="rc-slider rc-slider-horizontal">
+                  {mode === 1 && (
+                    <>
+                      <div className="flex justify-between">
+                        <span>Kích cỡ</span>
+                        <span>{sliderValue}px</span>
+                      </div>
+                      <div className="mt-3 px-2">
+                        <Slider
+                          min={10}
+                          max={100}
+                          value={sliderValue}
+                          onChange={(value) => setSliderValue(value as number)}
+                        />
+                        {/* <div className="rc-slider rc-slider-horizontal">
                       <div
                         className="rc-slider-rail"
                         style={{
@@ -1140,8 +1176,10 @@ export default function Upload() {
                           transform: "translateX(-50%)",
                         }}
                       />
-                    </div>
-                  </div>
+                    </div> */}
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 
