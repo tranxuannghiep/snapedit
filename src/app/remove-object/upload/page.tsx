@@ -118,8 +118,48 @@ export default function Upload() {
     }
 
     if (tab === 1) {
-      await handleErase(fileActive.file);
+      await handleMerge();
+      // await handleErase(fileActive.file);
     }
+  };
+
+  const handleMerge = async () => {
+    if (!fileActive?.detected_objects) return;
+    const formData = new FormData();
+    let count = 0;
+    fileActive.detected_objects.forEach((v, index) => {
+      count++;
+      formData.append(
+        "image" + index,
+        base64ToFile("data:image/png;base64," + v.mask)
+      );
+      formData.append(
+        "layer" + index,
+        JSON.stringify({
+          x: v.box[0],
+          y: v.box[1],
+          width: v.box[2],
+          height: v.box[3],
+        })
+      );
+    });
+
+    formData.append("count", count.toString());
+    formData.append("width", imgRef.current!.width.toString());
+    formData.append("height", imgRef.current!.height.toString());
+
+    const response = await fetch("/api/merge", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+        user_agent: data.user_agent,
+      },
+      body: formData,
+    });
+
+    const result = await response.json();
+
+    console.log(result);
   };
 
   const handleErase = async (mask_brush: File) => {
