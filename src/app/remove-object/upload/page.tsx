@@ -12,7 +12,8 @@ interface IDetectedObject {
   object_description: string;
   deleted: boolean;
   base64: string;
-  originFile: File;
+  isSelected: boolean;
+  mask_id: number;
 }
 
 function base64ToFile(base64: string): File {
@@ -88,7 +89,12 @@ async function processImages(box: number[], originFile: File) {
 export default function Upload() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [files, setFiles] = useState<
-    { file: File; id: string; detected_objects?: IDetectedObject[] }[]
+    {
+      file: File;
+      originFile?: File;
+      id: string;
+      detected_objects?: IDetectedObject[];
+    }[]
   >([]);
   const [preview, setPreview] = useState<string | null>(null);
   const [idActive, setIdActive] = useState<string>("");
@@ -105,6 +111,27 @@ export default function Upload() {
 
   const handleClick = () => {
     fileInputRef.current?.click(); // gọi click vào input
+  };
+
+  const handleSelectFile = (objectId: number) => {
+    const newFiles = files.map((file) => {
+      if (file.id === idActive) {
+        return {
+          ...file,
+          detected_objects: file.detected_objects?.map((v) => {
+            if (v.mask_id === objectId) {
+              return {
+                ...v,
+                isSelected: !v.isSelected,
+              };
+            }
+            return v;
+          }),
+        };
+      }
+      return file;
+    });
+    setFiles(newFiles);
   };
 
   const handleCallData = async () => {
@@ -255,12 +282,14 @@ export default function Upload() {
         if (file.id === idActive) {
           return {
             ...file,
+            originFile,
             detected_objects: (await Promise.all(
               suggest.detected_objects.map(async (v: IDetectedObject) => ({
                 ...v,
                 base64: await processImages(v.box, originFile),
                 deleted: false,
-                originFile,
+                isSelected: true,
+                mask_id: v.mask_id,
               }))
             )) as IDetectedObject[],
           };
@@ -484,26 +513,28 @@ export default function Upload() {
                   )}
                   <div id="cursor" className=""></div>
                   <div className="">
-                    {fileActive?.detected_objects?.map((file, index) => {
-                      return (
-                        <div
-                          key={index}
-                          className="absolute rounded-md z-30 border border-blue-500"
-                          style={{
-                            width: file.box[2] - file.box[0],
-                            height: file.box[3] - file.box[1],
-                            left: file.box[0],
-                            top: file.box[1],
-                          }}
-                        >
-                          <img
-                            src={"data:image/jpeg;base64," + file.mask}
-                            alt="mask"
-                            className="touch-none select-none opacity-50 block"
-                          />
-                        </div>
-                      );
-                    })}
+                    {fileActive?.detected_objects
+                      ?.filter((file) => !file.deleted && file.isSelected)
+                      ?.map((file, index) => {
+                        return (
+                          <div
+                            key={index}
+                            className="absolute rounded-md z-30 border border-blue-500"
+                            style={{
+                              width: file.box[2] - file.box[0],
+                              height: file.box[3] - file.box[1],
+                              left: file.box[0],
+                              top: file.box[1],
+                            }}
+                          >
+                            <img
+                              src={"data:image/jpeg;base64," + file.mask}
+                              alt="mask"
+                              className="touch-none select-none opacity-50 block"
+                            />
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
               </div>
@@ -1143,30 +1174,61 @@ export default function Upload() {
                     {fileActive?.detected_objects?.map((file, index) => {
                       return (
                         <div
-                          key={index}
-                          className="py-2 px-3 flex items-center justify-between transition bg-[#EDF1F9] hover:bg-[#EDF1F9] cursor-pointer"
+                          key={file.mask_id}
+                          className={classNames(
+                            "py-2 px-3 flex items-center justify-between transition bg-white hover:bg-[#EDF1F9] cursor-pointer",
+                            {
+                              "opacity-60 pointer-events-none": file.deleted,
+                            },
+                            { "!bg-[#EDF1F9]": file.isSelected }
+                          )}
                         >
-                          <div>
-                            <div className="w-6 h-6 rounded-full border border-[#ccc] bg-blue-500 text-center">
-                              <div className="inline-block text-white">
-                                <svg
-                                  width={12}
-                                  height={10}
-                                  viewBox="0 0 12 10"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M11 1.3999L4.125 8.2749L1 5.1499"
-                                    stroke="currentColor"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                </svg>
-                              </div>
+                          {file.deleted ? (
+                            <svg
+                              className="w-6 h-6 text-orange-500"
+                              aria-hidden="true"
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                stroke="currentColor"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+                              />
+                            </svg>
+                          ) : (
+                            <div onClick={() => handleSelectFile(file.mask_id)}>
+                              {file.isSelected ? (
+                                <div className="w-6 h-6 rounded-full border border-[#ccc] bg-blue-500 text-center">
+                                  <div className="inline-block text-white">
+                                    <svg
+                                      width={12}
+                                      height={10}
+                                      viewBox="0 0 12 10"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M11 1.3999L4.125 8.2749L1 5.1499"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      />
+                                    </svg>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="w-6 h-6 rounded-full border border-[#ccc]"></div>
+                              )}
                             </div>
-                          </div>
+                          )}
+
                           <div className="flex items-center flex-auto ml-2">
                             <div className="border border-[#ccc] w-12 h-12 mr-3 rounded-md overflow-hidden relative">
                               <div
@@ -1176,7 +1238,7 @@ export default function Upload() {
                                   width: `${file.box[2] - file.box[0]}px`,
                                   height: `${file.box[3] - file.box[1]}px`,
                                   backgroundImage: `url(${URL.createObjectURL(
-                                    file.originFile
+                                    fileActive.originFile!
                                   )})`,
                                   transform: `scale(${Math.min(
                                     48 / (file.box[2] - file.box[0]),
