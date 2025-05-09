@@ -154,7 +154,7 @@ export default function Upload() {
     if (!fileActive?.detected_objects) return;
     const formData = new FormData();
     let count = 0;
-    fileActive.detected_objects.forEach((v, index) => {
+    fileActive.detected_objects.forEach((v) => {
       formData.append(
         "image" + count,
         base64ToFile("data:image/png;base64," + v.mask)
@@ -1172,7 +1172,7 @@ export default function Upload() {
                     </div>
                   </div>
                   <div className="flex-1 overflow-auto">
-                    {fileActive?.detected_objects?.map((file, index) => {
+                    {fileActive?.detected_objects?.map((file) => {
                       return (
                         <div
                           key={file.mask_id}

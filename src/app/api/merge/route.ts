@@ -4,15 +4,15 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
 
-  const count = Number(formData.get("count") as unknown as any);
-  const width = Number(formData.get("width") as unknown as any);
-  const height = Number(formData.get("height") as unknown as any);
+  const count = Number(formData.get("count") as any);
+  const width = Number(formData.get("width") as any);
+  const height = Number(formData.get("height") as any);
 
   const layers: ImageLayer[] = [];
 
   for (let i = 0; i < count; i++) {
-    const file = formData.get("image" + i) as unknown as any;
-    const layerString = formData.get("layer" + i) as unknown as any;
+    const file = formData.get("image" + i) as any;
+    const layerString = formData.get("layer" + i) as any;
 
     const layer = {
       ...JSON.parse(layerString),
