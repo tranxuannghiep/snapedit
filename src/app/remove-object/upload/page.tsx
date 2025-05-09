@@ -128,21 +128,37 @@ export default function Upload() {
     const formData = new FormData();
     let count = 0;
     fileActive.detected_objects.forEach((v, index) => {
-      count++;
       formData.append(
-        "image" + index,
+        "image" + count,
         base64ToFile("data:image/png;base64," + v.mask)
       );
       formData.append(
-        "layer" + index,
+        "layer" + count,
         JSON.stringify({
           x: v.box[0],
           y: v.box[1],
-          width: v.box[2],
-          height: v.box[3],
+          width: v.box[2] - v.box[0],
+          height: v.box[3] - v.box[1],
         })
       );
+      count++;
     });
+
+    const handleImage = await handleExportImage();
+
+    if (handleImage) {
+      formData.append("image" + count, base64ToFile(handleImage));
+      formData.append(
+        "layer" + count,
+        JSON.stringify({
+          x: 0,
+          y: 0,
+          width: imgRef.current!.width,
+          height: imgRef.current!.height,
+        })
+      );
+      count += 1;
+    }
 
     formData.append("count", count.toString());
     formData.append("width", imgRef.current!.width.toString());
@@ -157,9 +173,9 @@ export default function Upload() {
       body: formData,
     });
 
-    const result = await response.json();
+    const mask_brush = await response.json();
 
-    console.log(result);
+    await handleErase(base64ToFile(mask_brush));
   };
 
   const handleErase = async (mask_brush: File) => {
