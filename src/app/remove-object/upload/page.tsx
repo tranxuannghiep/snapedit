@@ -247,6 +247,7 @@ export default function Upload() {
     setFiles(newListFile);
     setPreview(base64);
     canvasRef.current?.resetCanvas();
+    console.log(preview);
   };
 
   const handleAutoSuggest = async () => {
