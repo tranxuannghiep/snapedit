@@ -427,6 +427,28 @@ export default function Upload() {
                     </>
                   )}
                   <div id="cursor" className=""></div>
+                  <div className="">
+                    {fileActive?.detected_objects?.map((file, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="absolute rounded-md z-30 border border-blue-500"
+                          style={{
+                            width: file.box[2] - file.box[0],
+                            height: file.box[3] - file.box[1],
+                            left: file.box[0],
+                            top: file.box[1],
+                          }}
+                        >
+                          <img
+                            src={"data:image/jpeg;base64," + file.mask}
+                            alt="mask"
+                            className="touch-none select-none opacity-50 block"
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
@@ -1106,10 +1128,6 @@ export default function Upload() {
                                   )})`,
                                 }}
                               ></div>
-                              {/* <img
-                                src={file.base64}
-                                className="w-full h-full object-cover"
-                              /> */}
                             </div>
                             <div>
                               <p className="text-base-content text-sm font-semibold">
