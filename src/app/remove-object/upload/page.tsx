@@ -12,6 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 import "rc-slider/assets/index.css";
 import Slider from "rc-slider";
 import { useDownloadStore } from "@/stores/useDownloadStore";
+import { useUploadStore } from "@/stores/useUploadStore";
 
 interface IDetectedObject {
   box: number[];
@@ -118,6 +119,9 @@ export default function Upload() {
   const dataDownload = useDownloadStore((state: any) => state.data);
   const setIdDownload = useDownloadStore((state: any) => state.setIdDownload);
   const data = useDataStore((state: any) => state.data);
+
+  const file = useUploadStore((state: any) => state.file);
+  const setFile = useUploadStore((state: any) => state.setFile);
 
   const fileActive = useMemo(() => {
     return files.find((file) => file.id === idActive);
@@ -439,6 +443,15 @@ export default function Upload() {
       canvasRef.current.clearCanvas();
     }
   }, [fileActive]);
+
+  useEffect(() => {
+    if (file) {
+      const id = uuidv4();
+      setIdActive(id);
+      setFiles([{ file, id, oldFile: file, paths: [] }]);
+      setFile(null);
+    }
+  }, [file]);
 
   return (
     <div role="button" tabIndex={0}>

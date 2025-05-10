@@ -1,8 +1,29 @@
-// "use client";
+"use client";
 
 import { Footer } from "@/components/Footer";
+import { useUploadStore } from "@/stores/useUploadStore";
+import { useRouter } from "next/navigation";
+import { useRef } from "react";
 
 export default function BackgroundRemover() {
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const setFile = useUploadStore((state: any) => state.setFile);
+  const router = useRouter();
+  const handleClick = () => {
+    fileInputRef.current?.click(); // gọi click vào input
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+    }
+
+    setTimeout(() => {
+      router.push("/background-remover/upload");
+    }, 1000);
+  };
   return (
     <div role="button" tabIndex={0}>
       <div className="fixed inset-0 z-50 bg-black bg-opacity-40 transition flex flex-col justify-center items-center invisible opacity-0">
@@ -45,10 +66,12 @@ export default function BackgroundRemover() {
         </p>
       </div>
       <input
+        ref={fileInputRef}
         accept="image/png, image/jpeg, image/webp"
         type="file"
         tabIndex={-1}
         style={{ display: "none" }}
+        onChange={handleFileChange}
       />
       <div className="flex flex-col justify-center items-center">
         <div className="hero-bg">
@@ -71,7 +94,10 @@ export default function BackgroundRemover() {
               <div className="order-2 lg:order-1">
                 <div className="bg-white rounded-xl lg:px-16 lg:py-16 px-12 py-6 text-center">
                   <div className="relative text-center lg:w-[325px] max-w-md mx-auto">
-                    <div className="inline-flex items-center justify-center w-full py-3 px-4 bg-blue-500 rounded-lg text-base transition text-white hover:bg-opacity-80 cursor-pointer py-5 !rounded-full text-xl shadow-[0px_4px_32px_rgba(43,61,227,0.24)]">
+                    <div
+                      onClick={handleClick}
+                      className="inline-flex items-center justify-center w-full py-3 px-4 bg-blue-500 rounded-lg text-base transition text-white hover:bg-opacity-80 cursor-pointer py-5 !rounded-full text-xl shadow-[0px_4px_32px_rgba(43,61,227,0.24)]"
+                    >
                       <span className="inline-flex mr-2">
                         <div className="inline-block text-white">
                           <svg

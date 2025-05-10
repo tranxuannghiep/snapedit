@@ -7,6 +7,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ImgComparisonSlider } from "@img-comparison-slider/react";
 import { v4 as uuidv4 } from "uuid";
 import { useDownloadStore } from "@/stores/useDownloadStore";
+import { useUploadStore } from "@/stores/useUploadStore";
 
 export default function Upload() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -19,6 +20,9 @@ export default function Upload() {
   const setDataDownload = useDownloadStore((state: any) => state.setData);
   const dataDownload = useDownloadStore((state: any) => state.data);
   const setIdDownload = useDownloadStore((state: any) => state.setIdDownload);
+
+  const file = useUploadStore((state: any) => state.file);
+  const setFile = useUploadStore((state: any) => state.setFile);
 
   const fileActive = useMemo(() => {
     return files.find((file) => file.id === idActive);
@@ -119,6 +123,15 @@ export default function Upload() {
       setIdDownload(null);
     }
   }, [fileActive, setIdDownload]);
+
+  useEffect(() => {
+    if (file) {
+      const id = uuidv4();
+      setIdActive(id);
+      setFiles([{ file, id }]);
+      setFile(null);
+    }
+  }, [file]);
 
   return (
     <div role="button" tabIndex={0}>

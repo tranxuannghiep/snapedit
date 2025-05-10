@@ -1,8 +1,29 @@
-// "use client";
+"use client";
 
 import { Footer } from "@/components/Footer";
+import { useUploadStore } from "@/stores/useUploadStore";
+import { useRouter } from "next/navigation";
+import { useRef } from "react";
 
 export default function RemoveObject() {
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const setFile = useUploadStore((state: any) => state.setFile);
+  const router = useRouter();
+  const handleClick = () => {
+    fileInputRef.current?.click(); // gọi click vào input
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+    }
+
+    setTimeout(() => {
+      router.push("/remove-object/upload");
+    }, 1000);
+  };
   return (
     <div>
       <div className="fixed inset-0 z-50 bg-black bg-opacity-40 transition flex flex-col justify-center items-center invisible opacity-0">
@@ -45,10 +66,12 @@ export default function RemoveObject() {
         </p>
       </div>
       <input
+        ref={fileInputRef}
         accept="image/png, image/jpeg, image/webp"
         type="file"
         tabIndex={-1}
         style={{ display: "none" }}
+        onChange={handleFileChange}
       />
       <div>
         <div className="flex flex-col justify-center items-center">
@@ -87,6 +110,7 @@ export default function RemoveObject() {
                           style={{
                             boxShadow: "rgba(43, 61, 227, 0.24) 0px 4px 32px",
                           }}
+                          onClick={handleClick}
                         >
                           <div className="inline-block mr-2 align-middle">
                             <svg

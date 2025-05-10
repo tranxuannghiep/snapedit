@@ -2,11 +2,12 @@
 
 import { Footer } from "@/components/Footer";
 import { useDataStore } from "@/stores/useDataStore";
+import { useUploadStore } from "@/stores/useUploadStore";
 import classNames from "classnames";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import domtoimage from "dom-to-image-more";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 function getColor(color: number) {
   if (color == 3) {
@@ -43,6 +44,9 @@ export default function Upload() {
   const [tab, setTab] = useState(0);
   const [color, setColor] = useState(1);
 
+  const fileStore = useUploadStore((state: any) => state.file);
+  const setFileStore = useUploadStore((state: any) => state.setFile);
+
   const handleClick = () => {
     fileInputRef.current?.click(); // gọi click vào input
   };
@@ -53,13 +57,20 @@ export default function Upload() {
     if (selectedFile) {
       setFile(selectedFile);
 
+      await handleCallApi(selectedFile, data.token, data.user_agent);
+    }
+  };
+
+  const handleCallApi = useCallback(
+    async (file: File, token: string, user_agent: string) => {
+      if (!file) return;
       const formData = new FormData();
-      formData.append("input_image", selectedFile);
+      formData.append("input_image", file);
       const response = await fetch("/api/rmbg", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${data.token}`,
-          user_agent: data.user_agent,
+          Authorization: `Bearer ${token}`,
+          user_agent: user_agent,
         },
         body: formData,
       });
@@ -67,8 +78,9 @@ export default function Upload() {
       const base64 = await response.json();
       setPreview(base64);
       setTab(1);
-    }
-  };
+    },
+    []
+  );
 
   const handleDownload = () => {
     const node = document.getElementById("capture");
@@ -86,6 +98,14 @@ export default function Upload() {
         console.error("oops, something went wrong!", error);
       });
   };
+
+  useEffect(() => {
+    if ((fileStore && data?.token, data?.user_agent)) {
+      setFile(fileStore);
+      setFileStore(null);
+      handleCallApi(fileStore, data.token, data.user_agent);
+    }
+  }, []);
 
   return (
     <div role="button" tabIndex={0}>
