@@ -76,8 +76,8 @@ export function Header() {
                 <div className="absolute" tabIndex={-1}>
                   <div className="h-auto bg-white rounded-2xl shadow flex w-[480px]">
                     <div className="p-2">
-                      <a href="/tools">
-                        <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
+                      <Link href="/tools">
+                        <button className="cursor-pointer self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
@@ -114,9 +114,9 @@ export function Header() {
                             <span>Tất Cả Công Cụ</span>
                           </div>
                         </button>
-                      </a>
-                      <a href="/remove-object">
-                        <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
+                      </Link>
+                      <Link href="/remove-object">
+                        <button className="cursor-pointer self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
@@ -158,9 +158,9 @@ export function Header() {
                             <span>Xóa Vật Thể</span>
                           </div>
                         </button>
-                      </a>
-                      <a href="/background-remover">
-                        <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
+                      </Link>
+                      <Link href="/background-remover">
+                        <button className="cursor-pointer self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
@@ -226,9 +226,9 @@ export function Header() {
                             <span>Xóa Nền Ảnh</span>
                           </div>
                         </button>
-                      </a>
-                      <a href="/enhance">
-                        <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
+                      </Link>
+                      <Link href="/enhance">
+                        <button className="cursor-pointer self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
@@ -277,7 +277,7 @@ export function Header() {
                             <span>Làm Nét Ảnh</span>
                           </div>
                         </button>
-                      </a>
+                      </Link>
                       <a href="/change-sky">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
@@ -491,8 +491,8 @@ export function Header() {
                           </div>
                         </button>
                       </a>
-                      <a href="/colorize">
-                        <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
+                      <Link href="/colorize">
+                        <button className="cursor-pointer self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
                             <div
                               color="inherit"
@@ -555,7 +555,7 @@ export function Header() {
                             <span>Tô màu ảnh</span>
                           </div>
                         </button>
-                      </a>
+                      </Link>
                       <a href="/blur-face">
                         <button className="self-stretch p-1.5 justify-center items-center gap-2.5 inline-flex relative group">
                           <div className="p-2 bg-zinc-100 rounded-lg justify-center items-center flex ">
@@ -1527,153 +1527,159 @@ export function Header() {
                       </div>
                     </button>
                     <div>
-                      <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
-                        <div
-                          color="inherit"
-                          // mode="outline"
-                          className="sc-eac7f02c-0 bRLGlB text-center"
-                        >
-                          <svg
-                            className="align-middle"
-                            fill="none"
-                            viewBox="0 0 18 18"
+                      <Link href="/remove-object">
+                        <button className="cursor-pointer pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                          <div
+                            color="inherit"
+                            // mode="outline"
+                            className="sc-eac7f02c-0 bRLGlB text-center"
                           >
-                            <path
-                              d="m6.2775 14.552h1.1725c0.44199-1e-4 0.86585-0.1757 1.1783-0.4883l7.27-7.27c0.3124-0.31254 0.488-0.73639 0.488-1.1783s-0.1756-0.86579-0.488-1.1783l-2.7492-2.7492c-0.3125-0.31245-0.7364-0.48798-1.1783-0.48798-0.442 0-0.8658 0.17553-1.1784 0.48798l-7.8558 7.8558c-0.31245 0.31255-0.48798 0.73643-0.48798 1.1783s0.17553 0.8658 0.48798 1.1783l2.1633 2.1634c0.31167 0.3125 0.735 0.4883 1.1775 0.4883z"
-                              stroke="currentColor"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="1.5"
-                            />
-                            <path
-                              d="m5.4863 6.9895 5.1084 5.1083"
-                              stroke="currentColor"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="1.5"
-                            />
-                            <path
-                              d="m16.672 16.927h-15.058"
-                              stroke="currentColor"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="1.5"
-                            />
-                          </svg>
-                        </div>
-                        <span className="font-normal text-[14px] leading-[20px]">
-                          Xóa Vật Thể
-                        </span>
-                      </button>
-                      <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
-                        <div
-                          color="inherit"
-                          // mode="outline"
-                          className="sc-eac7f02c-0 bRLGlB text-center"
-                        >
-                          <svg
-                            className="align-middle"
-                            fill="none"
-                            viewBox="0 0 20 20"
+                            <svg
+                              className="align-middle"
+                              fill="none"
+                              viewBox="0 0 18 18"
+                            >
+                              <path
+                                d="m6.2775 14.552h1.1725c0.44199-1e-4 0.86585-0.1757 1.1783-0.4883l7.27-7.27c0.3124-0.31254 0.488-0.73639 0.488-1.1783s-0.1756-0.86579-0.488-1.1783l-2.7492-2.7492c-0.3125-0.31245-0.7364-0.48798-1.1783-0.48798-0.442 0-0.8658 0.17553-1.1784 0.48798l-7.8558 7.8558c-0.31245 0.31255-0.48798 0.73643-0.48798 1.1783s0.17553 0.8658 0.48798 1.1783l2.1633 2.1634c0.31167 0.3125 0.735 0.4883 1.1775 0.4883z"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1.5"
+                              />
+                              <path
+                                d="m5.4863 6.9895 5.1084 5.1083"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1.5"
+                              />
+                              <path
+                                d="m16.672 16.927h-15.058"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1.5"
+                              />
+                            </svg>
+                          </div>
+                          <span className="font-normal text-[14px] leading-[20px]">
+                            Xóa Vật Thể
+                          </span>
+                        </button>
+                      </Link>
+                      <Link href="/enhance">
+                        <button className="cursor-pointer pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                          <div
+                            color="inherit"
+                            // mode="outline"
+                            className="sc-eac7f02c-0 bRLGlB text-center"
                           >
-                            <path
-                              d="m8.3333 17.5h-4.1667c-0.44203 0-0.86595-0.1756-1.1785-0.4882-0.31257-0.3125-0.48816-0.7364-0.48816-1.1785v-4.1666c0-0.4421 0.17559-0.866 0.48816-1.1785 0.31256-0.3126 0.73648-0.4882 1.1785-0.4882h4.1667c0.44203 0 0.86595 0.1756 1.1785 0.4882 0.31256 0.3125 0.48816 0.7364 0.48816 1.1785v4.1666c0 0.4421-0.1756 0.866-0.48816 1.1785-0.31256 0.3126-0.73648 0.4882-1.1785 0.4882z"
-                              stroke="currentColor"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="1.5"
-                            />
-                            <path
-                              d="m10.833 5.8332h3.3333v3.3333"
-                              stroke="currentColor"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="1.5"
-                            />
-                            <path
-                              d="m9.5083 10.492 4.6583-4.6584"
-                              stroke="currentColor"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="1.5"
-                            />
-                            <path
-                              d="m13.333 17.5h2.5c0.4421 0 0.866-0.1756 1.1785-0.4882 0.3126-0.3125 0.4882-0.7364 0.4882-1.1785v-11.667c0-0.44203-0.1756-0.86595-0.4882-1.1785-0.3125-0.31257-0.7364-0.48816-1.1785-0.48816h-11.667c-0.44203 0-0.86595 0.17559-1.1785 0.48816-0.31257 0.31256-0.48816 0.73648-0.48816 1.1785v2.5"
-                              stroke="currentColor"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="1.5"
-                            />
-                          </svg>
-                        </div>
-                        <span className="font-normal text-[14px] leading-[20px]">
-                          Làm Nét Ảnh
-                        </span>
-                      </button>
-                      <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
-                        <div
-                          color="inherit"
-                          // mode="outline"
-                          className="sc-eac7f02c-0 bRLGlB text-center"
-                        >
-                          <svg
-                            className="align-middle"
-                            fill="none"
-                            viewBox="0 0 18 16"
+                            <svg
+                              className="align-middle"
+                              fill="none"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                d="m8.3333 17.5h-4.1667c-0.44203 0-0.86595-0.1756-1.1785-0.4882-0.31257-0.3125-0.48816-0.7364-0.48816-1.1785v-4.1666c0-0.4421 0.17559-0.866 0.48816-1.1785 0.31256-0.3126 0.73648-0.4882 1.1785-0.4882h4.1667c0.44203 0 0.86595 0.1756 1.1785 0.4882 0.31256 0.3125 0.48816 0.7364 0.48816 1.1785v4.1666c0 0.4421-0.1756 0.866-0.48816 1.1785-0.31256 0.3126-0.73648 0.4882-1.1785 0.4882z"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1.5"
+                              />
+                              <path
+                                d="m10.833 5.8332h3.3333v3.3333"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1.5"
+                              />
+                              <path
+                                d="m9.5083 10.492 4.6583-4.6584"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1.5"
+                              />
+                              <path
+                                d="m13.333 17.5h2.5c0.4421 0 0.866-0.1756 1.1785-0.4882 0.3126-0.3125 0.4882-0.7364 0.4882-1.1785v-11.667c0-0.44203-0.1756-0.86595-0.4882-1.1785-0.3125-0.31257-0.7364-0.48816-1.1785-0.48816h-11.667c-0.44203 0-0.86595 0.17559-1.1785 0.48816-0.31257 0.31256-0.48816 0.73648-0.48816 1.1785v2.5"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1.5"
+                              />
+                            </svg>
+                          </div>
+                          <span className="font-normal text-[14px] leading-[20px]">
+                            Làm Nét Ảnh
+                          </span>
+                        </button>
+                      </Link>
+                      <Link href="/background-remover">
+                        <button className="cursor-pointer -3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                          <div
+                            color="inherit"
+                            // mode="outline"
+                            className="sc-eac7f02c-0 bRLGlB text-center"
                           >
-                            <path
-                              d="m6.9168 1.75h-3.8333c-1.1046 0-2 0.89543-2 2v8.5c0 1.1046 0.89543 2 2 2h3.8333"
-                              stroke="currentColor"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="1.5"
-                            />
-                            <path
-                              d="m1.0835 4.3908c0-1.4585 1.1823-2.6408 2.6408-2.6408h0.27608v2.6408h-2.9169z"
-                              fill="currentColor"
-                            />
-                            <rect
-                              x={4}
-                              y="4.3904"
-                              width="2.9169"
-                              height="2.4069"
-                              fill="currentColor"
-                            />
-                            <rect
-                              x="1.0835"
-                              y="6.7986"
-                              width="2.9169"
-                              height="2.4069"
-                              fill="currentColor"
-                            />
-                            <rect
-                              x={4}
-                              y="9.2032"
-                              width="2.9169"
-                              height="2.4069"
-                              fill="currentColor"
-                            />
-                            <path
-                              d="m1.0835 11.609h2.9169v2.6409h-0.27608c-1.4585 0-2.6408-1.1824-2.6408-2.6409z"
-                              fill="currentColor"
-                            />
-                            <rect
-                              x="6.917"
-                              y=".91663"
-                              width={10}
-                              height="14.167"
-                              rx={2}
-                              stroke="currentColor"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="1.5"
-                            />
-                          </svg>
-                        </div>
-                        <span className="font-normal text-[14px] leading-[20px]">
-                          Xóa Nền Ảnh
-                        </span>
-                      </button>
+                            <svg
+                              className="align-middle"
+                              fill="none"
+                              viewBox="0 0 18 16"
+                            >
+                              <path
+                                d="m6.9168 1.75h-3.8333c-1.1046 0-2 0.89543-2 2v8.5c0 1.1046 0.89543 2 2 2h3.8333"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1.5"
+                              />
+                              <path
+                                d="m1.0835 4.3908c0-1.4585 1.1823-2.6408 2.6408-2.6408h0.27608v2.6408h-2.9169z"
+                                fill="currentColor"
+                              />
+                              <rect
+                                x={4}
+                                y="4.3904"
+                                width="2.9169"
+                                height="2.4069"
+                                fill="currentColor"
+                              />
+                              <rect
+                                x="1.0835"
+                                y="6.7986"
+                                width="2.9169"
+                                height="2.4069"
+                                fill="currentColor"
+                              />
+                              <rect
+                                x={4}
+                                y="9.2032"
+                                width="2.9169"
+                                height="2.4069"
+                                fill="currentColor"
+                              />
+                              <path
+                                d="m1.0835 11.609h2.9169v2.6409h-0.27608c-1.4585 0-2.6408-1.1824-2.6408-2.6409z"
+                                fill="currentColor"
+                              />
+                              <rect
+                                x="6.917"
+                                y=".91663"
+                                width={10}
+                                height="14.167"
+                                rx={2}
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1.5"
+                              />
+                            </svg>
+                          </div>
+                          <span className="font-normal text-[14px] leading-[20px]">
+                            Xóa Nền Ảnh
+                          </span>
+                        </button>
+                      </Link>
                       <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
                         <div
                           color="inherit"
@@ -2282,67 +2288,69 @@ export function Header() {
                           Thêm watermark
                         </span>
                       </button>
-                      <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
-                        <div
-                          color="inherit"
-                          // mode="outline"
-                          className="sc-eac7f02c-0 bRLGlB text-center"
-                        >
-                          <svg
-                            className="align-middle"
-                            width={18}
-                            height={18}
-                            viewBox="0 0 18 18"
-                            fill="none"
+                      <Link href="/colorize">
+                        <button className="cursor-pointer pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
+                          <div
+                            color="inherit"
+                            // mode="outline"
+                            className="sc-eac7f02c-0 bRLGlB text-center"
                           >
-                            <g id="Group">
-                              <path
-                                id="Vector"
-                                d="M5.04927 12.1816L1.93094 9.06329C1.24177 8.37412 1.24177 7.25746 1.93094 6.56829L6.62594 1.87329L12.2393 7.48663L7.54427 12.1816C6.8551 12.87 5.7376 12.87 5.04927 12.1816Z"
-                                stroke="#252638"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                              <path
-                                id="Vector_2"
-                                d="M14.7368 9.97827C14.7368 9.97827 12.9727 11.8924 12.9727 13.0658C12.9727 14.0358 13.7668 14.8299 14.7368 14.8299C15.7068 14.8299 16.501 14.0358 16.501 13.0649C16.501 11.8924 14.7368 9.97827 14.7368 9.97827Z"
-                                stroke="#252638"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                              <path
-                                id="Vector_3"
-                                d="M6.62513 1.87495L5.7168 0.949951"
-                                stroke="#252638"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                              <path
-                                id="Vector_4"
-                                d="M12.2434 7.48328H1.44336"
-                                stroke="#252638"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                              <path
-                                id="Vector_5"
-                                d="M1.85156 16.3666H9.00156"
-                                stroke="#252638"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </g>
-                          </svg>
-                        </div>
-                        <span className="font-normal text-[14px] leading-[20px]">
-                          Tô màu ảnh
-                        </span>
-                      </button>
+                            <svg
+                              className="align-middle"
+                              width={18}
+                              height={18}
+                              viewBox="0 0 18 18"
+                              fill="none"
+                            >
+                              <g id="Group">
+                                <path
+                                  id="Vector"
+                                  d="M5.04927 12.1816L1.93094 9.06329C1.24177 8.37412 1.24177 7.25746 1.93094 6.56829L6.62594 1.87329L12.2393 7.48663L7.54427 12.1816C6.8551 12.87 5.7376 12.87 5.04927 12.1816Z"
+                                  stroke="#252638"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  id="Vector_2"
+                                  d="M14.7368 9.97827C14.7368 9.97827 12.9727 11.8924 12.9727 13.0658C12.9727 14.0358 13.7668 14.8299 14.7368 14.8299C15.7068 14.8299 16.501 14.0358 16.501 13.0649C16.501 11.8924 14.7368 9.97827 14.7368 9.97827Z"
+                                  stroke="#252638"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  id="Vector_3"
+                                  d="M6.62513 1.87495L5.7168 0.949951"
+                                  stroke="#252638"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  id="Vector_4"
+                                  d="M12.2434 7.48328H1.44336"
+                                  stroke="#252638"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  id="Vector_5"
+                                  d="M1.85156 16.3666H9.00156"
+                                  stroke="#252638"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </g>
+                            </svg>
+                          </div>
+                          <span className="font-normal text-[14px] leading-[20px]">
+                            Tô màu ảnh
+                          </span>
+                        </button>
+                      </Link>
                       <button className="pr-3 py-2 pl-6 transition space-x-[10px] text-neutral-ink-500 w-full inline-flex items-center">
                         <div
                           color="inherit"

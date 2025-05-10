@@ -64,7 +64,7 @@ export default function Colorize() {
               </h1>
               <p className="text-neutral-ink-600 text-center lg:text-left T16R lg:T20R">
                 Mang màu sắc trở lại cho những bức ảnh đen trắng với công cụ{" "}
-                <a href="https://snapedit.app/vi" className="text-blue-500">
+                <a href="/" className="text-blue-500">
                   {" "}
                   chỉnh sửa ảnh AI SnapEdit
                 </a>
@@ -331,10 +331,7 @@ export default function Colorize() {
                       Khôi phục, lưu trữ ảnh cũ
                     </h3>
                     <p className="sm:mb-8 mb-4 text-sm">
-                      <a
-                        href="https://snapedit.app/vi/colorize/"
-                        className="text-blue-500"
-                      >
+                      <a href="/" className="text-blue-500">
                         Tô màu ảnh đen trắng
                       </a>{" "}
                       để ngăn chúng bị phai màu theo thời gian. Và bạn có thể
