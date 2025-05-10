@@ -2,12 +2,20 @@
 import { Image } from "@/components/common/Image/Index";
 import { useDownloadStore } from "@/stores/useDownloadStore";
 import { Popover } from "@headlessui/react";
+import classNames from "classnames";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import * as React from "react";
 
 export function Header() {
   const data = useDownloadStore((state: any) => state.data);
   const idDownload = useDownloadStore((state: any) => state.idDownload);
+  const pathname = usePathname();
+  const isDownload = ["/enhance/upload", "/remove-object/upload"].includes(
+    pathname
+  );
+
+  const isTry = ["/"].includes(pathname);
   const handleDownload = () => {
     if (!data || !data.length || !idDownload) return;
     const file = data.find((v: any) => v.id === idDownload);
@@ -1307,7 +1315,12 @@ export function Header() {
             </div>
           </div>
 
-          <div>
+          <div
+            className={classNames("", {
+              hidden: !isDownload,
+              block: isDownload,
+            })}
+          >
             <div className="relative ">
               <div className="btn block w-full py-3 px-4 bg-blue-500 text-white rounded-lg text-base transition hover:bg-opacity-80 focus:bg-primary-focus focus:text-white  max-h-[44px] !px-0 !py-0">
                 <span className="inline-block align-middle">
@@ -1363,8 +1376,16 @@ export function Header() {
             </div>
           </div>
 
-          <button className="justify-center items-start gap-4 inline-flex cursor-pointer px-7 py-3 text-[16px] leading-[20px] shadow bg-blue-500 active:bg-blue-800 hover:bg-blue-700 rounded-full shadow text-white font-semibold">
-            Thử miễn phí
+          <button
+            className={classNames(
+              "justify-center items-start gap-4 cursor-pointer px-7 py-3 text-[16px] leading-[20px] shadow bg-blue-500 active:bg-blue-800 hover:bg-blue-700 rounded-full shadow text-white font-semibold",
+              {
+                hidden: !isTry,
+                "inline-flex": isTry,
+              }
+            )}
+          >
+            <Link href={"/remove-object/upload"}>Thử miễn phí</Link>
           </button>
         </div>
       </div>
@@ -1383,7 +1404,12 @@ export function Header() {
         </div>
         <div className="relative">
           <div className="flex items-center gap-4">
-            <div>
+            <div
+              className={classNames("", {
+                hidden: !isDownload,
+                block: isDownload,
+              })}
+            >
               <div className="relative ">
                 <div className="btn block w-full py-3 px-4 bg-blue-500 text-white rounded-lg text-base transition hover:bg-opacity-80 focus:bg-primary-focus focus:text-white  max-h-[44px] !px-0 !py-0">
                   <span className="inline-block align-middle">
