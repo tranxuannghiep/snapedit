@@ -1,5 +1,7 @@
 "use client";
 import { Image } from "@/components/common/Image/Index";
+import { fetchData } from "@/libs/fetchData";
+import { useDataStore } from "@/stores/useDataStore";
 import { useDownloadStore } from "@/stores/useDownloadStore";
 import { Popover } from "@headlessui/react";
 import classNames from "classnames";
@@ -29,6 +31,24 @@ export function Header() {
     link.download = "download.png";
     link.click();
   };
+
+  const setData = useDataStore((state: any) => state.setData);
+
+  const fetchDataAndUpdate = React.useCallback(async () => {
+    const res = await fetchData();
+    setData(res);
+  }, [setData]);
+
+  React.useEffect(() => {
+    // Gọi lần đầu
+    fetchDataAndUpdate();
+
+    const interval = setInterval(fetchDataAndUpdate, (1 * 60 + 55) * 1000); //1p 55s
+
+    // Xóa interval khi unmount
+    return () => clearInterval(interval);
+  }, [fetchDataAndUpdate]);
+
   return (
     <>
       <div className="w-full h-[72px] sm:!h-[56px] items-center gap-10 py-[14px] pl-8 pr-4 fixed top-0 z-[9999] transition-all lg:flex hidden pointer-events-auto bg-white backdrop-filter backdrop-blur-lg bg-opacity-50 shadow-md">

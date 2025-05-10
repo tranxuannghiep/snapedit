@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { ClientLayout } from "@/components/ClientLayout";
-import { fetchData } from "@/libs/fetchData";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +24,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const data = await fetchData();
   return (
     <html lang="en">
       <body
@@ -35,7 +33,7 @@ export default async function RootLayout({
           <div className="bg-home-bg-gradient bg-top absolute z-0 top-0 left-0" />
           <div className="relative h-screen w-full">
             <Header />
-            <ClientLayout initialData={data}>{children}</ClientLayout>
+            <ClientLayout>{children}</ClientLayout>
             {/* <Footer /> */}
           </div>
         </div>
