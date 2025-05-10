@@ -286,7 +286,7 @@ export default function Upload() {
                     </p>
                   </div>
                 </div> */}
-                      <div className="absolute z-30 sm:px-1.5 sm:py-0.5 px-2 py-1 text-white bg-gray-900 sm:rounded-[10px] rounded-md sm:bottom-2 sm:left-2 left-3 bg-opacity-60">
+                      <div className="absolute z-30 sm:px-1.5 sm:py-0.5 px-2 py-1 text-white bg-gray-900 sm:rounded-[10px] rounded-md bottom-2 sm:left-2 left-3 bg-opacity-60">
                         <p className="font-semibold text-[10px] leading-[14px] sm:S10B text-sm">
                           Trước
                         </p>
@@ -315,7 +315,7 @@ export default function Upload() {
                         />
                       </ImgComparisonSlider>
 
-                      <div className="absolute z-30 sm:px-1.5 sm:py-0.5 px-2 py-1 text-white bg-gray-900 sm:rounded-[10px] rounded-md sm:bottom-2 sm:right-2 right-3 bg-opacity-60">
+                      <div className="absolute z-30 sm:px-1.5 sm:py-0.5 px-2 py-1 text-white bg-gray-900 sm:rounded-[10px] rounded-md bottom-2 sm:right-2 right-3 bg-opacity-60">
                         <p className="font-semibold text-[10px] leading-[14px] sm:S10B text-sm">
                           Sau
                         </p>
