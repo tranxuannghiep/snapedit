@@ -658,7 +658,7 @@ export default function Upload() {
                   </div>
                 </div>
               </div>
-              <div className="px-4 py-4 p-0 sm:flex justify-between relative hidden flex-auto items-end">
+              <div className="px-4 py-4 p-0 flex justify-between relative flex-auto items-end">
                 {/* <div className="hidden">
                 <div className="bg-white rounded-md h-10 flex items-center space-x-5">
                   <button
@@ -931,7 +931,7 @@ export default function Upload() {
               </div> */}
               </div>
             </div>
-            <div className="bg-white shadow-xl sm:w-[300px] sm:h-full">
+            <div className="bg-white shadow-xl sm:w-[300px] sm:h-full w-full">
               <div className="flex h-full flex-col border-t border-neutral-ink-100">
                 <div className="grid grid-cols-2 text-neutral text-center">
                   <div
