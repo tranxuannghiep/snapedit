@@ -426,7 +426,13 @@ export default function Upload() {
       cursor.style.left = `${mouseX - cursor.offsetWidth / 2}px`;
       cursor.style.top = `${mouseY - cursor.offsetHeight / 2}px`;
     });
-  }, []);
+
+    return () => {
+      canvasContainer.removeEventListener("mouseenter", () => {});
+      canvasContainer.removeEventListener("mouseleave", () => {});
+      canvasContainer.removeEventListener("mousemove", () => {});
+    };
+  }, [fileActive]);
 
   useEffect(() => {
     if (fileActive) {
