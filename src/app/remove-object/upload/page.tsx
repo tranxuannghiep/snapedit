@@ -11,6 +11,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import "rc-slider/assets/index.css";
 import Slider from "rc-slider";
+import { useDownloadStore } from "@/stores/useDownloadStore";
 
 interface IDetectedObject {
   box: number[];
@@ -22,7 +23,7 @@ interface IDetectedObject {
   mask_id: number;
 }
 
-function base64ToFile(base64: string): File {
+export function base64ToFile(base64: string): File {
   const [header, data] = base64.split(",");
   const mime = header.match(/:(.*?);/)?.[1] || "image/png";
   const binary = atob(data);
@@ -98,6 +99,7 @@ export default function Upload() {
     {
       file: File;
       originFile?: File;
+      oldFile: File;
       id: string;
       detected_objects?: IDetectedObject[];
       paths: CanvasPath[];
@@ -109,8 +111,12 @@ export default function Upload() {
   const [mode, setMode] = useState(1);
   const canvasRef = useRef<ReactSketchCanvasRef | null>(null);
   const [sliderValue, setSliderValue] = useState(50);
+  const [showPrevius, setShowPrevious] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const setDataDownload = useDownloadStore((state: any) => state.setData);
+  const dataDownload = useDownloadStore((state: any) => state.data);
+  const setIdDownload = useDownloadStore((state: any) => state.setIdDownload);
   const data = useDataStore((state: any) => state.data);
 
   const fileActive = useMemo(() => {
@@ -270,6 +276,27 @@ export default function Upload() {
     setFiles(newListFile);
     setPreview(base64);
     canvasRef.current?.resetCanvas();
+    const idx = dataDownload.findIndex((data: any) => data.id === idActive);
+    if (idx === -1) {
+      setDataDownload([
+        ...dataDownload,
+        {
+          id: idActive,
+          file: base64,
+          route: "/remove-object/upload",
+        },
+      ]);
+    } else {
+      setDataDownload([
+        ...dataDownload.slice(0, idx),
+        {
+          id: idActive,
+          file: base64,
+          route: "/remove-object/upload",
+        },
+        ...dataDownload.slice(idx + 1),
+      ]);
+    }
     console.log(preview);
   };
 
@@ -334,7 +361,10 @@ export default function Upload() {
       const id = uuidv4();
       setIdActive(id);
       if (!fileActive) {
-        setFiles([...files, { file: selectedFile, id, paths: [] }]);
+        setFiles([
+          ...files,
+          { file: selectedFile, oldFile: selectedFile, id, paths: [] },
+        ]);
       } else {
         if (!canvasRef.current) return;
         const paths = await canvasRef.current?.exportPaths();
@@ -345,7 +375,7 @@ export default function Upload() {
           ...files.slice(0, idx),
           { ...files[idx], paths },
           ...files.slice(idx + 1),
-          { file: selectedFile, id, paths: [] },
+          { file: selectedFile, id, paths: [], oldFile: selectedFile },
         ]);
       }
       setPreview("");
@@ -395,6 +425,11 @@ export default function Upload() {
   }, []);
 
   useEffect(() => {
+    if (fileActive) {
+      setIdDownload(fileActive.id);
+    } else {
+      setIdDownload(null);
+    }
     if (!fileActive || !canvasRef.current) return;
 
     const paths = fileActive.paths;
@@ -560,7 +595,7 @@ export default function Upload() {
                       <img
                         src={URL.createObjectURL(fileActive?.file)}
                         alt="upload image"
-                        className="sc-568e005d-0 broiXv items-center"
+                        className="sc-568e005d-0 broiXv items-center max-h-[calc(100vh - 150px)]"
                         ref={imgRef}
                       />
                       <ReactSketchCanvas
@@ -569,7 +604,9 @@ export default function Upload() {
                         style={{ background: "transparent" }}
                         strokeWidth={sliderValue}
                         strokeColor="red"
-                        backgroundImage={URL.createObjectURL(fileActive?.file)}
+                        backgroundImage={URL.createObjectURL(
+                          showPrevius ? fileActive?.oldFile : fileActive?.file
+                        )}
                       />
                     </>
                   )}
@@ -601,8 +638,8 @@ export default function Upload() {
                 </div>
               </div>
             </div>
-            <div className="px-4 py-4 p-0 flex justify-between relative hidden flex-auto items-end">
-              <div className="hidden">
+            <div className="px-4 py-4 p-0 sm:flex justify-between relative hidden flex-auto items-end">
+              {/* <div className="hidden">
                 <div className="bg-white rounded-md h-10 flex items-center space-x-5">
                   <button
                     className="w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center text-base-content-primary p-x before:!w-8 before:!h-8 before:left-1 before:top-1 text-disabled text-opacity-50 group"
@@ -666,14 +703,19 @@ export default function Upload() {
                     </div>
                   </button>
                 </div>
-              </div>
+              </div> */}
               <div className="flex w-full justify-between cursor-auto">
                 <div className="mr-3 select-none">
                   <button
-                    className="w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center text-base-content-primary p-x before:!w-8 before:!h-8 before:left-1 before:top-1 text-disabled text-opacity-50 group"
-                    disabled
+                    className="cursor-pointer w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center text-base-content-primary p-x before:!w-8 before:!h-8 before:left-1 before:top-1 text-disabled text-opacity-50 group"
+                    onMouseDown={() => {
+                      setShowPrevious(true);
+                    }}
+                    onMouseUp={() => {
+                      setShowPrevious(false);
+                    }}
                   >
-                    <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 bottom-full mb-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:top-full after:left-1/2 after:-ml-1 after:border-t-base-content-primary after:border-b-transparent">
+                    <span className="absolute left-1/2 -translate-x-1/2 text-white bg-black z-30 capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 bottom-full mb-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:top-full after:left-1/2 after:-ml-1 after:border-t-base-content-primary after:border-b-transparent">
                       Xem bản gốc
                     </span>
                     <div className="inline-block leading-[20px] relative z-10">
@@ -726,9 +768,9 @@ export default function Upload() {
                 <div className="divide-x flex">
                   <button
                     className="w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center text-base-content-primary p-x before:!w-8 before:!h-8 before:left-1 before:top-1 text-disabled text-opacity-50 group rounded-tr-none rounded-br-none"
-                    disabled
+                    onClick={() => canvasRef.current?.undo()}
                   >
-                    <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 bottom-full mb-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:top-full after:left-1/2 after:-ml-1 after:border-t-base-content-primary after:border-b-transparent">
+                    <span className="cursor-pointer absolute left-1/2 -translate-x-1/2 text-white bg-black z-30 capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 bottom-full mb-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:top-full after:left-1/2 after:-ml-1 after:border-t-base-content-primary after:border-b-transparent">
                       Hoàn tác
                     </span>
                     <div className="inline-block leading-[20px] relative z-10">
@@ -751,10 +793,10 @@ export default function Upload() {
                     </div>
                   </button>
                   <button
-                    className="w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center text-base-content-primary p-x before:!w-8 before:!h-8 before:left-1 before:top-1 text-disabled text-opacity-50 group rounded-tl-none rounded-bl-none mr-3"
-                    disabled
+                    className="cursor-pointer w-10 h-10 rounded bg-white relative before:absolute before:left-0 before:top-0 before:transition before:opacity-0 before:rounded flex justify-center items-center text-base-content-primary p-x before:!w-8 before:!h-8 before:left-1 before:top-1 text-disabled text-opacity-50 group rounded-tl-none rounded-bl-none mr-3"
+                    onClick={() => canvasRef.current?.redo()}
                   >
-                    <span className="absolute left-1/2 -translate-x-1/2 text-white bg-base-content-primary capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 bottom-full mb-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:top-full after:left-1/2 after:-ml-1 after:border-t-base-content-primary after:border-b-transparent">
+                    <span className="absolute left-1/2 -translate-x-1/2 text-white bg-black z-30 capitalize rounded-lg text-sm py-2 px-4 w-max pointer-events-none opacity-0 transition sm:group-hover:opacity-100 bottom-full mb-2 after:absolute after:border-4 after:border-solid after:border-r-transparent after:border-l-transparent after:top-full after:left-1/2 after:-ml-1 after:border-t-base-content-primary after:border-b-transparent">
                       Làm lại
                     </span>
                     <div className="inline-block leading-[20px] relative z-10">
@@ -778,7 +820,7 @@ export default function Upload() {
                   </button>
                 </div>
               </div>
-              <div className="hidden">
+              {/* <div className="hidden">
                 <div className="lg:flex w-auto hidden gap-2">
                   <div>
                     <button className="btn block w-full py-3 px-4 bg-secondary text-base-content rounded-lg group rounded-lg relative h-10 pl-2 pr-3 py-2 hover:!bg-neutral-ink-500 text-white justify-center items-center gap-1 inline-flex !bg-neutral-ink-600 text-sm font-semibold transition-all duration-100">
@@ -866,7 +908,7 @@ export default function Upload() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="bg-white shadow-xl sm:w-[300px] sm:h-full">

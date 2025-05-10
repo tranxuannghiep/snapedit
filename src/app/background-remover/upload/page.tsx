@@ -3,6 +3,9 @@
 import { Footer } from "@/components/Footer";
 import { useDataStore } from "@/stores/useDataStore";
 import classNames from "classnames";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import domtoimage from "dom-to-image-more";
 import { useRef, useState } from "react";
 
 function getColor(color: number) {
@@ -65,6 +68,23 @@ export default function Upload() {
       setPreview(base64);
       setTab(1);
     }
+  };
+
+  const handleDownload = () => {
+    const node = document.getElementById("capture");
+    if (!node) return;
+
+    domtoimage
+      .toPng(node)
+      .then(function (dataUrl: string) {
+        const link = document.createElement("a");
+        link.download = "download.png";
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch(function (error: any) {
+        console.error("oops, something went wrong!", error);
+      });
   };
 
   return (
@@ -353,6 +373,7 @@ export default function Upload() {
                               ? { background: getColor(color) }
                               : {}
                           }
+                          id="capture"
                         >
                           {" "}
                           <div className="relative">
@@ -653,7 +674,10 @@ export default function Upload() {
                         </div>
                         <div className="grid grid-cols-1 gap-6 lg:block lg:space-y-6 px-4 lg:px-6 pb-4 lg:pb-0 lg:w-full">
                           <div className="flex flex-col gap-2">
-                            <button className="block w-full py-3 px-4 bg-secondary hover:bg-neutral-ink-100 group relative cursor-pointer text-base-content rounded-lg font-semibold p-2 capitalize flex gap-2 justify-center items-center z-10">
+                            <button
+                              className="block w-full py-3 px-4 bg-secondary hover:bg-neutral-ink-100 group relative cursor-pointer text-base-content rounded-lg font-semibold p-2 capitalize flex gap-2 justify-center items-center z-10"
+                              onClick={handleDownload}
+                            >
                               <div
                                 color="inherit"
                                 //mode="outline"
@@ -673,9 +697,6 @@ export default function Upload() {
                               </div>
                               Tải xuống
                             </button>
-                            <div className="text-center text-gray-600 text-sm font-normal leading-tight">
-                              Xem trước ảnh 700 x 463
-                            </div>
                           </div>
                         </div>
                       </div>

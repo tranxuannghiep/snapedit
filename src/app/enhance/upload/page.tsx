@@ -2,10 +2,11 @@
 
 import { useDataStore } from "@/stores/useDataStore";
 import classNames from "classnames";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ImgComparisonSlider } from "@img-comparison-slider/react";
 import { v4 as uuidv4 } from "uuid";
+import { useDownloadStore } from "@/stores/useDownloadStore";
 
 export default function Upload() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -15,6 +16,9 @@ export default function Upload() {
   const [tab, setTab] = useState(0);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data = useDataStore((state: any) => state.data);
+  const setDataDownload = useDownloadStore((state: any) => state.setData);
+  const dataDownload = useDownloadStore((state: any) => state.data);
+  const setIdDownload = useDownloadStore((state: any) => state.setIdDownload);
 
   const fileActive = useMemo(() => {
     return files.find((file) => file.id === idActive);
@@ -26,13 +30,38 @@ export default function Upload() {
 
   const handleCallData = async () => {
     if (!fileActive) return;
+    let base64;
     if (tab === 0) {
-      await handleEnhance(fileActive.file);
+      base64 = await handleEnhance(fileActive.file);
     }
 
     if (tab === 1) {
-      await handleColorize(fileActive.file);
+      base64 = await handleColorize(fileActive.file);
     }
+
+    const idx = dataDownload.findIndex((data: any) => data.id === idActive);
+    if (idx === -1) {
+      setDataDownload([
+        ...dataDownload,
+        {
+          id: idActive,
+          file: base64,
+          route: "/enhance/upload",
+        },
+      ]);
+    } else {
+      setDataDownload([
+        ...dataDownload.slice(0, idx),
+        {
+          id: idActive,
+          file: base64,
+          route: "/enhance/upload",
+        },
+        ...dataDownload.slice(idx + 1),
+      ]);
+    }
+
+    console.log(base64);
   };
 
   const handleEnhance = async (file: File) => {
@@ -50,6 +79,8 @@ export default function Upload() {
 
     const base64 = await response.json();
     setPreview(base64);
+
+    return base64;
   };
 
   const handleColorize = async (file: File) => {
@@ -67,6 +98,7 @@ export default function Upload() {
 
     const base64 = await response.json();
     setPreview(base64);
+    return base64;
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,6 +111,14 @@ export default function Upload() {
       setPreview("");
     }
   };
+
+  useEffect(() => {
+    if (fileActive) {
+      setIdDownload(fileActive.id);
+    } else {
+      setIdDownload(null);
+    }
+  }, [fileActive]);
 
   return (
     <div role="button" tabIndex={0}>
