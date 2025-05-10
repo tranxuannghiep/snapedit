@@ -24,6 +24,8 @@ export default function Upload() {
   const file = useUploadStore((state: any) => state.file);
   const setFile = useUploadStore((state: any) => state.setFile);
 
+  const [showOption, setShowOption] = useState(false);
+
   const fileActive = useMemo(() => {
     return files.find((file) => file.id === idActive);
   }, [files, idActive]);
@@ -264,7 +266,7 @@ export default function Upload() {
             </div>
             {fileActive ? (
               <>
-                <div className="sm:flex-auto max-h-[calc(100vh-340px)] sm:w-[calc(100%-384px)] my-auto !w-full relative flex justify-center items-center sm:p-5 sm:pb-20 !flex-1">
+                <div className="px-5 sm:flex-auto max-h-[calc(100vh-340px)] sm:w-[calc(100%-384px)] mt-5 sm:my-auto !w-full relative flex justify-center items-center sm:p-5 sm:pb-20 !flex-1">
                   <div className="relative h-full max-h-full">
                     <div className="cursor-pointer absolute z-10 sm:h-full max-h-full">
                       {/* <div className="absolute z-30 text-white top-2 right-2 flex gap-1 hidden">
@@ -298,7 +300,7 @@ export default function Upload() {
                           slot="first"
                           src={URL.createObjectURL(fileActive.file)}
                           alt="original-image"
-                          style={{ height: 505, width: 763 }}
+                          // style={{ height: 505, width: 763 }}
                         />
                         <img
                           className="sm:h-full max-h-full w-auto"
@@ -309,7 +311,7 @@ export default function Upload() {
                               : URL.createObjectURL(fileActive.file)
                           }
                           alt="enhanced-image"
-                          style={{ height: 505, width: 763 }}
+                          // style={{ height: 505, width: 763 }}
                         />
                       </ImgComparisonSlider>
 
@@ -324,11 +326,11 @@ export default function Upload() {
                         className="max-h-full sm:h-full max-h-full sm:w-auto w-auto"
                         src={URL.createObjectURL(fileActive.file)}
                         alt="original-image"
-                        style={{ height: 505, width: 763 }}
+                        // style={{ height: 505, width: 763 }}
                       />
                     </div>
                   </div>
-                  <div className="sm:hidden absolute bottom-4 left-4 z-10 justify-center gap-2 flex">
+                  {/* <div className="sm:hidden absolute bottom-4 left-4 z-10 justify-center gap-2 flex">
                     <div
                       className="pointer-events-none rounded-full w-9 h-9 flex justify-center items-center"
                       style={{ backgroundColor: "rgba(37, 38, 56, 0.36)" }}
@@ -385,7 +387,7 @@ export default function Upload() {
                         </svg>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="px-6 py-4 flex justify-between absolute z-20 hidden bottom-2 w-full">
                     <div className="flex w-full justify-between cursor-auto">
                       <div className="divide-x flex">
@@ -551,7 +553,7 @@ export default function Upload() {
                     </div>
                   </div>
                 </div>
-                <div className="sm:w-[280px] w-full bg-white sm:border-t border-1 border-neutral-ink-100 py-3 flex flex-col relative sm:h-full">
+                <div className="sm:w-[180px] md:w-[280px] w-full bg-white sm:border-t border-1 border-neutral-ink-100 py-3 flex flex-col relative sm:h-full">
                   <div className="sm:overflow-y-auto sm:h-full flex flex-col justify-end sm:mb-20 hide-scrollbars">
                     <div className="flex-auto px-3 mt-4 hidden sm:block">
                       <p className="font-semibold text-[12px] leading-[16px] mb-2 text-neutral-ink-500">
@@ -604,61 +606,12 @@ export default function Upload() {
                             <p className="font-semibold text-[14px] leading-[18px] text-neutral-ink-600 inline">
                               Tiêu chuẩn{" "}
                             </p>
-                            <p className="font-normal text-[12px] leading-[18px] text-neutral-ink-500 whitespace-nowrap text-ellipsis overflow-hidden w-[212px]">
+                            <p className="hidden md:block font-normal text-[12px] leading-[18px] text-neutral-ink-500 whitespace-nowrap text-ellipsis overflow-hidden w-[212px]">
                               Phù hợp cho các trường hợp sử dụng chung
                             </p>
                           </div>
                         </div>
-                        {/* <div className="py-2 flex gap-2 items-center cursor-pointer hover:bg-blue-100 px-2 rounded-lg">
-                        <div
-                          color="inherit"
-                          //mode="outline"
-                          className="sc-eac7f02c-0 bRLGlB text-center text-neutral-ink-200"
-                        >
-                          <svg
-                            className="align-middle text-neutral-ink-200"
-                            width={18}
-                            height={18}
-                            viewBox="0 0 18 18"
-                            fill="none"
-                          >
-                            <circle cx={9} cy={9} r="8.5" stroke="#D9D9D9" />
-                          </svg>
-                        </div>
-                        <div>
-                          <p className="font-semibold text-[14px] leading-[18px] text-neutral-ink-600 inline">
-                            Hình ảnh nghệ thuật{" "}
-                          </p>
-                          <p className="font-normal text-[12px] leading-[18px] text-neutral-ink-500 whitespace-nowrap text-ellipsis overflow-hidden w-[212px]">
-                            Phù hợp cho nghệ thuật kỹ thuật số, CGI, anime...
-                          </p>
-                        </div>
-                      </div>
-                      <div className="py-2 flex gap-2 items-center cursor-pointer hover:bg-blue-100 px-2 rounded-lg">
-                        <div
-                          color="inherit"
-                          //mode="outline"
-                          className="sc-eac7f02c-0 bRLGlB text-center text-neutral-ink-200"
-                        >
-                          <svg
-                            className="align-middle text-neutral-ink-200"
-                            width={18}
-                            height={18}
-                            viewBox="0 0 18 18"
-                            fill="none"
-                          >
-                            <circle cx={9} cy={9} r="8.5" stroke="#D9D9D9" />
-                          </svg>
-                        </div>
-                        <div>
-                          <p className="font-semibold text-[14px] leading-[18px] text-neutral-ink-600 inline">
-                            Khôi phục{" "}
-                          </p>
-                          <p className="font-normal text-[12px] leading-[18px] text-neutral-ink-500 whitespace-nowrap text-ellipsis overflow-hidden w-[212px]">
-                            Phù hợp cho ảnh cũ &amp; bị hỏng
-                          </p>
-                        </div>
-                      </div> */}
+
                         <div
                           className="py-2 flex gap-2 items-center cursor-pointer hover:bg-blue-100 px-2 rounded-lg"
                           onClick={() => setTab(1)}
@@ -705,7 +658,7 @@ export default function Upload() {
                             <p className="font-semibold text-[14px] leading-[18px] text-neutral-ink-600 inline">
                               Colorize{" "}
                             </p>
-                            <p className="font-normal text-[12px] leading-[18px] text-neutral-ink-500 whitespace-nowrap text-ellipsis overflow-hidden w-[212px]">
+                            <p className="hidden md:block font-normal text-[12px] leading-[18px] text-neutral-ink-500 whitespace-nowrap text-ellipsis overflow-hidden w-[212px]">
                               For monochrome photo
                             </p>
                           </div>
@@ -714,30 +667,66 @@ export default function Upload() {
                     </div>
                     <div className="sm:hidden mt-3 px-3 mb-3">
                       <div className="mt-1.5 rounded-lg bg-neutral-ink-100 py-1.5 px-2.5 flex items-center relative">
-                        <div className="hidden absolute z-10 bottom-14 left-0 w-full bg-white rounded-lg shadow-[0px_2px_8px_rgba(32,_52,_89,_0.12)]">
-                          <div className="bg-blue-100 py-2 flex gap-2 items-center cursor-pointer hover:bg-blue-100 px-2 group relative">
+                        <div
+                          className={classNames(
+                            "absolute z-10 bottom-14 left-0 w-full bg-white rounded-lg shadow-[0px_2px_8px_rgba(32,_52,_89,_0.12)]",
+                            {
+                              hidden: !showOption,
+                            }
+                          )}
+                        >
+                          <div
+                            className={classNames(
+                              "py-2 flex gap-2 items-center cursor-pointer hover:bg-blue-100 px-2 group relative",
+                              {
+                                "bg-blue-100": tab === 0,
+                              }
+                            )}
+                          >
                             <div
                               color="inherit"
                               //mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center text-neutral-ink-200"
                             >
-                              <svg
-                                className="align-middle text-neutral-ink-200"
-                                width={16}
-                                height={16}
-                                viewBox="0 0 16 16"
-                                fill="none"
-                              >
-                                <circle cx={8} cy={8} r={7} fill="#0051EE" />
-                                <path
-                                  d="M5 8.28272L6.81978 10.0341C7.02638 10.2329 7.3575 10.2176 7.54491 10.0006L11 6"
-                                  stroke="white"
-                                  strokeWidth="1.2"
-                                  strokeLinecap="round"
-                                />
-                              </svg>
+                              {tab === 0 ? (
+                                <svg
+                                  className="align-middle text-neutral-ink-200"
+                                  width={16}
+                                  height={16}
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                >
+                                  <circle cx={8} cy={8} r={7} fill="#0051EE" />
+                                  <path
+                                    d="M5 8.28272L6.81978 10.0341C7.02638 10.2329 7.3575 10.2176 7.54491 10.0006L11 6"
+                                    stroke="white"
+                                    strokeWidth="1.2"
+                                    strokeLinecap="round"
+                                  />
+                                </svg>
+                              ) : (
+                                <svg
+                                  className="align-middle text-neutral-ink-200"
+                                  width={18}
+                                  height={18}
+                                  viewBox="0 0 18 18"
+                                  fill="none"
+                                >
+                                  <circle
+                                    cx={9}
+                                    cy={9}
+                                    r="8.5"
+                                    stroke="#D9D9D9"
+                                  />
+                                </svg>
+                              )}
                             </div>
-                            <div>
+                            <div
+                              onClick={() => {
+                                setTab(0);
+                                setShowOption(false);
+                              }}
+                            >
                               <p className="font-semibold text-[14px] leading-[18px] text-neutral-ink-600 inline">
                                 Tiêu chuẩn{" "}
                               </p>
@@ -746,87 +735,56 @@ export default function Upload() {
                               </p>
                             </div>
                           </div>
-                          <div className="py-2 flex gap-2 items-center cursor-pointer hover:bg-blue-100 px-2 group relative">
+
+                          <div
+                            className={classNames(
+                              "py-2 flex gap-2 items-center cursor-pointer hover:bg-blue-100 px-2 group relative",
+                              {
+                                "bg-blue-100": tab === 1,
+                              }
+                            )}
+                            onClick={() => {
+                              setTab(1);
+                              setShowOption(false);
+                            }}
+                          >
                             <div
                               color="inherit"
                               //mode="outline"
                               className="sc-eac7f02c-0 bRLGlB text-center text-neutral-ink-200"
                             >
-                              <svg
-                                className="align-middle text-neutral-ink-200"
-                                width={18}
-                                height={18}
-                                viewBox="0 0 18 18"
-                                fill="none"
-                              >
-                                <circle
-                                  cx={9}
-                                  cy={9}
-                                  r="8.5"
-                                  stroke="#D9D9D9"
-                                />
-                              </svg>
-                            </div>
-                            <div>
-                              <p className="font-semibold text-[14px] leading-[18px] text-neutral-ink-600 inline">
-                                Hình ảnh nghệ thuật{" "}
-                              </p>
-                              <p className="font-normal text-[12px] leading-[18px] text-neutral-ink-500">
-                                Phù hợp cho nghệ thuật kỹ thuật số, CGI,
-                                anime...
-                              </p>
-                            </div>
-                          </div>
-                          <div className="py-2 flex gap-2 items-center cursor-pointer hover:bg-blue-100 px-2 group relative">
-                            <div
-                              color="inherit"
-                              //mode="outline"
-                              className="sc-eac7f02c-0 bRLGlB text-center text-neutral-ink-200"
-                            >
-                              <svg
-                                className="align-middle text-neutral-ink-200"
-                                width={18}
-                                height={18}
-                                viewBox="0 0 18 18"
-                                fill="none"
-                              >
-                                <circle
-                                  cx={9}
-                                  cy={9}
-                                  r="8.5"
-                                  stroke="#D9D9D9"
-                                />
-                              </svg>
-                            </div>
-                            <div>
-                              <p className="font-semibold text-[14px] leading-[18px] text-neutral-ink-600 inline">
-                                Khôi phục{" "}
-                              </p>
-                              <p className="font-normal text-[12px] leading-[18px] text-neutral-ink-500">
-                                Phù hợp cho ảnh cũ &amp; bị hỏng
-                              </p>
-                            </div>
-                          </div>
-                          <div className="py-2 flex gap-2 items-center cursor-pointer hover:bg-blue-100 px-2 group relative">
-                            <div
-                              color="inherit"
-                              //mode="outline"
-                              className="sc-eac7f02c-0 bRLGlB text-center text-neutral-ink-200"
-                            >
-                              <svg
-                                className="align-middle text-neutral-ink-200"
-                                width={18}
-                                height={18}
-                                viewBox="0 0 18 18"
-                                fill="none"
-                              >
-                                <circle
-                                  cx={9}
-                                  cy={9}
-                                  r="8.5"
-                                  stroke="#D9D9D9"
-                                />
-                              </svg>
+                              {tab === 1 ? (
+                                <svg
+                                  className="align-middle text-neutral-ink-200"
+                                  width={16}
+                                  height={16}
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                >
+                                  <circle cx={8} cy={8} r={7} fill="#0051EE" />
+                                  <path
+                                    d="M5 8.28272L6.81978 10.0341C7.02638 10.2329 7.3575 10.2176 7.54491 10.0006L11 6"
+                                    stroke="white"
+                                    strokeWidth="1.2"
+                                    strokeLinecap="round"
+                                  />
+                                </svg>
+                              ) : (
+                                <svg
+                                  className="align-middle text-neutral-ink-200"
+                                  width={18}
+                                  height={18}
+                                  viewBox="0 0 18 18"
+                                  fill="none"
+                                >
+                                  <circle
+                                    cx={9}
+                                    cy={9}
+                                    r="8.5"
+                                    stroke="#D9D9D9"
+                                  />
+                                </svg>
+                              )}
                             </div>
                             <div>
                               <p className="font-semibold text-[14px] leading-[18px] text-neutral-ink-600 inline">
@@ -838,43 +796,82 @@ export default function Upload() {
                             </div>
                           </div>
                         </div>
-                        <div className="flex flex-col gap-0.5 flex-auto">
-                          <p className="font-semibold text-[14px] leading-[18px]">
-                            Tiêu chuẩn
-                          </p>
-                          <p className="font-normal text-[12px] leading-[18px] text-neutral-ink-500">
-                            Phù hợp cho các trường hợp sử dụng chung
-                          </p>
-                        </div>
+                        {tab === 0 && (
+                          <div
+                            className="flex flex-col gap-0.5 flex-auto cursor-pointer"
+                            onClick={() => setShowOption(!showOption)}
+                          >
+                            <p className="font-semibold text-[14px] leading-[18px]">
+                              Tiêu chuẩn
+                            </p>
+                            <p className="font-normal text-[12px] leading-[18px] text-neutral-ink-500">
+                              Phù hợp cho các trường hợp sử dụng chung
+                            </p>
+                          </div>
+                        )}
+
+                        {tab === 1 && (
+                          <div
+                            className="flex flex-col gap-0.5 flex-auto cursor-pointer"
+                            onClick={() => setShowOption(!showOption)}
+                          >
+                            <p className="font-semibold text-[14px] leading-[18px]">
+                              Colorize
+                            </p>
+                            <p className="font-normal text-[12px] leading-[18px] text-neutral-ink-500">
+                              Phù hợp cho các trường hợp sử dụng chung
+                            </p>
+                          </div>
+                        )}
+
                         <div
                           color="inherit"
                           //mode="outline"
-                          className="sc-eac7f02c-0 bRLGlB text-center"
+                          className="sc-eac7f02c-0 bRLGlB text-center cursor-pointer"
+                          onClick={() => setShowOption(!showOption)}
                         >
-                          <svg
-                            className="align-middle"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 48 48"
-                            fill="none"
-                          >
-                            <path
-                              d="M13 30L25 18L37 30"
-                              stroke="#333"
-                              strokeWidth={4}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
+                          {showOption ? (
+                            <svg
+                              className="align-middle"
+                              width={24}
+                              height={24}
+                              viewBox="0 0 48 48"
+                              fill="none"
+                            >
+                              <path
+                                d="M13 30L25 18L37 30"
+                                stroke="#333"
+                                strokeWidth={4}
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          ) : (
+                            <svg
+                              className="align-middle"
+                              width={24}
+                              height={24}
+                              viewBox="0 0 48 48"
+                              fill="none"
+                            >
+                              <path
+                                d="M13 30L25 18L37 30"
+                                stroke="#333"
+                                strokeWidth={4}
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          )}
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div
-                    className="px-3 flex gap-2 sm:absolute bottom-3 right-0 w-full sm:flex-col sm:border-t border-neutral-ink-100 sm:pt-3"
-                    onClick={handleCallData}
-                  >
-                    <button className="block w-full py-3 px-4 bg-secondary hover:bg-neutral-ink-100 group relative cursor-pointer text-base-content rounded-lg font-semibold p-2 capitalize h-[52px] sm:!h-12 group sm:hidden rounded-lg relative !pl-3 !pr-4 py-2 justify-center items-center gap-1 inline-flex  text-sm font-semibold transition-all duration-100">
+                  <div className="px-3 flex gap-2 sm:absolute bottom-3 right-0 w-full sm:flex-col sm:border-t border-neutral-ink-100 sm:pt-3">
+                    <button
+                      onClick={handleClick}
+                      className="block w-full py-3 px-4 bg-secondary hover:bg-neutral-ink-100 group relative cursor-pointer text-base-content rounded-lg font-semibold p-2 capitalize h-[52px] sm:!h-12 group sm:hidden rounded-lg relative !pl-3 !pr-4 py-2 justify-center items-center gap-1 inline-flex  text-sm font-semibold transition-all duration-100"
+                    >
                       <div
                         color="inherit"
                         //mode="outline"
@@ -907,7 +904,10 @@ export default function Upload() {
                         Ảnh mới
                       </p>
                     </button>
-                    <div className="inline-flex items-center justify-center w-full py-3 px-4 bg-blue-500 rounded-lg text-base transition text-white hover:bg-opacity-80 cursor-pointer rounded-lg h-[52px] sm:!h-12">
+                    <div
+                      onClick={handleCallData}
+                      className="inline-flex items-center justify-center w-full py-3 px-4 bg-blue-500 rounded-lg text-base transition text-white hover:bg-opacity-80 cursor-pointer rounded-lg h-[52px] sm:!h-12"
+                    >
                       <p className="font-semibold text-[16px] leading-[20px]">
                         Cải thiện
                       </p>
