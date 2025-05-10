@@ -118,7 +118,7 @@ export default function Upload() {
     } else {
       setIdDownload(null);
     }
-  }, [fileActive]);
+  }, [fileActive, setIdDownload]);
 
   return (
     <div role="button" tabIndex={0}>

@@ -16,13 +16,16 @@ export function Header() {
   );
 
   const isTry = ["/"].includes(pathname);
-  const handleDownload = () => {
-    if (!data || !data.length || !idDownload) return;
+  const fileDownload = React.useMemo(() => {
+    if (!data || !data.length || !idDownload) return null;
     const file = data.find((v: any) => v.id === idDownload);
-    if (!file) return;
+    if (!file) return null;
+    return file;
+  }, [data, idDownload]);
 
+  const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = file.file;
+    link.href = fileDownload.file;
     link.download = "download.png";
     link.click();
   };
@@ -1316,9 +1319,8 @@ export function Header() {
           </div>
 
           <div
-            className={classNames("", {
-              hidden: !isDownload,
-              block: isDownload,
+            className={classNames("hidden", {
+              "!block": isDownload && fileDownload,
             })}
           >
             <div className="relative ">
@@ -1375,24 +1377,25 @@ export function Header() {
               </div>
             </div>
           </div>
-
-          <button
-            className={classNames(
-              "justify-center items-start gap-4 cursor-pointer px-7 py-3 text-[16px] leading-[20px] shadow bg-blue-500 active:bg-blue-800 hover:bg-blue-700 rounded-full shadow text-white font-semibold",
-              {
-                hidden: !isTry,
-                "inline-flex": isTry,
-              }
-            )}
-          >
-            <Link href={"/remove-object/upload"}>Thử miễn phí</Link>
-          </button>
+          <Link href="/remove-object/upload">
+            <button
+              className={classNames(
+                "justify-center items-start gap-4 cursor-pointer px-7 py-3 text-[16px] leading-[20px] shadow bg-blue-500 active:bg-blue-800 hover:bg-blue-700 rounded-full shadow text-white font-semibold",
+                {
+                  hidden: !isTry,
+                  "inline-flex": isTry,
+                }
+              )}
+            >
+              <span>Thử miễn phí</span>
+            </button>
+          </Link>
         </div>
       </div>
 
       <div className="flex w-full h-14 items-center justify-between px-[14px] fixed top-0 left-0 z-50 transition-all lg:hidden bg-white">
         <div>
-          <a className="w-24">
+          <Link href="/">
             <span className="w-24">
               <img
                 src="https://assets.snapedit.app/images/landing/snapedit-logo.svg"
@@ -1400,14 +1403,13 @@ export function Header() {
                 className="ml-2 w-22 h-6"
               />
             </span>
-          </a>
+          </Link>
         </div>
         <div className="relative">
           <div className="flex items-center gap-4">
             <div
-              className={classNames("", {
-                hidden: !isDownload,
-                block: isDownload,
+              className={classNames("hidden", {
+                "!block": isDownload && fileDownload,
               })}
             >
               <div className="relative ">

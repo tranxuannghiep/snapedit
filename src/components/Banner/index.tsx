@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function Banner() {
   return (
     <>
@@ -19,11 +21,11 @@ export function Banner() {
                 ảnh của bạn trong một vài nhấp chuột!
               </p>
             </div>
-            <a href="/create">
+            <Link href="/remove-object/upload">
               <button className="justify-center items-start gap-4 inline-flex cursor-pointer px-12 py-[18px] text-[20px] leading-[28px] shadow bg-blue-500 active:bg-blue-800 hover:bg-blue-700 rounded-full shadow text-white font-semibold">
                 Bắt đầu miễn phí
               </button>
-            </a>
+            </Link>
           </div>
           <div className="lg:absolute lg:max-w-[700px] sm:bottom-0 mt-2 lg:top-[60px] lg:-right-[100px] w-full">
             <img

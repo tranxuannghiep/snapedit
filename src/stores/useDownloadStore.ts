@@ -5,5 +5,5 @@ export const useDownloadStore = create((set) => ({
   idDownload: null,
   setData: (data: { id: string; file: string; pathname: string }) =>
     set({ data }),
-  setIdDownload: (id: string | null) => set({ id }),
+  setIdDownload: (idDownload: string | null) => set({ idDownload }),
 }));
