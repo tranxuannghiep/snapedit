@@ -184,10 +184,7 @@ export default function Upload() {
       />
       <div className="opacity-100 transition-all ease-in-out duration-500">
         {fileActive ? (
-          <div
-            className="flex bg-gray-200 flex-col sm:flex-row sm:items-stretch sm:justify-stretch items-start justify-start pt-16"
-            style={{ height: 669 }}
-          >
+          <div className="flex bg-gray-200 flex-col sm:flex-row sm:items-stretch sm:justify-stretch items-start justify-start h-screen pt-14">
             <div className="bg-white shadow-xl p-3 overflow-y-auto overflow-x-hidden hide-scrollbars sm:w-[104px] sm:h-full hidden sm:block flex-col border-neutral-ink-100 border-t items-center">
               <div
                 className="w-20 h-20 border border-dashed border-neutral-ink-200 hover:border-blue-400 text-neutral-ink-400 hover:text-blue-400 rounded-lg cursor-pointer flex justify-center items-center"
